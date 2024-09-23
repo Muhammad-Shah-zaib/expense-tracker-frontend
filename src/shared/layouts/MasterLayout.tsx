@@ -1,6 +1,8 @@
 import * as React from "react";
 import SideBar from "../components/side-bar/SideBar.tsx";
 import QuickMenu from "../components/quick-menu/QuickMenu.tsx";
+import { Outlet } from "react-router-dom";
+import Header from "../../components/Header/Header.tsx";
 
 const MasterLayout: React.FC = () => {
   return (
@@ -19,7 +21,11 @@ const MasterLayout: React.FC = () => {
           </div>
         </div>
 
-        <div className={`col-span-4 bg-primary-900`}></div>
+        <div className={`col-span-4 bg-primary-900`}>
+          {/* header with user image and search bar and add expense button */}
+          <Header />
+          <Outlet />
+        </div>
       </div>
     </div>
   );

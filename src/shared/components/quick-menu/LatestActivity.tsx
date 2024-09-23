@@ -1,9 +1,10 @@
 import latestActivityObj from "../../../dummy-data/LatestActivity.ts";
+import "./QuickMenu.css";
 
 const LatestActivity = () => {
   const o = latestActivityObj;
   return (
-    <div className={`max-h-[200px] overflow-auto pr-3`}>
+    <div className={`max-h-[200px] scrollbar-thin overflow-auto pr-3`}>
       {o.map((o) => (
         <div className={`flex justify-center flex-col gap-2`} key={o.id}>
           {/* day */}

@@ -41,7 +41,7 @@ const QuickMenu = () => {
       </section>
       {/* Latest Activity */}
       <section>
-        <div className={`py-2 `}>
+        <div className={`py-2 h-md:block hidden`}>
           <div className={`border-b-2 border-secondary`}>
             <span>Latest Activity</span>
           </div>

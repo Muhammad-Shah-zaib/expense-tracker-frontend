@@ -16,6 +16,13 @@ export default {
         secondary: { ...colors.teal, DEFAULT: colors.teal["500"] },
         tertiary: { ...colors.emerald, DEFAULT: colors.emerald["500"] },
       },
+      // extending the screens for the heights
+      screens: {
+        "h-sm": { raw: "(min-height: 640px)" },
+        "h-md": { raw: "(min-height: 768px)" },
+        "h-lg": { raw: "(min-height: 1024px)" },
+        // Add more height-based breakpoints as needed
+      },
     },
   },
   plugins: [],
