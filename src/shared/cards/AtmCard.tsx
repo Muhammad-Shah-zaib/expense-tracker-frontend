@@ -14,8 +14,8 @@ const AtmCard = () => {
           <span className={`font-medium`}>Debt</span>
           <span className={`font-medium font-mulish`}>Sadapay</span>
         </header>
-        <body className={`flex flex-col gap-1 items-center`}>
-          <span className={`text-2xl font-extrabold font-playpen`}>
+        <body className={`flex flex-col gap-1 bg-transparent items-center`}>
+          <span className={`text-2xl font-bold font-playpen`}>
             Rs. {CARD_BALANCE}
           </span>
           <span className={`text-lg font-bold font-mono`}>

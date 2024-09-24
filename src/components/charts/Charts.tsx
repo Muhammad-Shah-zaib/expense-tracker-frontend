@@ -1,30 +1,24 @@
-import { axisClasses, BarChart } from "@mui/x-charts";
+import CurrentWeekBarChart from "./CurrentWeekBarChart.tsx";
+import CurrentMonthBarChart from "./CurrentMonthBarChart.tsx";
+import DownloadTransactions from "./DownloadTransactions.tsx";
 
 const Charts = () => {
   return (
-    <div className={`w-full h-full px-8`}>
-      <div className={`w-[400px] h-[350px]`}>
-        <BarChart
-          xAxis={[
-            {
-              scaleType: "band",
-              data: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
-            },
-          ]}
-          yAxis={[
-            {
-              label: "Budget Last seven days",
-            },
-          ]}
-          sx={[
-            {
-              [`.${axisClasses.left} .${axisClasses.label}`]: {
-                transform: "translate(-20px, 0)",
-              },
-            },
-          ]}
-          series={[{ data: [500, 800, 100, 280, 380, 500, 1000] }]}
-        />
+    <div className={`w-full h-full px-8 flex flex-col gap-4`}>
+      {/*current week chart*/}
+      <div className={`w-[70%] h-[280px] grid grid-cols-3`}>
+        <div className={`col-span-2 h-full`}>
+          <CurrentWeekBarChart />
+        </div>
+        <div className={`flex items-center`}>
+          <DownloadTransactions />
+        </div>
+      </div>
+
+      {/*other charts*/}
+      <div className={`flex gap-4 w-[50%]`}>
+        <CurrentMonthBarChart />
+        <div className={`w-full`}></div>
       </div>
     </div>
   );
