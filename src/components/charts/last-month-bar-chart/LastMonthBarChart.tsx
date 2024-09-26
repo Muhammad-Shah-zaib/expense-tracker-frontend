@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import DialogBarChart from "./DialogBarChart.tsx";
+import { Button } from "@mui/material";
 
-const CurrentYearBarChart = () => {
+const LastMonthBarChart = () => {
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
   const btnRef = useRef<HTMLButtonElement>(null);
   const ClickBtn = (btnRef: React.RefObject<HTMLButtonElement>) => {
     const btnElement = btnRef.current;
@@ -9,7 +21,7 @@ const CurrentYearBarChart = () => {
     else console.log("Btn element not found");
   };
 
-  const TOTAL_SPENDINGS_LAST_MONTH: number = 16000;
+  const TOTAL_SPENDING_LAST_MONTH: number = 16000;
   return (
     <div className={`flex flex-col p-2 gap-4 w-full bg-primary rounded-lg`}>
       <div className={`flex flex-col gap-2 border-b border-primary-500 pb-2`}>
@@ -17,7 +29,7 @@ const CurrentYearBarChart = () => {
           Spent last month
         </span>
         <span className={`font-playpen font-bold text-tertiary text-sm`}>
-          Rs. {TOTAL_SPENDINGS_LAST_MONTH}
+          Rs. {TOTAL_SPENDING_LAST_MONTH}
         </span>
       </div>
       <div
@@ -28,13 +40,16 @@ const CurrentYearBarChart = () => {
           onClick={() => ClickBtn(btnRef)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className={`z-20 w-full h-full text-center cursor-pointer bg-transparent absolute inset-0`}
+          className={`z-20 w-full h-full flex items-center justify-center text-center cursor-pointer bg-transparent absolute inset-0`}
         >
-          <button className={`w-full h-full`}>View Details</button>
+          <Button ref={btnRef} variant={"text"} onClick={handleDialogOpen}>
+            View Bar Graph
+          </Button>
         </motion.div>
+        <DialogBarChart open={dialogOpen} handleClose={handleDialogClose} />
       </div>
     </div>
   );
 };
 
-export default CurrentYearBarChart;
+export default LastMonthBarChart;

@@ -1,6 +1,8 @@
 import CurrentWeekBarChart from "./CurrentWeekBarChart.tsx";
-import CurrentMonthBarChart from "./CurrentMonthBarChart.tsx";
+import LastMonthBarChart from "./last-month-bar-chart/LastMonthBarChart.tsx";
 import DownloadTransactions from "./DownloadTransactions.tsx";
+import TotalDebitsThisMonth from "./TotalDebitsThisMonth.tsx";
+import SpendingTrend from "./SpendingTrend.tsx";
 
 const Charts = () => {
   return (
@@ -16,9 +18,16 @@ const Charts = () => {
       </div>
 
       {/*other charts*/}
-      <div className={`flex gap-4 w-[50%]`}>
-        <CurrentMonthBarChart />
-        <div className={`w-full`}></div>
+      <div className={`flex gap-4 w-[70%]`}>
+        <div className={`w-full`}>
+          <LastMonthBarChart />
+        </div>
+        <div className={`w-full`}>
+          <TotalDebitsThisMonth />
+        </div>
+        <div className={`w-full`}>
+          <SpendingTrend />
+        </div>
       </div>
     </div>
   );

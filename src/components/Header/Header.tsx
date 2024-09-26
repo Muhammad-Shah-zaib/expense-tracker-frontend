@@ -2,6 +2,7 @@ import searchIcon from "../../assets/search.svg";
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import MeImg from "../../../public/me-welcome-seecs.jpeg";
+import Button from "@mui/material/Button";
 
 const Header = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -36,11 +37,13 @@ const Header = () => {
 
         {/* Add expense button */}
         <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }}>
-          <button
+          <Button
+            variant={"contained"}
+            color={"success"}
             className={`font-medium bg-tertiary text-tertiary-950 px-4 py-2 rounded-lg hover:bg-tertiary-600 transition-all duration-200 shadow-lg shadow-primary-950`}
           >
             Add Expense
-          </button>
+          </Button>
         </motion.div>
         {/* Image of the user */}
         <div
