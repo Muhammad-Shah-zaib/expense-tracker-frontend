@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
+import { Button } from "@mui/material";
 
 const SpendingTrend = () => {
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -26,9 +27,11 @@ const SpendingTrend = () => {
           onClick={() => ClickBtn(btnRef)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className={`z-20 w-full h-full text-center cursor-pointer bg-transparent absolute inset-0`}
+          className={`z-20 flex items-center justify-center w-full h-full text-center cursor-pointer bg-transparent absolute inset-0`}
         >
-          <button className={`w-full h-full`}>View Line Graph</button>
+          <Button ref={btnRef} variant={"text"}>
+            View Line Graph
+          </Button>
         </motion.div>
       </div>
     </div>

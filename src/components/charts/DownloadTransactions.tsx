@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Button from "@mui/material/Button";
 
 const DownloadTransactions = () => {
   return (
@@ -23,13 +24,18 @@ const DownloadTransactions = () => {
           className={`bg-primary-900 outline-none rounded-xl p-2`}
         />
 
-        <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }}>
-          <motion.button
+        <motion.div
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          className={`flex justify-center`}
+        >
+          <Button
+            variant={"contained"}
             onClick={(e) => e.preventDefault()}
-            className={`w-full px-4 py-2 bg-tertiary hover:bg-tertiary-600 text-tertiary-950 transition-all duration-200 font-playpen font-medium text-sm shadow-lg shadow-primary-900 rounded-lg`}
+            className={`bg-tertiary w-full`}
           >
             Download
-          </motion.button>
+          </Button>
         </motion.div>
       </form>
     </div>

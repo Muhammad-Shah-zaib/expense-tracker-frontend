@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { Button } from "@mui/material";
 
 const TotalDebitsThisMonth = () => {
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -26,9 +27,11 @@ const TotalDebitsThisMonth = () => {
           onClick={() => ClickBtn(btnRef)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className={`z-20 w-full h-full text-center cursor-pointer bg-transparent absolute inset-0`}
+          className={`z-20 flex items-center justify-center w-full h-full text-center cursor-pointer bg-transparent absolute inset-0`}
         >
-          <button className={`w-full h-full`}>View Transactions</button>
+          <Button ref={btnRef} variant={"text"}>
+            View Transactions
+          </Button>
         </motion.div>
       </div>
     </div>
