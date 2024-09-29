@@ -1,14 +1,24 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@mui/material";
+import DialogDebitChart from "./DialogDebitChart.tsx";
 
 const TotalDebitsThisMonth = () => {
+  const [open, setOpen] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const DEBITS_THIS_MONTH = 8500;
 
   const ClickBtn = (ref: React.RefObject<HTMLButtonElement>) => {
-    if (ref.current) ref.current.focus();
+    if (ref.current) ref.current.click();
   };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={`flex flex-col p-2 gap-4 w-full bg-primary rounded-lg`}>
       <div className={`flex flex-col gap-2 border-b border-primary-500 pb-2`}>
@@ -29,10 +39,11 @@ const TotalDebitsThisMonth = () => {
           whileTap={{ scale: 0.9 }}
           className={`z-20 flex items-center justify-center w-full h-full text-center cursor-pointer bg-transparent absolute inset-0`}
         >
-          <Button ref={btnRef} variant={"text"}>
+          <Button onClick={handleOpen} ref={btnRef} variant={"text"}>
             View Transactions
           </Button>
         </motion.div>
+        <DialogDebitChart {...{ open, handleClose }} />
       </div>
     </div>
   );

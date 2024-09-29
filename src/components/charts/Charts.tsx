@@ -1,8 +1,8 @@
 import CurrentWeekBarChart from "./CurrentWeekBarChart.tsx";
 import LastMonthBarChart from "./last-month-bar-chart/LastMonthBarChart.tsx";
 import DownloadTransactions from "./DownloadTransactions.tsx";
-import TotalDebitsThisMonth from "./TotalDebitsThisMonth.tsx";
-import SpendingTrend from "./SpendingTrend.tsx";
+import TotalDebitsThisMonth from "./total-debits-this-month/TotalDebitsThisMonth.tsx";
+import SpendingTrend from "./spending-trend/SpendingTrend.tsx";
 
 const Charts = () => {
   return (
