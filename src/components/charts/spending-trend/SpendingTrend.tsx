@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@mui/material";
 import DialogSpendingTrendChart from "./DialogSpendingTrendChart.tsx";
@@ -12,9 +12,6 @@ const SpendingTrend = () => {
     if (ref.current) ref.current.click();
   };
 
-  useEffect(() => {
-    console.log(dialogOpen);
-  }, [dialogOpen]);
   const handleDialogOpen = () => {
     setDialogOpen(true);
   };
