@@ -25,7 +25,7 @@ const Charts = () => {
   return (
     <div className={`w-full h-[100vh] overflow-auto`}>
       <div
-        className={`flex flex-col items-center justify-center gap-4 px-8 w-full max-h-[115vh]`}
+        className={`flex flex-col items-center justify-center gap-4 px-8 h-md:mb-8 w-full max-h-[115vh] h-md:h-[120vh]`}
       >
         <div className={`w-full flex gap-4`}>
           <div className={`w-[70%] h-full flex flex-col gap-4`}>
