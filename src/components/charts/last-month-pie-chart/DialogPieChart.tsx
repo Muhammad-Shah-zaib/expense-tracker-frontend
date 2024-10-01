@@ -1,16 +1,21 @@
-import React from "react";
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { PieChart } from "@mui/x-charts";
 
+interface IData {
+  label: string;
+  value: number;
+  id: number;
+}
+
 interface IDialogPieChartProps {
   open: boolean;
   handleClose: () => void;
-  data: any;
+  data: IData[];
 }
 
 const DialogPieChart = ({ open, handleClose, data }: IDialogPieChartProps) => {
-  const total = data.reduce((acc: number, item: any) => acc + item.value, 0);
+  const total = data.reduce((acc: number, item: IData) => acc + item.value, 0);
   const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
 
   return (

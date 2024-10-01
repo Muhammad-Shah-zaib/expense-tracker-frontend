@@ -8,7 +8,7 @@ const QuickMenu = () => {
   const DESIGNATION = "CS student at NUST";
   return (
     <div
-      className={`text-gray-100 w-full h-full bg-primary px-4 py-4 flex flex-col gap-4 justify-between overflow-hidden`}
+      className={`text-gray-100 max-h-[1024px] overflow-hidden w-full h-full bg-primary px-4 py-4 flex flex-col gap-4 justify-between overflow-hidden`}
     >
       {/*NAME & designation OF THE USER*/}
       <header className={`w-full text-gray-100 flex flex-col gap-1`}>

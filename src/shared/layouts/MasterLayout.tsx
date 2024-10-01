@@ -6,10 +6,10 @@ import Header from "../../components/Header/Header.tsx";
 
 const MasterLayout: React.FC = () => {
   return (
-    <div className={`flex justify-center bg-primary-950`}>
+    <div className={`flex justify-center bg-primary-950 overflow-hidden`}>
       <div
         id={`master-layout-ctn`}
-        className={`max-w-[1400px] grid grid-cols-6 w-screen h-screen overflow-hidden`}
+        className={`max-w-[1400px] grid grid-cols-6 w-screen h-screen`}
       >
         {/*SideBar*/}
         <div
@@ -23,8 +23,12 @@ const MasterLayout: React.FC = () => {
 
         <div className={`col-span-4 bg-primary-900`}>
           {/* header with user image and search bar and add expense button */}
-          <Header />
-          <Outlet />
+          <div className={`row-span-1`}>
+            <Header />
+          </div>
+          <div className={`row-span-11`}>
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>
