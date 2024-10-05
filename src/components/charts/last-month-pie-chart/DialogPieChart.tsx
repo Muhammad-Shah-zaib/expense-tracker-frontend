@@ -6,7 +6,6 @@ import { useMediaQuery } from "react-responsive";
 interface IData {
   label: string;
   value: number;
-  color: string;
   id: number;
 }
 
@@ -15,24 +14,6 @@ interface IDialogPieChartProps {
   handleClose: () => void;
   data: IData[];
 }
-
-const Legend = ({ data }: { data: IData[] }) => {
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3">
-      {data.map((item) => (
-        <Box key={item.id} display="flex" mx={1}>
-          <Box
-            width={10}
-            height={10}
-            bgcolor={item.color}
-            mr={1}
-          />
-          <span className={`text-sm`}>{item.label}</span>
-        </Box>
-      ))}
-    </div>
-  );
-};
 
 const DialogPieChart = ({ open, handleClose, data }: IDialogPieChartProps) => {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });

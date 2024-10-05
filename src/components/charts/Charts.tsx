@@ -25,7 +25,7 @@ const Charts = () => {
   return (
     <div className={`w-full h-[100vh] overflow-auto`}>
       <div
-        className={`flex flex-col items-center justify-center gap-4 px-8 h-md:mb-8 w-full sm:max-h-[115vh] h-md:h-[120vh]`}
+        className={`flex flex-col items-center justify-center gap-4 px-8 w-full mb-8 sm:max-h-[115vh] h-md:h-[130vh]`}
       >
         <div className={`w-full flex sm:flex-row flex-col gap-4`}>
           <div className={`sm:w-[70%] h-full flex flex-col gap-4`}>
@@ -60,7 +60,7 @@ const Charts = () => {
   <motion.div
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.9 }}
-    className={`bg-primary w-full h-full outline-none rounded-lg flex justify-center items-center`}
+    className={`bg-primary w-full h-full outline-none rounded-lg h-md:hidden flex justify-center items-center`}
     onClick={handleOpenDialog}
   >
     <IconButton>
@@ -71,7 +71,7 @@ const Charts = () => {
 
         {/* EXPENSE DATA TABLE */}
         <div
-          className={`w-full relative mb-10 h-md:block hidden h-[300px] py-2 items-center justify-center gap-8 overflow-x-hidden bg-primary`}
+          className={`w-full relative mb-10 h-md:block hidden h-[300px] py-2 items-center justify-center gap-8 overflow-hidden bg-primary`}
         >
           <ExpenseDataTable />
         </div>

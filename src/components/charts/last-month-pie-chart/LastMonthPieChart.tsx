@@ -3,8 +3,11 @@ import { PieChart } from "@mui/x-charts";
 import { motion } from "framer-motion";
 import DialogPieChart from "./DialogPieChart";
 import Button from "@mui/material/Button";
+import { useMediaQuery } from "react-responsive";
 
 const LastMonthPieChart = () => {
+    // state for mobile
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const [open, setOpen] = useState(false);
 
   // Dummy data for expenses
@@ -47,7 +50,7 @@ const LastMonthPieChart = () => {
                   data: [...data.map(({ id, value }) => ({ id, value }))],
                   outerRadius: 90,
                   cornerRadius: 3,
-                  cx: 90,
+                  cx: isMobile ? 95: 105,
                   cy: 100,
                 },
               ]}
