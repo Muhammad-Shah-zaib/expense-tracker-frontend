@@ -16,12 +16,12 @@ const Header = () => {
         {/*Search*/}
         <form
           onClick={handleSearchFocus}
-          className={`cursor-pointer bg-primary w-[350px] px-4 py-2 rounded-lg flex gap-2`}
+          className={`hidden sm:flex cursor-pointer bg-primary w-[350px] px-4 py-2 rounded-lg gap-2`}
         >
           <input
             ref={searchInputRef}
             placeholder={`Search transactions`}
-            className={`font-mono font-bold text-sm outline-none bg-transparent border-none w-full`}
+            className={` font-mono font-bold text-sm outline-none bg-transparent border-none w-full`}
           />
           <button
             type={"submit"}
@@ -40,7 +40,7 @@ const Header = () => {
           <Button
             variant={"contained"}
             color={"success"}
-            className={`font-medium bg-tertiary text-tertiary-950 px-4 py-2 rounded-lg hover:bg-tertiary-600 transition-all duration-200 shadow-lg shadow-primary-950`}
+            className={`sm:font-medium text-xs sm:text-base bg-tertiary text-tertiary-950 px-4 py-2 rounded-lg hover:bg-tertiary-600 transition-all duration-200 shadow-lg shadow-primary-950`}
           >
             Add Expense
           </Button>

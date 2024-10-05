@@ -1,12 +1,16 @@
 import { axisClasses, BarChart } from "@mui/x-charts";
+import { useMediaQuery } from "react-responsive";
 
 const CurrentWeekBarChart = () => {
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' }); // You can adjust the width based on your needs
+
   const chartData = {
     xAxisLabels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
     yAxisLabel: "Budget Last Seven Days",
     creditData: [100, 280, 280, 280, 1500, 540, 1500],
     debitData: [0, 100, 50, 0, 0, 0, 500],
   };
+
   return (
     <>
       <BarChart
@@ -14,12 +18,12 @@ const CurrentWeekBarChart = () => {
         xAxis={[
           {
             scaleType: "band",
-            data: chartData.xAxisLabels, // Use the labels from the object
+            data: chartData.xAxisLabels,
           },
         ]}
         yAxis={[
           {
-            label: chartData.yAxisLabel, // Use the label from the object
+            label: chartData.yAxisLabel,
           },
         ]}
         sx={[
@@ -32,7 +36,8 @@ const CurrentWeekBarChart = () => {
         series={[
           { label: "Credit", data: chartData.creditData },
           { label: "Debit", data: chartData.debitData },
-        ]} // Use the series data from the object
+        ]}
+        width={isMobile ? 280 : 350 } // Set width based on screen size
       />
     </>
   );

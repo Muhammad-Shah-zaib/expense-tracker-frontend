@@ -47,7 +47,7 @@ const LastMonthPieChart = () => {
                   data: [...data.map(({ id, value }) => ({ id, value }))],
                   outerRadius: 90,
                   cornerRadius: 3,
-                  cx: 110,
+                  cx: 90,
                   cy: 100,
                 },
               ]}

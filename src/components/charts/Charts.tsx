@@ -25,21 +25,21 @@ const Charts = () => {
   return (
     <div className={`w-full h-[100vh] overflow-auto`}>
       <div
-        className={`flex flex-col items-center justify-center gap-4 px-8 h-md:mb-8 w-full max-h-[115vh] h-md:h-[120vh]`}
+        className={`flex flex-col items-center justify-center gap-4 px-8 h-md:mb-8 w-full sm:max-h-[115vh] h-md:h-[120vh]`}
       >
-        <div className={`w-full flex gap-4`}>
-          <div className={`w-[70%] h-full flex flex-col gap-4`}>
+        <div className={`w-full flex sm:flex-row flex-col gap-4`}>
+          <div className={`sm:w-[70%] h-full flex flex-col gap-4`}>
             {/* Current week chart */}
-            <div className={`w-full h-[280px] grid grid-cols-3`}>
-              <div className={`col-span-2 h-full`}>
+            <div className={`sm:w-full h-[350px] sm:h-[280px] grid sm:grid-cols-3`}>
+              <div className={`sm:col-span-2 h-full`}>
                 <CurrentWeekBarChart />
               </div>
-              <div className={`flex items-center`}>
+              <div className={`hidden sm:flex items-center`}>
                 <DownloadTransactions />
               </div>
             </div>
             {/* Other charts */}
-            <div className={`flex gap-4 w-full`}>
+            <div className={`flex sm:flex-row flex-col gap-4 w-full`}>
               <div className={`w-full`}>
                 <LastMonthBarChart />
               </div>
@@ -51,26 +51,27 @@ const Charts = () => {
               </div>
             </div>
           </div>
-          <div className={`w-[30%]`}>
+          {/* PIE CHART */}
+          <div className={`w-full sm:w-[30%]`}>
             <LastMonthPieChart />
           </div>
         </div>
+        <div className={`flex justify-center items-center p-2 rounded-lg w-full`}>
+  <motion.div
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.9 }}
+    className={`bg-primary w-full h-full outline-none rounded-lg flex justify-center items-center`}
+    onClick={handleOpenDialog}
+  >
+    <IconButton>
+      <KeyboardArrowUpIcon />
+    </IconButton>
+  </motion.div>
+</div>
+
+        {/* EXPENSE DATA TABLE */}
         <div
-          className={`block flex justify-center items-center p-2 rounded-lg w-full h-md:hidden`}
-        >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
-            className={`bg-primary w-full h-full outline-none rounded-lg flex justify-center items-center`}
-            onClick={handleOpenDialog} // Open dialog on click
-          >
-            <IconButton>
-              <KeyboardArrowUpIcon />
-            </IconButton>
-          </motion.div>
-        </div>
-        <div
-          className={`w-full relative mb-10 h-md:block hidden h-[300px] py-2 flex items-center justify-center gap-8 overflow-x-none bg-primary`}
+          className={`w-full relative mb-10 h-md:block hidden h-[300px] py-2 items-center justify-center gap-8 overflow-x-hidden bg-primary`}
         >
           <ExpenseDataTable />
         </div>
