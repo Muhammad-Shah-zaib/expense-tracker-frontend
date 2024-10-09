@@ -4,7 +4,7 @@ const AtmCard = () => {
   const CARD_BALANCE = 23000;
   return (
     <div
-      className={`w-full rounded-lg shadow-lg shadow-primary-900 bg-gradient-to-br flex justify-center items-center p-2 from-rose-600 to-blue-600 text-gray-100`}
+      className={`w-full max-w-[350px] rounded-lg shadow-lg shadow-primary-900 bg-gradient-to-br flex justify-center items-center p-2 from-rose-600 to-blue-600 text-gray-100`}
     >
       <div
         className={`w-full flex flex-col rounded-lg  justify-between max-w-[300px] h-[160px]`}

@@ -26,10 +26,10 @@ const MasterLayout: React.FC = () => {
 
         <div className={`col-span-5 sm:col-span-4 bg-primary-900`}>
           {/* header with user image and search bar and add expense button */}
-          <div className={`row-span-1`}>
+          <div className={`max-h-[100px]`}>
             <Header />
           </div>
-          <div className={`row-span-11`}>
+          <div className={`h-full`}>
             <Outlet />
           </div>
         </div>
