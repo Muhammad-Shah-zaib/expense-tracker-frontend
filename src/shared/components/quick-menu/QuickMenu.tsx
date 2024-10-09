@@ -2,15 +2,26 @@ import CurrentBalanceCard from "../../cards/CurrentBalanceCard.tsx";
 import AtmCard from "../../cards/AtmCard.tsx";
 import { motion } from "framer-motion";
 import LatestActivity from "./LatestActivity.tsx";
+import ICardDetails from "../../../interfaces/ICardDetails.ts";
 
 const QuickMenu = () => {
   const NAME = "Muhammad Shahzaib";
   const DESIGNATION = "CS student at NUST";
+
+  // Card details
+  const cardDetails: ICardDetails = {
+    holderName: NAME,
+    companyName: "Sadapay",
+    cardType: "Visa", // or "UnionPay", "MasterCard"
+    balance: 23000,
+    cardNumber: "5355034859455045",
+  };
+
   return (
     <div
       className={`text-gray-100 max-h-[800px] w-full h-full bg-primary px-4 py-4 flex flex-col gap-4 h-md:justify-start justify-between h-md:gap-7 overflow-hidden`}
     >
-      {/*NAME & designation OF THE USER*/}
+      {/* NAME & designation OF THE USER */}
       <header className={`w-full text-gray-100 flex flex-col gap-1`}>
         <span className={`font-playpen font-bold`}>{NAME}</span>
         <span className={`font-roboto text-xs text-zinc-600`}>
@@ -18,14 +29,14 @@ const QuickMenu = () => {
         </span>
       </header>
 
-      {/*Current Balance card*/}
+      {/* Current Balance card */}
       <section className={`flex flex-col gap-3 items-center`}>
-        {/*Current balance card */}
+        {/* Current balance card */}
         <CurrentBalanceCard />
 
         {/* ATM CARD */}
         <div className={`w-full`}>
-          {/*HEADER*/}
+          {/* HEADER */}
           <div className={`p-2 flex justify-between items-center`}>
             <span className={`font-medium`}>ATM Cards</span>
             <motion.button
@@ -36,7 +47,13 @@ const QuickMenu = () => {
               View All
             </motion.button>
           </div>
-          <AtmCard />
+          <AtmCard
+            holderName={cardDetails.holderName}
+            companyName={cardDetails.companyName}
+            cardType={cardDetails.cardType}
+            balance={cardDetails.balance}
+            cardNumber={cardDetails.cardNumber}
+          />
         </div>
       </section>
       {/* Latest Activity */}
