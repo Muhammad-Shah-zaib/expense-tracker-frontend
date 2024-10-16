@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* For WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 4px; /* Width of the scrollbar */
+    background: transparent; /* Background of the scrollbar track */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #52525b; /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Rounded borders */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3f3f46; /* Darker thumb color on hover */
+  }
+
+  /* For Firefox */
+  .scrollbar {
+    scrollbar-width: thin; /* Makes the scrollbar thin */
+    scrollbar-color: rgba(0, 0, 0, 0.5) transparent; /* Thumb color and track color */
+  }
+
+  /* To apply rounded borders in Firefox */
+  .scrollbar::-webkit-scrollbar {
+    border-radius: 10px; /* Rounded borders */
+  }

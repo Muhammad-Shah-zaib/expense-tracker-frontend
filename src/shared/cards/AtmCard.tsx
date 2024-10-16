@@ -1,16 +1,11 @@
 import React from "react";
 import visaLogo from "./visaLogo.svg"; // Add the other logos as needed
 import unionPayLogo from "./unionPayLogo.svg"; // Example for UnionPay
-import masterCardLogo from "./masterCardLogo.svg"; // Example for MasterCard
+import masterCardLogo from "./masterCardLogo.svg";
+import ICardDetails from "../../interfaces/ICardDetails.ts"; // Example for MasterCard
 
 // Define the interface for the props
-interface AtmCardProps {
-  holderName: string;
-  companyName: string;
-  cardType: "Visa" | "UnionPay" | "MasterCard"; // You can add more types if needed
-  balance: number; // Assuming balance is a number
-  cardNumber: string; // Card number as a string
-}
+type AtmCardProps = ICardDetails;
 
 const AtmCard: React.FC<AtmCardProps> = ({
   holderName,
@@ -19,16 +14,16 @@ const AtmCard: React.FC<AtmCardProps> = ({
   balance,
   cardNumber,
 }) => {
-  let backgroundClass = "from-rose-600 to-blue-600"; // Default for Visa
+  let backgroundClass = "from-rose-600 to-blue-600 hover:from-blue-600 hover:to-rose-600"; // Default for Visa
   let logo = visaLogo; // Default logo
 
   switch (cardType) {
     case "UnionPay":
-      backgroundClass = "bg-primary-700"; // Change to your desired class
+      backgroundClass = "bg-primary-700 hover:bg-primary-600"; // Change to your desired class
       logo = unionPayLogo;
       break;
     case "MasterCard":
-      backgroundClass = "bg-blue-800"; // Change to your desired class
+      backgroundClass = "bg-sky-800 hover:bg-sky-900"; // Change to your desired class
       logo = masterCardLogo;
       break;
     // Add more cases for other card types if needed
@@ -36,7 +31,7 @@ const AtmCard: React.FC<AtmCardProps> = ({
 
   return (
     <div
-      className={`w-full max-w-[350px] rounded-lg shadow-lg shadow-primary-900 bg-gradient-to-br flex justify-center items-center p-2 ${backgroundClass} text-gray-100`}
+      className={`cursor-pointer w-full max-w-[350px] rounded-lg shadow-lg shadow-primary-900 bg-gradient-to-br flex justify-center items-center p-2 ${backgroundClass} text-gray-100 transition-all duration-200`}
     >
       <div
         className={`w-full flex flex-col rounded-lg justify-between max-w-[300px] h-[160px]`}

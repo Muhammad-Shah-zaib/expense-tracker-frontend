@@ -3,19 +3,14 @@ import AtmCard from "../../cards/AtmCard.tsx";
 import { motion } from "framer-motion";
 import LatestActivity from "./LatestActivity.tsx";
 import ICardDetails from "../../../interfaces/ICardDetails.ts";
+import { useAppSelector } from "../../../store/store.ts";
 
 const QuickMenu = () => {
   const NAME = "Muhammad Shahzaib";
   const DESIGNATION = "CS student at NUST";
 
   // Card details
-  const cardDetails: ICardDetails = {
-    holderName: NAME,
-    companyName: "Sadapay",
-    cardType: "Visa", // or "UnionPay", "MasterCard"
-    balance: 23000,
-    cardNumber: "5355034859455045",
-  };
+  const cardDetails: ICardDetails = useAppSelector(state=> state.cardSlice.quickMenuCard);
 
   return (
     <div
