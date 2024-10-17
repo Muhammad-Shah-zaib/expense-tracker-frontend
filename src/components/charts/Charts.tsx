@@ -23,14 +23,16 @@ const Charts = () => {
   };
 
   return (
-    <div className={`w-full h-[100vh] overflow-auto`}>
+    <div className={`w-full max-h-[85vh] overflow-auto`}>
       <div
         className={`flex flex-col items-center justify-center gap-4 px-8 w-full mb-8 sm:max-h-[115vh] h-md:h-[130vh]`}
       >
         <div className={`w-full flex sm:flex-row flex-col gap-4`}>
           <div className={`sm:w-[70%] h-full flex flex-col gap-4`}>
             {/* Current week chart */}
-            <div className={`sm:w-full h-[350px] sm:h-[280px] grid sm:grid-cols-3`}>
+            <div
+              className={`sm:w-full h-[350px] sm:h-[280px] grid sm:grid-cols-3`}
+            >
               <div className={`sm:col-span-2 h-full`}>
                 <CurrentWeekBarChart />
               </div>
@@ -56,18 +58,20 @@ const Charts = () => {
             <LastMonthPieChart />
           </div>
         </div>
-        <div className={`flex justify-center items-center p-2 rounded-lg w-full`}>
-  <motion.div
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.9 }}
-    className={`bg-primary w-full h-full outline-none rounded-lg h-md:hidden flex justify-center items-center`}
-    onClick={handleOpenDialog}
-  >
-    <IconButton>
-      <KeyboardArrowUpIcon />
-    </IconButton>
-  </motion.div>
-</div>
+        <div
+          className={`flex justify-center items-center p-2 rounded-lg w-full`}
+        >
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+            className={`bg-primary w-full h-full outline-none rounded-lg h-md:hidden flex justify-center items-center`}
+            onClick={handleOpenDialog}
+          >
+            <IconButton>
+              <KeyboardArrowUpIcon />
+            </IconButton>
+          </motion.div>
+        </div>
 
         {/* EXPENSE DATA TABLE */}
         <div
