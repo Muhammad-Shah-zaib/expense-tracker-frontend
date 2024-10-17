@@ -3,6 +3,7 @@ import logoutLogo from "../../../assets/logout.svg";
 import { motion } from "framer-motion";
 import { icons, MAIN_MENU } from "./iconsAnimations.ts";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
   // state to store current active tab
@@ -16,7 +17,8 @@ const SideBar = () => {
 
       <div className="flex flex-col items-center gap-2">
         {icons.map((icon, index) => (
-          <div
+          <Link
+            to={icon.route}
             className={`${currentActiveTab == icon.id && "border-r-2 border-secondary px-2 "}`}
           >
             <motion.div
@@ -43,7 +45,7 @@ const SideBar = () => {
                 />
               </motion.div>
             </motion.div>
-          </div>
+          </Link>
         ))}
       </div>
 

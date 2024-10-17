@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@mui/material";
 import ICardDetails from "../../interfaces/ICardDetails.ts";
-import EditCardFormDialog from "../Forms/EditCardFormDIalog";
+import EditCardFormDialog from "../Forms/EditCardFormDIalog.tsx";
 import { useAppDispatch, useAppSelector } from "../../store/store.ts";
 import { changeCardToEdit } from "../../store/cards/cardSlice.ts";
 

@@ -14,7 +14,8 @@ const AtmCard: React.FC<AtmCardProps> = ({
   balance,
   cardNumber,
 }) => {
-  let backgroundClass = "from-rose-600 to-blue-600 hover:from-blue-600 hover:to-rose-600"; // Default for Visa
+  let backgroundClass =
+    "from-rose-600 to-blue-600 hover:from-blue-600 hover:to-rose-600"; // Default for Visa
   let logo = visaLogo; // Default logo
 
   switch (cardType) {
@@ -31,7 +32,7 @@ const AtmCard: React.FC<AtmCardProps> = ({
 
   return (
     <div
-      className={`cursor-pointer w-full max-w-[350px] rounded-lg shadow-lg shadow-primary-900 bg-gradient-to-br flex justify-center items-center p-2 ${backgroundClass} text-gray-100 transition-all duration-200`}
+      className={`cursor-pointer w-full max-w-[400px] rounded-lg shadow-lg shadow-primary-900 bg-gradient-to-br flex justify-center items-center p-2 ${backgroundClass} text-gray-100 transition-all duration-200`}
     >
       <div
         className={`w-full flex flex-col rounded-lg justify-between max-w-[300px] h-[160px]`}

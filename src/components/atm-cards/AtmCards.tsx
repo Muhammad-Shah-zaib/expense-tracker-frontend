@@ -3,7 +3,7 @@ import { Button, IconButton } from "@mui/material";
 import AtmCard from "../../shared/cards/AtmCard";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import ManageCardsDialog from "./ManageCardsDialog";
-import AddCardFormDialog from "../Forms/AddCardFormDialog";
+import AddCardFormDialog from "../Forms/AddCardFormDialog.tsx";
 import ICardDetails from "../../interfaces/ICardDetails.ts";
 import { useAppDispatch, useAppSelector } from "../../store/store.ts";
 import {
@@ -29,7 +29,7 @@ const AtmCards = () => {
     dispatch(editCard({ cardNumber, updatedCard }));
   };
   return (
-    <div className={`flex flex-col gap-4 px-4 w-full`}>
+    <div className={`flex flex-col gap-4 px-1 md:px-4 w-full`}>
       <div
         className={`w-full border-b-2 border-primary flex items-center justify-between`}
       >
@@ -46,9 +46,9 @@ const AtmCards = () => {
         </div>
       </div>
       <div
-        className={`w-full flex flex-col items-center gap-8 h-[77vh] overflow-auto`}
+        className={`w-full flex flex-col md:px-0 px-2 md:items-center gap-8 h-[77vh] overflow-auto`}
       >
-        <div className={`grid grid-cols-2 gap-4 w-[700px]`}>
+        <div className={`grid md:grid-cols-2 gap-4 lg:w-[700px]`}>
           {cards.map((card, index) => (
             <div onClick={() => dispatch(changeQuickMenuCard({ card }))}>
               <AtmCard

@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import AtmCards from "./components/atm-cards/AtmCards.tsx";
 import { Provider } from "react-redux";
 import store from "./store/store.ts";
+import Transactions from "./components/transactions/Transactions";
 
 function App() {
   const darkTheme = createTheme({
@@ -15,20 +16,24 @@ function App() {
   });
   return (
     <Provider store={store}>
-        <div className={`font-roboto text-gray-100`}>
-          <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
-            <BrowserRouter>
-              <Routes>
-                <Route path={`/`} element={<Navigate to={`/home`} />}></Route>
-                <Route path={`/`} element={<MasterLayout />}>
-                  <Route path={`home`} element={<AtmCards />} />
-                  <Route path={`charts`} element={<Charts />}></Route>
-                </Route>
-              </Routes>
-            </BrowserRouter>
-          </ThemeProvider>
-        </div>
+      <div className={`font-roboto text-gray-100`}>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path={`/`}
+                element={<Navigate to={`/atm-cards`} />}
+              ></Route>
+              <Route path={`/`} element={<MasterLayout />}>
+                <Route path={`atm-cards`} element={<AtmCards />} />
+                <Route path={`charts`} element={<Charts />}></Route>
+                <Route path={`transactions`} element={<Transactions />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </div>
     </Provider>
   );
 }
