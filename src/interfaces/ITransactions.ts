@@ -2,7 +2,20 @@
 export default interface ITransactions {
   id: number;
   transactionType: "debit" | "credit";
-  purpose: string;
+  purpose:
+    | "Bill Payment"
+    | "Donations / Charity / Zakat"
+    | "Educational Payment"
+    | "Transfer to own accounts"
+    | "Traveling"
+    | "Food & Groceries"
+    | "Others"
+    | "Investment"
+    | "Vendor"
+    | "Transfer to family account"
+    | "Subscription"
+    | "Salary"
+    | "Loan";
   amount: number;
   date: string;
   description: string;

@@ -6,7 +6,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import AtmCards from "./components/atm-cards/AtmCards.tsx";
 import { Provider } from "react-redux";
 import store from "./store/store.ts";
-import Transactions from "./components/transactions/Transactions";
+import TransactionContainer from "./containers/TransactionContainer.tsx";
+import MarkedTransactionContainer from "./containers/MarkedTransactionContainer.tsx";
 
 function App() {
   const darkTheme = createTheme({
@@ -28,7 +29,14 @@ function App() {
               <Route path={`/`} element={<MasterLayout />}>
                 <Route path={`atm-cards`} element={<AtmCards />} />
                 <Route path={`charts`} element={<Charts />}></Route>
-                <Route path={`transactions`} element={<Transactions />} />
+                <Route
+                  path={`transactions`}
+                  element={<TransactionContainer />}
+                />
+                <Route
+                  path={"/marked-transactions"}
+                  element={<MarkedTransactionContainer />}
+                />
               </Route>
             </Routes>
           </BrowserRouter>

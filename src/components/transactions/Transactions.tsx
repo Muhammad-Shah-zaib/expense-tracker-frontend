@@ -13,26 +13,52 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ITransactions from "../../interfaces/ITransactions";
-import transactions from "../../dummy-data/transactions";
+import {
+  addTransaction,
+  changeSelectedTransaction,
+  deleteTransaction,
+  markTransaction,
+  updateTransaction,
+} from "../../store/transactions/transactionSlice.ts";
+import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog"; // Adjust the path as necessary
 
-const Transactions: React.FC = () => {
+export interface ITransactionsProps {
+  transactions: ITransactions[];
+  selectedTransaction: ITransactions | null;
+  markTransaction: typeof markTransaction;
+  deleteTransaction: typeof deleteTransaction;
+  addTransaction: typeof addTransaction;
+  updateTransaction: typeof updateTransaction;
+  changeSelectedTransaction: typeof changeSelectedTransaction;
+}
+
+const Transactions: React.FC<ITransactionsProps> = ({
+  transactions,
+  changeSelectedTransaction,
+  selectedTransaction,
+  deleteTransaction,
+  markTransaction,
+  updateTransaction,
+}) => {
+  const [lastSelectedTransaction, setLastSelectedTransaction] =
+    useState<ITransactions>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedTransaction, setSelectedTransaction] =
-    useState<null | ITransactions>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleMenuClick = (
     event: React.MouseEvent<HTMLElement>,
     transaction: ITransactions,
   ) => {
     setAnchorEl(event.currentTarget);
-    setSelectedTransaction(transaction);
+    changeSelectedTransaction({ transaction });
+    setLastSelectedTransaction(transaction);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    setSelectedTransaction(null);
+    changeSelectedTransaction({ transaction: null });
   };
 
   const handleChangePage = (newPage: number) => {
@@ -43,10 +69,22 @@ const Transactions: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to the first page when changing rows per page
+    setPage(0);
   };
 
-  // Calculate the current transactions to display
+  const handleUpdate = (newTransaction: ITransactions) => {
+    updateTransaction({ newTransaction });
+    closeDialog();
+  };
+
+  const openDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const closeDialog = () => {
+    setDialogOpen(false);
+  };
+
   const currentTransactions = transactions.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage,
@@ -54,7 +92,7 @@ const Transactions: React.FC = () => {
 
   return (
     <div>
-      <TableContainer className={`max-h-[70vh] lg:max-h-[75vh] overflow-auto`}>
+      <TableContainer className="max-h-[70vh] lg:max-h-[75vh] overflow-auto">
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -89,8 +127,6 @@ const Transactions: React.FC = () => {
                 <TableCell>{transaction.date}</TableCell>
                 <TableCell>{transaction.description}</TableCell>
                 <TableCell style={{ width: 150 }}>
-                  {" "}
-                  {/* Fixed width for card number */}
                   <div style={{ overflowX: "auto", whiteSpace: "nowrap" }}>
                     {transaction.cardNumber}
                   </div>
@@ -109,9 +145,34 @@ const Transactions: React.FC = () => {
                       }
                       onClose={handleMenuClose}
                     >
-                      <MenuItem onClick={handleMenuClose}>Remove</MenuItem>
-                      <MenuItem onClick={handleMenuClose}>Mark</MenuItem>
-                      <MenuItem onClick={handleMenuClose}>Update</MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          deleteTransaction({
+                            transactionId: selectedTransaction!.id,
+                          });
+                          handleMenuClose();
+                        }}
+                      >
+                        Remove
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          markTransaction({
+                            transactionId: selectedTransaction!.id,
+                          });
+                          handleMenuClose();
+                        }}
+                      >
+                        Mark
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          openDialog();
+                          handleMenuClose();
+                        }}
+                      >
+                        Edit
+                      </MenuItem>
                     </Menu>
                   </div>
                 </TableCell>
@@ -128,6 +189,14 @@ const Transactions: React.FC = () => {
         page={page}
         onPageChange={(_, p) => handleChangePage(p)}
         onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <EditTransactionFormDialog
+        selectedTransaction={{
+          ...lastSelectedTransaction!,
+        }}
+        open={isDialogOpen}
+        onClose={closeDialog}
+        onSubmit={handleUpdate}
       />
     </div>
   );

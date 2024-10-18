@@ -26,7 +26,7 @@ export type IIcons = IIcon[];
 
 // icons object for controlling animations
 export const icons: IIcons = [
-  { id: MAIN_MENU, src: menuLogo, scale: 1.2, rotate: -45, route: "/" },
+  { id: MAIN_MENU, src: menuLogo, scale: 1.2, rotate: -45, route: "/charts" },
   {
     id: MARKED,
     src: starLogo,
