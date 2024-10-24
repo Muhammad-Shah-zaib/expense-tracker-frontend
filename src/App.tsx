@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "./store/store.ts";
 import TransactionContainer from "./containers/TransactionContainer.tsx";
 import MarkedTransactionContainer from "./containers/MarkedTransactionContainer.tsx";
+import SettingsContainer from "./containers/SettingsContainer.tsx";
 
 function App() {
   const darkTheme = createTheme({
@@ -37,6 +38,7 @@ function App() {
                   path={"/marked-transactions"}
                   element={<MarkedTransactionContainer />}
                 />
+                <Route path={`settings`} element={<SettingsContainer />} />
               </Route>
             </Routes>
           </BrowserRouter>
