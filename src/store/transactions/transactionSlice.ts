@@ -2,17 +2,19 @@ import {
   IAddTransactionDto,
   IChangeSelectedTransactionDto,
   IDeleteTransactionDto,
+  IFetchNotesResponseDto,
   IMarkTransactionDto,
   ITransactionState,
   IUpdateTransactionDto,
 } from "./types.ts";
-import transactions from "../../dummy-data/transactions.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { fetchTransactionById } from "./transactionApi.ts";
 
 const initialState: ITransactionState = {
-  transactions: transactions,
+  transactions: [],
   markedTransactions: [],
   selectedTransaction: null,
+  loading: false,
 };
 
 const transactionSlice = createSlice({
@@ -78,6 +80,34 @@ const transactionSlice = createSlice({
     ) {
       state.selectedTransaction = transaction;
     },
+  },
+  extraReducers: (builder) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    builder.addCase(
+      fetchTransactionById.fulfilled,
+      (
+        state,
+        {
+          payload: { transactions, statusCode },
+        }: PayloadAction<IFetchNotesResponseDto>,
+      ) => {
+        state.loading = false;
+        if (statusCode == 200) {
+          state.transactions = transactions;
+          state.markedTransactions = transactions.filter((t) => t.marked);
+        } else if (statusCode == 404) state.transactions = [];
+      },
+    ),
+      builder.addCase(fetchTransactionById.pending, (state) => {
+        state.loading = true;
+        state.transactions = [];
+        state.markedTransactions = [];
+      }),
+      builder.addCase(fetchTransactionById.rejected, (state) => {
+        state.loading = false;
+        state.transactions = [];
+        state.markedTransactions = [];
+      });
   },
 });
 

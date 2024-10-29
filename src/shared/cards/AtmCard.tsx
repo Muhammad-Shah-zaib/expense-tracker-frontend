@@ -42,7 +42,7 @@ const AtmCard: React.FC<AtmCardProps> = ({
           <span className={`font-medium`}>{cardType}</span>
           <span className={`font-medium font-mulish`}>{companyName}</span>
         </header>
-        <body className={`flex flex-col gap-1 bg-transparent items-center`}>
+        <main className={`flex flex-col gap-1 bg-transparent items-center`}>
           <span className={`text-2xl font-bold font-playpen`}>
             Rs. {balance}
           </span>
@@ -50,7 +50,7 @@ const AtmCard: React.FC<AtmCardProps> = ({
             {cardNumber.replace(/(\d{4})(?=\d)/g, "$1   ")}{" "}
             {/* Format card number */}
           </span>
-        </body>
+        </main>
         <footer className={`w-full flex justify-between items-center`}>
           <span className={`text-xs font-bold font-mono`}>{holderName}</span>
           <span>

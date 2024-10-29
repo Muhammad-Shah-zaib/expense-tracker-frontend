@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IconButton,
   Menu,
@@ -20,16 +20,20 @@ import {
   markTransaction,
   updateTransaction,
 } from "../../store/transactions/transactionSlice.ts";
-import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog"; // Adjust the path as necessary
+import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog";
+import { fetchTransactionById } from "../../store/transactions/transactionApi.ts";
+import CircularSpinner from "../../shared/components/CIrcularSpinner/CircularSpinner.tsx";
 
 export interface ITransactionsProps {
   transactions: ITransactions[];
+  loading: boolean;
   selectedTransaction: ITransactions | null;
   markTransaction: typeof markTransaction;
   deleteTransaction: typeof deleteTransaction;
   addTransaction: typeof addTransaction;
   updateTransaction: typeof updateTransaction;
   changeSelectedTransaction: typeof changeSelectedTransaction;
+  fetchTransactionById: typeof fetchTransactionById;
 }
 
 const Transactions: React.FC<ITransactionsProps> = ({
@@ -39,7 +43,13 @@ const Transactions: React.FC<ITransactionsProps> = ({
   deleteTransaction,
   markTransaction,
   updateTransaction,
+  fetchTransactionById,
+  loading,
 }) => {
+  useEffect(() => {
+    fetchTransactionById({ id: 10 });
+  }, []);
+
   const [lastSelectedTransaction, setLastSelectedTransaction] =
     useState<ITransactions>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -90,6 +100,14 @@ const Transactions: React.FC<ITransactionsProps> = ({
     page * rowsPerPage + rowsPerPage,
   );
 
+  if (loading) {
+    return (
+      <div className={`w-full relative h-full`}>
+        <CircularSpinner size={40} color={`primary`} />
+      </div>
+    );
+  }
+
   return (
     <div>
       <TableContainer className="max-h-[70vh] lg:max-h-[75vh] overflow-auto">
@@ -113,14 +131,12 @@ const Transactions: React.FC<ITransactionsProps> = ({
                 className="hover:bg-primary-700 transition-colors duration-200"
               >
                 <TableCell>{transaction.id}</TableCell>
-                <TableCell>{transaction.transactionType}</TableCell>
+                <TableCell>{transaction.type}</TableCell>
                 <TableCell>{transaction.purpose}</TableCell>
                 <TableCell
-                  className={
-                    transaction.transactionType === "debit" ? "debit" : "credit"
-                  }
+                  className={transaction.type === "debit" ? "debit" : "credit"}
                 >
-                  {transaction.transactionType === "debit"
+                  {transaction.type === "debit"
                     ? `+${transaction.amount}`
                     : `-${transaction.amount}`}
                 </TableCell>

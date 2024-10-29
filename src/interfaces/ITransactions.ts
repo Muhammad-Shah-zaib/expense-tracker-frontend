@@ -1,7 +1,7 @@
 // Define the type for a transaction
 export default interface ITransactions {
   id: number;
-  transactionType: "debit" | "credit";
+  type: "debit" | "credit";
   purpose:
     | "Bill Payment"
     | "Donations / Charity / Zakat"
@@ -20,4 +20,5 @@ export default interface ITransactions {
   date: string;
   description: string;
   cardNumber: string;
+  marked: boolean;
 }

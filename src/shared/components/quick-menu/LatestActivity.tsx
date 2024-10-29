@@ -6,7 +6,7 @@ const LatestActivity = () => {
   return (
     <div className={`max-h-[200px] scrollbar-thin overflow-auto pr-3`}>
       {o.map((o) => (
-        <div className={`flex justify-center flex-col gap-2`} key={o.id}>
+        <div key={o.id} className={`flex justify-center flex-col gap-2`}>
           {/* day */}
           <span
             className={`text-sm text-primary-500 font-playpen w-full text-center pt-2 pb-4`}
@@ -17,6 +17,7 @@ const LatestActivity = () => {
           <div className={`flex flex-col gap-4`}>
             {o.transactions.map((t) => (
               <div
+                key={t.id}
                 className={`flex justify-between items-center border-b border-primary-600`}
               >
                 <div className={`flex gap-2 items-center`}>

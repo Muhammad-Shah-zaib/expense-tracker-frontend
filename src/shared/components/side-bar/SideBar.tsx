@@ -18,6 +18,7 @@ const SideBar = () => {
       <div className="flex flex-col items-center gap-2">
         {icons.map((icon, index) => (
           <Link
+            key={icon.id}
             to={icon.route}
             className={`${currentActiveTab == icon.id && "border-r-2 border-secondary px-2 "}`}
           >
