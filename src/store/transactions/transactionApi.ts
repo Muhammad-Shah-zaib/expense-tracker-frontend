@@ -21,7 +21,7 @@ export const fetchTransactionById = createAsyncThunk<
     // Add delay before making the fetch call
     await delay(500); // Delay for 2 seconds (adjust as needed)
 
-    const response = await fetch(`${FETCH_TRANSACTION_URL}${id}`);
+    const response = await fetch(`${FETCH_TRANSACTION_URL}?userId=${id}`);
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);

@@ -6,7 +6,13 @@ import { IUserSliceState } from "../../store/user/types.ts";
 export type TSettingsProps = IUserSliceState;
 
 // component
-const Settings = ({ name, username, image, email }: TSettingsProps) => {
+const Settings = ({
+  firstname,
+  lastname,
+  username,
+  image,
+  email,
+}: TSettingsProps) => {
   return (
     <div className={`w-full h-full overflow-auto`}>
       <div className={`flex flex-col gap-6 max-w-[650px] px-4`}>
@@ -26,7 +32,9 @@ const Settings = ({ name, username, image, email }: TSettingsProps) => {
             {/* Name */}
             <div className={`grid grid-cols-3 items-center`}>
               <span>Name</span>
-              <span className={`col-span-2`}>{name}</span>
+              <span className={`col-span-2`}>
+                {firstname} {lastname}
+              </span>
             </div>
             {/* username */}
             <div className={`grid grid-cols-3 items-center`}>

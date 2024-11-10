@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import Settings from "../components/settings/Settings.tsx";
 
 const mapStateToProps = ({
-  userSlice: { name, username, image, email },
+  userSlice: { firstname, lastname, username, image, email },
 }: RootState) => ({
-  name,
+  firstname,
+  lastname,
   username,
   email,
   image,

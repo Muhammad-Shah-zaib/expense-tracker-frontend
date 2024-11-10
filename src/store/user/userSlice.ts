@@ -1,11 +1,14 @@
-import { IUpdateUserRequestDto, IUserSliceState } from "./types.ts";
+import { ILoginResponseDto, ISetUser, IUserSliceState } from "./types.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import profileImage from "../../../public/me-welcome-seecs.jpeg";
+import loginApiThunk from "./LoginApi.ts";
 
 const initialState: IUserSliceState = {
-  name: "Muhammad Shahzaib",
-  email: "MuhammdShahzaib@outlook.com",
-  username: "Pace-Setter",
+  token: null,
+  firstname: "",
+  lastname: "",
+  email: "",
+  username: "",
   image: profileImage,
 };
 
@@ -13,16 +16,39 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    updateUser(
+    setUser(
       state,
-      { payload: { name, image } }: PayloadAction<IUpdateUserRequestDto>,
+      {
+        payload: { firstname, lastname, username, token },
+      }: PayloadAction<ISetUser>,
     ) {
-      state.name = name;
-      state.image = image;
+      state.firstname = firstname;
+      state.lastname = lastname;
+      state.username = username;
+      state.token = token;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(
+      loginApiThunk.fulfilled,
+      (
+        state,
+        {
+          payload: { statusCode, lastname, firstname, username, token },
+        }: PayloadAction<ILoginResponseDto>,
+      ) => {
+        if (statusCode === 200) {
+          localStorage.setItem("JWT", token);
+          state.firstname = firstname;
+          state.lastname = lastname;
+          state.username = username;
+          state.token = token;
+        }
+      },
+    );
   },
 });
 
 export default userSlice.reducer;
 
-export const { updateUser } = userSlice.actions;
+export const { setUser } = userSlice.actions;

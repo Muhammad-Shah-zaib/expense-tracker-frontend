@@ -9,6 +9,8 @@ import store from "./store/store.ts";
 import TransactionContainer from "./containers/TransactionContainer.tsx";
 import MarkedTransactionContainer from "./containers/MarkedTransactionContainer.tsx";
 import SettingsContainer from "./containers/SettingsContainer.tsx";
+import Login from "./components/Login/Login.tsx";
+import AuthGuard from "./guards/AuthGuard.tsx";
 
 function App() {
   const darkTheme = createTheme({
@@ -23,22 +25,22 @@ function App() {
           <CssBaseline />
           <BrowserRouter>
             <Routes>
-              <Route
-                path={`/`}
-                element={<Navigate to={`/atm-cards`} />}
-              ></Route>
-              <Route path={`/`} element={<MasterLayout />}>
-                <Route path={`atm-cards`} element={<AtmCards />} />
-                <Route path={`charts`} element={<Charts />}></Route>
-                <Route
-                  path={`transactions`}
-                  element={<TransactionContainer />}
-                />
-                <Route
-                  path={"/marked-transactions"}
-                  element={<MarkedTransactionContainer />}
-                />
-                <Route path={`settings`} element={<SettingsContainer />} />
+              <Route path={`/`} element={<Navigate to={`/login`} />}></Route>
+              <Route path={"/login"} element={<Login />} />
+              <Route path={"/"} element={<AuthGuard />}>
+                <Route path={`/`} element={<MasterLayout />}>
+                  <Route path={`atm-cards`} element={<AtmCards />} />
+                  <Route path={`charts`} element={<Charts />} />
+                  <Route
+                    path={`transactions`}
+                    element={<TransactionContainer />}
+                  />
+                  <Route
+                    path={"/marked-transactions"}
+                    element={<MarkedTransactionContainer />}
+                  />
+                  <Route path={`settings`} element={<SettingsContainer />} />
+                </Route>
               </Route>
             </Routes>
           </BrowserRouter>
