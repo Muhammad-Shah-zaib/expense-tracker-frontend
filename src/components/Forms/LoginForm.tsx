@@ -1,15 +1,21 @@
 import { Button, TextField } from "@mui/material";
 import { motion } from "framer-motion";
 import { SubmitHandler, useForm } from "react-hook-form";
-import loginApiThunk from "../../store/user/LoginApi.ts";
 import { ILoginRequestDto } from "../../store/user/types.ts";
 import { useNavigate } from "react-router-dom";
+import {
+  TMapStateToProps,
+  TMapDispatchToProps,
+} from "../../containers/LoginFormContainer.tsx";
 
-interface ILoginFormProps {
-  loginApiThunk: typeof loginApiThunk;
-}
+type ILoginFormProps = ReturnType<TMapStateToProps> &
+  ReturnType<TMapDispatchToProps>;
 
-export default function LoginForm({ loginApiThunk }: ILoginFormProps) {
+export default function LoginForm({
+  loginApiThunk,
+  loading,
+  errorMessage,
+}: ILoginFormProps) {
   const navigate = useNavigate();
   const {
     register,
@@ -23,7 +29,13 @@ export default function LoginForm({ loginApiThunk }: ILoginFormProps) {
   return (
     <div className="flex flex-col items-center justify-between gap-4 p-8 bg-zinc-900 w-[400px] h-[400px]">
       {/* For proper spacing */}
-      <div></div>
+      <div className={`flex justify-center`}>
+        {errorMessage && (
+          <span className={`text-center font-medium text-sm text-red-400`}>
+            {errorMessage}
+          </span>
+        )}
+      </div>
       {/* Form Fields */}
       <div className={`space-y-4`}>
         <TextField
@@ -58,8 +70,9 @@ export default function LoginForm({ loginApiThunk }: ILoginFormProps) {
             color="primary"
             fullWidth
             onClick={handleSubmit(onSubmit)}
+            disabled={loading}
           >
-            Login
+            {loading ? "logging in..." : "Login"}
           </Button>
         </motion.div>
         <motion.div
@@ -73,6 +86,7 @@ export default function LoginForm({ loginApiThunk }: ILoginFormProps) {
             variant="outlined"
             color="secondary"
             fullWidth
+            disabled={loading}
           >
             Sign Up
           </Button>

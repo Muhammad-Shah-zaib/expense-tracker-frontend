@@ -1,14 +1,28 @@
 import { bindActionCreators } from "@reduxjs/toolkit";
 import loginApiThunk from "../store/user/LoginApi.ts";
-import { AppDispatch } from "../store/store.ts";
+import { AppDispatch, RootState } from "../store/store.ts";
 import { connect } from "react-redux";
 import LoginForm from "../components/Forms/LoginForm.tsx";
 
-const mapStateToProps = () => {
-  return {};
+export type TMapStateToProps = (state: RootState) => {
+  loading: boolean;
+  errorMessage: string | null;
+  loginSuccess: boolean;
 };
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
+export type TMapDispatchToProps = (dispatch: AppDispatch) => {
+  loginApiThunk: typeof loginApiThunk;
+};
+
+const mapStateToProps: TMapStateToProps = (state) => {
+  return {
+    loading: state.userSlice.loginLoading,
+    errorMessage: state.userSlice.loginErrorMessage,
+    loginSuccess: state.userSlice.loginSuccess,
+  };
+};
+
+const mapDispatchToProps: TMapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       loginApiThunk,

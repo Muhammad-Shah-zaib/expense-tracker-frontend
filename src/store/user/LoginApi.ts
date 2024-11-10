@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ILoginRequestDto, ILoginResponseDto, IUserSliceState } from "./types";
 import { LOGIN_URL } from "../../environment/development";
+import { delay } from "../../utils/delay.ts";
 
 // actions
 const LOGIN_API = "user/login";
@@ -20,16 +21,8 @@ const loginApiThunk = createAsyncThunk<
       },
       body: JSON.stringify(requestDto), // Send username and password in the body
     });
-
-    // Check if the response is ok (status code 200-299)
-    if (!response.ok) {
-      const errorData = await response.json();
-      return rejectWithValue(errorData); // Reject with error message if not ok
-    }
-
-    // Parse and return the JSON response on success
-    const data: ILoginResponseDto = await response.json();
-    return data;
+    await delay(250);
+    return await response.json();
   } catch (error) {
     // Handle network or other errors
     return rejectWithValue({

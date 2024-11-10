@@ -53,21 +53,34 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       loginApiThunk.fulfilled,
-      (
-        state,
-        {
-          payload: { statusCode, lastName, firstName, username, token },
-        }: PayloadAction<ILoginResponseDto>,
-      ) => {
-        if (statusCode === 200) {
-          localStorage.setItem("JWT", token);
-          state.firstname = firstName;
-          state.lastname = lastName;
-          state.username = username;
-          state.token = token;
+      (state, { payload }: PayloadAction<ILoginResponseDto>) => {
+        state.loginLoading = false;
+        if (payload.statusCode === 200) {
+          localStorage.setItem("JWT", payload.token);
+          state.firstname = payload.firstName;
+          state.lastname = payload.lastName;
+          state.username = payload.username;
+          state.loginSuccess = true;
+          state.token = payload.token;
+        } else if (payload.statusCode === 404) {
+          if (payload.errors) state.loginErrorMessage = payload.errors[0]!;
+          else state.loginErrorMessage = "username is incorrect";
+          state.loginSuccess = false;
+        } else {
+          state.loginErrorMessage = payload.message;
+          state.loginSuccess = false;
         }
       },
     ),
+      builder.addCase(loginApiThunk.pending, (state) => {
+        state.loginLoading = true;
+      }),
+      builder.addCase(loginApiThunk.rejected, (state) => {
+        state.loginLoading = false;
+        state.loginSuccess = false;
+        state.loginErrorMessage =
+          "Something went wrong, not your fault. We are working on it, please try again later...";
+      }),
       builder.addCase(
         SignUpApiThunk.fulfilled,
         (state, { payload }: PayloadAction<ISignUpResponseDto>) => {

@@ -50,13 +50,14 @@ export default function SignUpForm({
 
   return (
     <div className="flex flex-col items-center justify-between gap-4 p-8 bg-zinc-900 w-[400px] h-[500px]">
-      <div></div>
-      <div className="space-y-4 w-full">
+      <div>
         {errorMessage && (
           <span className={`text-sm font-medium text-red-400`}>
             {errorMessage}
           </span>
         )}
+      </div>
+      <div className="space-y-4 w-full">
         <TextField
           label="First Name"
           variant="outlined"
@@ -117,9 +118,10 @@ export default function SignUpForm({
             variant="contained"
             color="primary"
             fullWidth
+            disabled={loading}
             onClick={handleSubmit(onSubmit)}
           >
-            {loading ? "Loading..." : "Sign Up"}
+            {loading ? "signing up..." : "Sign Up"}
           </Button>
         </motion.div>
         <motion.div
@@ -133,6 +135,7 @@ export default function SignUpForm({
             variant="outlined"
             color="secondary"
             fullWidth
+            disabled={loading}
           >
             Login
           </Button>
