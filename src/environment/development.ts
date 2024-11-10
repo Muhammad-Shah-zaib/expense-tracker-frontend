@@ -6,3 +6,6 @@ export const FETCH_TRANSACTION_URL = `${API_URL}/Transaction`;
 
 // Login API
 export const LOGIN_URL = `${API_URL}/Login`;
+
+// SignUp API
+export const SIGN_UP_URL = `${API_URL}/Registration`;

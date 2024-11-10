@@ -1,7 +1,13 @@
-import { ILoginResponseDto, ISetUser, IUserSliceState } from "./types.ts";
+import {
+  ILoginResponseDto,
+  ISetUser,
+  ISignUpResponseDto,
+  IUserSliceState,
+} from "./types.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import profileImage from "../../../public/me-welcome-seecs.jpeg";
 import loginApiThunk from "./LoginApi.ts";
+import { SignUpApiThunk } from "./SignUpApi.tsx";
 
 const initialState: IUserSliceState = {
   token: null,
@@ -10,6 +16,12 @@ const initialState: IUserSliceState = {
   email: "",
   username: "",
   image: profileImage,
+  singUpSuccess: false,
+  loginSuccess: false,
+  signUpErrorMessage: null,
+  signUpLoading: false,
+  loginErrorMessage: null,
+  loginLoading: false,
 };
 
 const userSlice = createSlice({
@@ -34,6 +46,9 @@ const userSlice = createSlice({
       state.token = null;
       localStorage.setItem("JWT", "");
     },
+    setSignUpSuccess(state, { payload }: PayloadAction<boolean>) {
+      state.singUpSuccess = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -41,21 +56,42 @@ const userSlice = createSlice({
       (
         state,
         {
-          payload: { statusCode, lastname, firstname, username, token },
+          payload: { statusCode, lastName, firstName, username, token },
         }: PayloadAction<ILoginResponseDto>,
       ) => {
         if (statusCode === 200) {
           localStorage.setItem("JWT", token);
-          state.firstname = firstname;
-          state.lastname = lastname;
+          state.firstname = firstName;
+          state.lastname = lastName;
           state.username = username;
           state.token = token;
         }
       },
-    );
+    ),
+      builder.addCase(
+        SignUpApiThunk.fulfilled,
+        (state, { payload }: PayloadAction<ISignUpResponseDto>) => {
+          state.signUpLoading = false;
+          // navigate to login
+          if (payload.statusCode === 200) {
+            state.singUpSuccess = true;
+          } else {
+            state.singUpSuccess = false;
+            state.signUpErrorMessage = payload.message;
+          }
+        },
+      ),
+      builder.addCase(SignUpApiThunk.pending, (state) => {
+        state.singUpSuccess = false;
+        state.signUpLoading = true;
+      }),
+      builder.addCase(SignUpApiThunk.rejected, (state) => {
+        state.signUpLoading = false;
+        state.singUpSuccess = false;
+      });
   },
 });
 
 export default userSlice.reducer;
 
-export const { setUser, logout } = userSlice.actions;
+export const { setUser, logout, setSignUpSuccess } = userSlice.actions;

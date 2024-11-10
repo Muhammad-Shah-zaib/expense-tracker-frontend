@@ -3,12 +3,14 @@ import { motion } from "framer-motion";
 import { SubmitHandler, useForm } from "react-hook-form";
 import loginApiThunk from "../../store/user/LoginApi.ts";
 import { ILoginRequestDto } from "../../store/user/types.ts";
+import { useNavigate } from "react-router-dom";
 
 interface ILoginFormProps {
   loginApiThunk: typeof loginApiThunk;
 }
 
 export default function LoginForm({ loginApiThunk }: ILoginFormProps) {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -66,7 +68,12 @@ export default function LoginForm({ loginApiThunk }: ILoginFormProps) {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          <Button variant="outlined" color="secondary" fullWidth>
+          <Button
+            onClick={() => navigate("/signup")}
+            variant="outlined"
+            color="secondary"
+            fullWidth
+          >
             Sign Up
           </Button>
         </motion.div>

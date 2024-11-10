@@ -7,6 +7,12 @@ export interface IUserSliceState {
   username: string;
   image: string;
   token: string | null;
+  loginLoading: boolean;
+  loginErrorMessage: string | null;
+  loginSuccess: boolean;
+  signUpLoading: boolean;
+  signUpErrorMessage: string | null;
+  singUpSuccess: boolean;
 }
 
 export interface ISetUser {
@@ -34,6 +40,15 @@ export interface ILoginRequestDto {
 export interface ILoginResponseDto extends IResponse {
   token: string;
   username: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
 }
+
+export interface ISignUpRequestDto {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}
+
+export type ISignUpResponseDto = IResponse;

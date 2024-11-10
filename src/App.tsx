@@ -11,6 +11,7 @@ import MarkedTransactionContainer from "./containers/MarkedTransactionContainer.
 import SettingsContainer from "./containers/SettingsContainer.tsx";
 import Login from "./components/Login/Login.tsx";
 import AuthGuard from "./guards/AuthGuard.tsx";
+import SignUp from "./shared/pages/SignUp.tsx";
 
 function App() {
   const darkTheme = createTheme({
@@ -27,6 +28,7 @@ function App() {
             <Routes>
               <Route path={`/`} element={<Navigate to={`/login`} />}></Route>
               <Route path={"/login"} element={<Login />} />
+              <Route path={`/signup`} element={<SignUp />} />
               <Route path={"/"} element={<AuthGuard />}>
                 <Route path={`/`} element={<MasterLayout />}>
                   <Route path={`atm-cards`} element={<AtmCards />} />
