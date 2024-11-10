@@ -15,6 +15,7 @@ import { fetchTransactionById } from "../store/transactions/transactionApi.ts";
 export type TMapStateToProps = (state: RootState) => {
   transactions: ITransactions[];
   selectedTransaction: ITransactions | null;
+  loading: boolean;
 };
 export type TMapDispatchToProps = (dispatch: AppDispatch) => {
   markTransaction: typeof markTransaction;
@@ -30,6 +31,7 @@ export const mapStateToProps: TMapStateToProps = ({
 }: RootState) => ({
   transactions: transactionSlice.markedTransactions,
   selectedTransaction: transactionSlice.selectedTransaction,
+  loading: transactionSlice.loading,
 });
 
 export const mapDispatchToProps: TMapDispatchToProps = (

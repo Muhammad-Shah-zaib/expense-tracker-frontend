@@ -27,6 +27,13 @@ const userSlice = createSlice({
       state.username = username;
       state.token = token;
     },
+    logout(state) {
+      state.firstname = "";
+      state.lastname = "";
+      state.username = "";
+      state.token = null;
+      localStorage.setItem("JWT", "");
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -51,4 +58,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { setUser } = userSlice.actions;
+export const { setUser, logout } = userSlice.actions;

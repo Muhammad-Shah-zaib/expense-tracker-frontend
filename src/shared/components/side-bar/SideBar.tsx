@@ -4,10 +4,13 @@ import { motion } from "framer-motion";
 import { icons, MAIN_MENU } from "./iconsAnimations.ts";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { logout } from "../../../store/user/userSlice.ts";
+import { useAppDispatch } from "../../../store/store.ts";
 
 const SideBar = () => {
   // state to store current active tab
   const [currentActiveTab, setCurrentActiveTab] = useState<string>(MAIN_MENU);
+  const dispatch = useAppDispatch();
 
   return (
     <div className="h-full max-h-[1024px] w-full bg-primary py-4 flex flex-col justify-between items-center overflow-hidden">
@@ -53,6 +56,9 @@ const SideBar = () => {
       <div className="cursor-pointer h-[50px] w-[50px] bg-gray-100 overflow-hidden rounded-full flex items-center justify-center bg-secondary hover:bg-secondary-700 transition-all duration-200">
         <motion.div
           whileHover={{ scale: 1.2, x: -5 }}
+          onClick={() => {
+            dispatch(logout());
+          }}
           className="flex items-center justify-center w-full h-full"
         >
           <img src={logoutLogo} className="w-[24px] h-[24px]" alt="Logout" />
