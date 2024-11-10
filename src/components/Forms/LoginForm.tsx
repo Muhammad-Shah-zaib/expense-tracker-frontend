@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import { motion } from "framer-motion";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILoginRequestDto } from "../../store/user/types.ts";
@@ -72,6 +72,7 @@ export default function LoginForm({
             onClick={handleSubmit(onSubmit)}
             disabled={loading}
           >
+            {loading && <CircularProgress size={12} className={`mr-4`} />}
             {loading ? "logging in..." : "Login"}
           </Button>
         </motion.div>

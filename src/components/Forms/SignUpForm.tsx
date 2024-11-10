@@ -1,4 +1,10 @@
-import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -121,6 +127,7 @@ export default function SignUpForm({
             disabled={loading}
             onClick={handleSubmit(onSubmit)}
           >
+            {loading && <CircularProgress size={12} className={`mr-4`} />}
             {loading ? "signing up..." : "Sign Up"}
           </Button>
         </motion.div>
