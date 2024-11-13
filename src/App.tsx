@@ -12,6 +12,8 @@ import SettingsContainer from "./containers/SettingsContainer.tsx";
 import Login from "./components/Login/Login.tsx";
 import AuthGuard from "./guards/AuthGuard.tsx";
 import SignUp from "./shared/pages/SignUp.tsx";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function App() {
   const darkTheme = createTheme({
@@ -19,36 +21,42 @@ function App() {
       mode: "dark",
     },
   });
+
   return (
-    <Provider store={store}>
-      <div className={`font-roboto text-gray-100`}>
-        <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
-          <BrowserRouter>
-            <Routes>
-              <Route path={`/`} element={<Navigate to={`/login`} />}></Route>
-              <Route path={"/login"} element={<Login />} />
-              <Route path={`/signup`} element={<SignUp />} />
-              <Route path={"/"} element={<AuthGuard />}>
-                <Route path={`/`} element={<MasterLayout />}>
-                  <Route path={`atm-cards`} element={<AtmCards />} />
-                  <Route path={`charts`} element={<Charts />} />
-                  <Route
-                    path={`transactions`}
-                    element={<TransactionContainer />}
-                  />
-                  <Route
-                    path={"/marked-transactions"}
-                    element={<MarkedTransactionContainer />}
-                  />
-                  <Route path={`settings`} element={<SettingsContainer />} />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Provider store={store}>
+        <div className="font-roboto text-gray-100">
+          <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <BrowserRouter>
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Navigate to="/login" />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
+
+                {/* Authenticated Routes */}
+                <Route path="/" element={<AuthGuard />}>
+                  <Route path="/" element={<MasterLayout />}>
+                    <Route path="atm-cards" element={<AtmCards />} />
+                    <Route path="charts" element={<Charts />} />
+                    <Route
+                      path="transactions"
+                      element={<TransactionContainer />}
+                    />
+                    <Route
+                      path="marked-transactions"
+                      element={<MarkedTransactionContainer />}
+                    />
+                    <Route path="settings" element={<SettingsContainer />} />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </ThemeProvider>
-      </div>
-    </Provider>
+              </Routes>
+            </BrowserRouter>
+          </ThemeProvider>
+        </div>
+      </Provider>
+    </LocalizationProvider>
   );
 }
 

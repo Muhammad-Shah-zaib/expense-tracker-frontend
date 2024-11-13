@@ -1,9 +1,14 @@
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
-import { IUserSliceState } from "../../store/user/types.ts";
 
 // prop type
-export type TSettingsProps = IUserSliceState;
+export interface ISettingsProps {
+  firstname: string;
+  lastname: string;
+  username: string;
+  image: string;
+  email: string;
+}
 
 // component
 const Settings = ({
@@ -12,7 +17,7 @@ const Settings = ({
   username,
   image,
   email,
-}: TSettingsProps) => {
+}: ISettingsProps) => {
   return (
     <div className={`w-full h-full overflow-auto`}>
       <div className={`flex flex-col gap-6 max-w-[650px] px-4`}>

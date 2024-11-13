@@ -1,19 +1,37 @@
+// Header.tsx
+import { useState } from "react";
 import searchIcon from "../../assets/search.svg";
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import MeImg from "../../../public/me-welcome-seecs.jpeg";
 import Button from "@mui/material/Button";
+import AddExpenseFormDialog from "../Forms/AddExpenseFormDialog.tsx";
 
 const Header = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleSearchFocus = () => {
     if (searchInputRef.current) searchInputRef.current.focus();
   };
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  const handleAddExpense = (data: any) => {
+    console.log("Expense Data Submitted:", data);
+    // Here you can add code to handle the form submission (e.g., API call)
+  };
+
   return (
     <div className={`w-full flex justify-end px-4 py-2`}>
       <div className={`flex gap-4 items-center`}>
-        {/*Search*/}
+        {/* Search */}
         <form
           onClick={handleSearchFocus}
           className={`hidden sm:flex cursor-pointer bg-primary w-[350px] px-4 py-2 rounded-lg gap-2`}
@@ -21,7 +39,7 @@ const Header = () => {
           <input
             ref={searchInputRef}
             placeholder={`Search transactions`}
-            className={` font-mono font-bold text-sm outline-none bg-transparent border-none w-full`}
+            className={`font-mono font-bold text-sm outline-none bg-transparent border-none w-full`}
           />
           <button
             type={"submit"}
@@ -40,11 +58,13 @@ const Header = () => {
           <Button
             variant={"contained"}
             color={"success"}
+            onClick={handleOpenDialog}
             className={`sm:font-medium text-xs sm:text-base bg-tertiary text-tertiary-950 px-4 py-2 rounded-lg hover:bg-tertiary-600 transition-all duration-200 shadow-lg shadow-primary-950`}
           >
             Add Expense
           </Button>
         </motion.div>
+
         {/* Image of the user */}
         <div
           className={`w-[64px] h-[64px] rounded-full overflow-hidden border-2 border-secondary`}
@@ -52,6 +72,13 @@ const Header = () => {
           <img src={MeImg} />
         </div>
       </div>
+
+      {/* Dialog for Adding Expense */}
+      <AddExpenseFormDialog
+        open={isDialogOpen}
+        onClose={handleCloseDialog}
+        onSubmit={handleAddExpense}
+      />
     </div>
   );
 };
