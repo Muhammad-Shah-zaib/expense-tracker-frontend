@@ -12,37 +12,27 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"; // Correct import
-import { Dayjs } from "dayjs"; // to handle date formatting if needed
+import { TAddExpenseFormDialogProps } from "../../containers/AddExpenseFormDialogContainer.tsx";
+import { IAddTransactionRequestDto } from "../../store/transactions/types.ts";
+import { Dayjs } from "dayjs";
 
-type FormValues = {
-  type: string;
-  date: Dayjs | null;
-  description: string;
-  cardNumber: string;
-  purpose: string;
-  userId: number;
-  amount: number;
-  marked: boolean;
-};
-
-interface AddExpenseFormDialogProps {
-  open: boolean;
-  onClose: () => void;
-  onSubmit: (data: FormValues) => void;
+interface FormValues extends Omit<IAddTransactionRequestDto, "date"> {
+  date: Dayjs | null; // Override the type for 'date'
 }
 
-const AddExpenseFormDialog: React.FC<AddExpenseFormDialogProps> = ({
+const AddExpenseFormDialog: React.FC<TAddExpenseFormDialogProps> = ({
   open,
   onClose,
-  onSubmit,
+  loading,
+  addTransactionApi,
 }) => {
-  const { handleSubmit, control, reset } = useForm<FormValues>({
+  const { handleSubmit, control } = useForm<FormValues>({
     defaultValues: {
       type: "credit",
-      date: null,
       description: "",
+      date: null,
       cardNumber: "",
-      purpose: "",
+      purpose: "Bill Payment",
       userId: 0,
       amount: 0,
       marked: false,
@@ -50,9 +40,8 @@ const AddExpenseFormDialog: React.FC<AddExpenseFormDialogProps> = ({
   });
 
   const handleFormSubmit = (data: FormValues) => {
-    onSubmit(data);
-    reset(); // Reset form after submission
-    onClose(); // Close dialog
+    addTransactionApi({ ...data, userId: 10 });
+    onClose();
   };
 
   // Format the card number with dashes
@@ -63,13 +52,11 @@ const AddExpenseFormDialog: React.FC<AddExpenseFormDialogProps> = ({
     return cleaned.replace(/(.{4})(?=.)/g, "$1-");
   };
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Add New Expense</DialogTitle>
       <DialogContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <form onSubmit={handleSubmit(handleFormSubmit)} className={`relative`}>
           {/* Type Dropdown */}
           <Controller
             name="type"
@@ -200,11 +187,15 @@ const AddExpenseFormDialog: React.FC<AddExpenseFormDialogProps> = ({
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button disabled={loading} onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit(handleFormSubmit)} color="primary">
-          Add Expense
+        <Button
+          disabled={loading}
+          onClick={handleSubmit(handleFormSubmit)}
+          color="primary"
+        >
+          {loading ? "Adding" : "Add Expense"}
         </Button>
       </DialogActions>
     </Dialog>

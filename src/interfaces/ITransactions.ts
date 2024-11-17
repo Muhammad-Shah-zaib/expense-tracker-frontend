@@ -1,4 +1,6 @@
 // Define the type for a transaction
+import { Dayjs } from "dayjs";
+
 export default interface ITransactions {
   id: number;
   type: "debit" | "credit";
@@ -17,7 +19,7 @@ export default interface ITransactions {
     | "Salary"
     | "Loan";
   amount: number;
-  date: string;
+  date: string | null | Dayjs;
   description: string;
   cardNumber: string;
   marked: boolean;

@@ -14,6 +14,7 @@ import AuthGuard from "./guards/AuthGuard.tsx";
 import SignUp from "./shared/pages/SignUp.tsx";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import TransactionSnackbar from "./shared/SnackBards/TransactionSnackbar.tsx";
 
 function App() {
   const darkTheme = createTheme({
@@ -25,6 +26,9 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Provider store={store}>
+        <div>
+          <TransactionSnackbar />
+        </div>
         <div className="font-roboto text-gray-100">
           <ThemeProvider theme={darkTheme}>
             <CssBaseline />

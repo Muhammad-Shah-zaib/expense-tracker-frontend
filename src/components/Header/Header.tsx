@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 import MeImg from "../../../public/me-welcome-seecs.jpeg";
 import Button from "@mui/material/Button";
-import AddExpenseFormDialog from "../Forms/AddExpenseFormDialog.tsx";
+import AddExpenseFormDialogContainer from "../../containers/AddExpenseFormDialogContainer.tsx";
 
 const Header = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -21,11 +21,6 @@ const Header = () => {
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
-  };
-
-  const handleAddExpense = (data: any) => {
-    console.log("Expense Data Submitted:", data);
-    // Here you can add code to handle the form submission (e.g., API call)
   };
 
   return (
@@ -74,10 +69,9 @@ const Header = () => {
       </div>
 
       {/* Dialog for Adding Expense */}
-      <AddExpenseFormDialog
+      <AddExpenseFormDialogContainer
         open={isDialogOpen}
         onClose={handleCloseDialog}
-        onSubmit={handleAddExpense}
       />
     </div>
   );

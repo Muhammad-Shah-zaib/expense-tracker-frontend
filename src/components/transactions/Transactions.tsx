@@ -95,7 +95,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
     setDialogOpen(false);
   };
 
-  const currentTransactions = transactions.slice(
+  let currentTransactions = transactions.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage,
   );
@@ -140,7 +140,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
                     ? `+${transaction.amount}`
                     : `-${transaction.amount}`}
                 </TableCell>
-                <TableCell>{transaction.date}</TableCell>
+                <TableCell>{transaction.date as string}</TableCell>
                 <TableCell>{transaction.description}</TableCell>
                 <TableCell style={{ width: 150 }}>
                   <div style={{ overflowX: "auto", whiteSpace: "nowrap" }}>

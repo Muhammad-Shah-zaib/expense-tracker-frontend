@@ -1,11 +1,19 @@
 import ITransactions from "../../interfaces/ITransactions.ts";
 import { IResponse } from "../types.ts";
 
+export type TSnackBarSeverity = "error" | "info" | "success" | "warning";
+
 export interface ITransactionState {
   transactions: ITransactions[];
   markedTransactions: ITransactions[];
   selectedTransaction: ITransactions | null;
   loading: boolean;
+  addTransactionLoading: boolean;
+  snackbar: {
+    open: boolean;
+    message: string;
+    severity: "error" | "info" | "success" | "warning";
+  };
 }
 // mark transaction DTO
 export interface IMarkTransactionDto {
@@ -35,4 +43,11 @@ export interface IFetchNotesRequestDto {
 }
 export interface IFetchNotesResponseDto extends IResponse {
   transactions: ITransactions[];
+}
+
+export interface IAddTransactionRequestDto extends ITransactions {
+  userId: number;
+}
+export interface IAddTransactionResponseDto extends IResponse {
+  transaction: ITransactions;
 }

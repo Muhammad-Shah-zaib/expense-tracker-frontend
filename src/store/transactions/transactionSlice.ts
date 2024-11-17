@@ -6,21 +6,37 @@ import {
   IMarkTransactionDto,
   ITransactionState,
   IUpdateTransactionDto,
+  TSnackBarSeverity,
 } from "./types.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchTransactionById } from "./transactionApi.ts";
+import { addTransactionApi, fetchTransactionById } from "./transactionApi.ts";
 
 const initialState: ITransactionState = {
   transactions: [],
   markedTransactions: [],
   selectedTransaction: null,
   loading: false,
+  addTransactionLoading: false,
+  snackbar: { open: false, message: "", severity: "success" },
 };
 
 const transactionSlice = createSlice({
   name: "transaction",
   initialState,
   reducers: {
+    showSnackbar(
+      state,
+      {
+        payload,
+      }: PayloadAction<{ message: string; severity: TSnackBarSeverity }>,
+    ) {
+      state.snackbar.open = true;
+      state.snackbar.message = payload.message;
+      state.snackbar.severity = payload.severity;
+    },
+    hideSnackbar(state) {
+      state.snackbar.open = false;
+    },
     // mark the transaction
     markTransaction(
       state,
@@ -82,6 +98,7 @@ const transactionSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // FETCH TRANSACTIONS
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     builder.addCase(
       fetchTransactionById.fulfilled,
@@ -107,6 +124,31 @@ const transactionSlice = createSlice({
         state.loading = false;
         state.transactions = [];
         state.markedTransactions = [];
+      }),
+      //   ADD TRANSACTION
+      builder.addCase(addTransactionApi.fulfilled, (state, { payload }) => {
+        state.addTransactionLoading = false;
+        if (payload.statusCode === 200) {
+          state.transactions = [...state.transactions, payload.transaction];
+          // Show success snackbar after adding the transaction
+          state.snackbar.open = true;
+          state.snackbar.message = "Transaction added successfully!";
+          state.snackbar.severity = "success";
+        } else {
+          state.snackbar.open = true;
+          state.snackbar.message = "Transaction failed to add!";
+          state.snackbar.severity = "error";
+        }
+      }),
+      builder.addCase(addTransactionApi.pending, (state) => {
+        state.addTransactionLoading = true;
+      }),
+      builder.addCase(addTransactionApi.rejected, (state) => {
+        state.addTransactionLoading = false;
+        state.snackbar.open = true;
+        state.snackbar.message =
+          "Something went wrong! Transaction failed to add!";
+        state.snackbar.severity = "error";
       });
   },
 });
@@ -118,4 +160,6 @@ export const {
   addTransaction,
   changeSelectedTransaction,
   updateTransaction,
+  showSnackbar,
+  hideSnackbar,
 } = transactionSlice.actions;
