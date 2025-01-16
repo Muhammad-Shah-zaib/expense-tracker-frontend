@@ -23,7 +23,6 @@ import {
 import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog";
 import { fetchTransactionById } from "../../store/transactions/transactionApi.ts";
 import CircularSpinner from "../../shared/components/CIrcularSpinner/CircularSpinner.tsx";
-import { useSelector } from "react-redux";
 import { useAppSelector } from "../../store/store.ts";
 
 export interface ITransactionsProps {
