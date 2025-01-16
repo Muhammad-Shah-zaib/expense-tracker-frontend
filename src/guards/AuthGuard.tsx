@@ -26,6 +26,7 @@ const AuthGuard = () => {
     // Decode the token and extract details
     const decodedToken: IJwtToken = jwtDecode(jwtTokenFromStorage);
     const obj: ISetUser = {
+      userId: Number.parseInt(decodedToken.userId),
       firstname: decodedToken.FirstName,
       lastname: decodedToken.LastName,
       username: decodedToken.sub,

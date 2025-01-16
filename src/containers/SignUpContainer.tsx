@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "../store/store.ts";
-import { SignUpApiThunk } from "../store/user/SignUpApi.tsx";
+import { SignUpApiThunk } from "../store/user/SignUpApi.ts";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect } from "react-redux";
 import SignUpForm from "../components/Forms/SignUpForm.tsx";

@@ -54,7 +54,7 @@ const EditTransactionFormDialog: React.FC<EditTransactionFormDialogProps> = ({
           className="space-y-4 pt-2"
         >
           <Controller
-            name="transactionType"
+            name="type"
             control={control}
             render={({ field }) => (
               <TextField {...field} label="Transaction Type" select fullWidth>

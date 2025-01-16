@@ -23,6 +23,8 @@ import {
 import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog";
 import { fetchTransactionById } from "../../store/transactions/transactionApi.ts";
 import CircularSpinner from "../../shared/components/CIrcularSpinner/CircularSpinner.tsx";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "../../store/store.ts";
 
 export interface ITransactionsProps {
   transactions: ITransactions[];
@@ -46,9 +48,11 @@ const Transactions: React.FC<ITransactionsProps> = ({
   fetchTransactionById,
   loading,
 }) => {
+  const userId: number = useAppSelector((state) => state.userSlice.userId);
   useEffect(() => {
-    fetchTransactionById({ id: 10 });
-  }, []);
+    if (userId && userId != -1)
+      fetchTransactionById({ id: userId });
+  }, [userId]);
 
   const [lastSelectedTransaction, setLastSelectedTransaction] =
     useState<ITransactions>();

@@ -7,9 +7,10 @@ import {
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import profileImage from "../../../public/me-welcome-seecs.jpeg";
 import loginApiThunk from "./LoginApi.ts";
-import { SignUpApiThunk } from "./SignUpApi.tsx";
+import { SignUpApiThunk } from "./SignUpApi.ts";
 
 const initialState: IUserSliceState = {
+  userId: -1,
   token: null,
   firstname: "",
   lastname: "",
@@ -31,15 +32,17 @@ const userSlice = createSlice({
     setUser(
       state,
       {
-        payload: { firstname, lastname, username, token },
-      }: PayloadAction<ISetUser>,
+        payload: { firstname, lastname, username, token, userId },
+      }: PayloadAction<ISetUser>
     ) {
+      state.userId = userId;
       state.firstname = firstname;
       state.lastname = lastname;
       state.username = username;
       state.token = token;
     },
     logout(state) {
+      state.userId = -1;
       state.firstname = "";
       state.lastname = "";
       state.username = "";
@@ -57,6 +60,7 @@ const userSlice = createSlice({
         state.loginLoading = false;
         if (payload.statusCode === 200) {
           localStorage.setItem("JWT", payload.token);
+          state.userId = payload.userId
           state.firstname = payload.firstName;
           state.lastname = payload.lastName;
           state.username = payload.username;
@@ -70,7 +74,7 @@ const userSlice = createSlice({
           state.loginErrorMessage = payload.message;
           state.loginSuccess = false;
         }
-      },
+      }
     ),
       builder.addCase(loginApiThunk.pending, (state) => {
         state.loginLoading = true;
@@ -92,7 +96,7 @@ const userSlice = createSlice({
             state.singUpSuccess = false;
             state.signUpErrorMessage = payload.message;
           }
-        },
+        }
       ),
       builder.addCase(SignUpApiThunk.pending, (state) => {
         state.singUpSuccess = false;

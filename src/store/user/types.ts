@@ -1,6 +1,7 @@
 import { IResponse } from "../types.ts";
 
 export interface IUserSliceState {
+  userId: number;
   firstname: string;
   lastname: string;
   email: string;
@@ -16,6 +17,7 @@ export interface IUserSliceState {
 }
 
 export interface ISetUser {
+  userId: number;
   firstname: string;
   lastname: string;
   username: string;
@@ -38,6 +40,7 @@ export interface ILoginRequestDto {
 }
 
 export interface ILoginResponseDto extends IResponse {
+  userId: number;
   token: string;
   username: string;
   firstName: string;
