@@ -9,7 +9,7 @@ import {
   TSnackBarSeverity,
 } from "./types.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addTransactionApi, fetchTransactionById } from "./transactionApi.ts";
+import { addTransactionApi, fetchTransactionById, markTransactionApi } from "./transactionApi.ts";
 
 const initialState: ITransactionState = {
   transactions: [],
@@ -150,6 +150,23 @@ const transactionSlice = createSlice({
           "Something went wrong! Transaction failed to add!";
         state.snackbar.severity = "error";
       });
+
+    // MARK TRANSACTION
+    builder.addCase(markTransactionApi.fulfilled, (state, _) => {
+      state.loading = false;
+      state.snackbar.open = true;
+      state.snackbar.message = "Transaction Marked successfully!";
+      state.snackbar.severity = "success";
+    });
+    builder.addCase(markTransactionApi.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(markTransactionApi.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.snackbar.open = true;
+      state.snackbar.message = payload || "Failed to mark transaction!";
+      state.snackbar.severity = "error";
+    });
   },
 });
 

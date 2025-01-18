@@ -3,14 +3,13 @@ import {
   addTransaction,
   changeSelectedTransaction,
   deleteTransaction,
-  markTransaction,
   updateTransaction,
 } from "../store/transactions/transactionSlice.ts";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import Transactions from "../components/transactions/Transactions.tsx";
 import { connect } from "react-redux";
 import ITransactions from "../interfaces/ITransactions.ts";
-import { fetchTransactionById } from "../store/transactions/transactionApi.ts";
+import { fetchTransactionById, markTransactionApi } from "../store/transactions/transactionApi.ts";
 
 export type TMapStateToProps = (state: RootState) => {
   transactions: ITransactions[];
@@ -18,7 +17,7 @@ export type TMapStateToProps = (state: RootState) => {
   loading: boolean;
 };
 export type TMapDispatchToProps = (dispatch: AppDispatch) => {
-  markTransaction: typeof markTransaction;
+  markTransaction: typeof markTransactionApi;
   addTransaction: typeof addTransaction;
   deleteTransaction: typeof deleteTransaction;
   changeSelectedTransaction: typeof changeSelectedTransaction;
@@ -39,7 +38,7 @@ export const mapDispatchToProps: TMapDispatchToProps = (
 ) => {
   return bindActionCreators(
     {
-      markTransaction,
+      markTransaction: markTransactionApi,
       addTransaction,
       deleteTransaction,
       changeSelectedTransaction,
