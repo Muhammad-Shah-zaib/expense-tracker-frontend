@@ -5,15 +5,20 @@ import {
   IFetchNotesResponseDto,
   ITransactionState,
   IAddTransactionResponseDto,
+  IMarkTransactionRequestDto,
+  IMarkTransactionResponseDto
 } from "./types";
 import {
   FETCH_TRANSACTION_URL,
+  MARK_TRANSACTION_ENDPOINT,
   TRANSACTION_ENDPOINT,
 } from "../../environment/development";
 
 // Action string
 const FETCH_TRANSACTIONS_BY_ID = "transaction/fetchNotesById";
 const ADD_TRANSACTION = "transaction/add";
+const MARK_TRANSACTION = "transaction/mark";
+
 
 export const fetchTransactionById = createAsyncThunk<
   IFetchNotesResponseDto,
@@ -48,7 +53,6 @@ export const addTransactionApi = createAsyncThunk<
   { state: ITransactionState }
 >(ADD_TRANSACTION, async (request, { rejectWithValue, dispatch }) => {
   try {
-    console.log(`sending request => ${JSON.stringify(request)}`);
     const response = await fetch(TRANSACTION_ENDPOINT, {
       method: "POST",
       headers: {
@@ -70,3 +74,37 @@ export const addTransactionApi = createAsyncThunk<
     return rejectWithValue(error as string);
   }
 });
+
+
+// Thunk action for marking a transaction
+export const markTransactionApi = createAsyncThunk<
+  IMarkTransactionResponseDto,
+  IMarkTransactionRequestDto,
+  { rejectValue: string }
+>(
+  MARK_TRANSACTION,
+  async (request, { rejectWithValue }) => {
+
+    const url = `${MARK_TRANSACTION_ENDPOINT}${request.transactionId}/mark?userId=${request.userId}`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // handling rejected response
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        return rejectWithValue(errorResponse.message || 'Failed to mark transaction');
+      }
+
+      
+      return response.json();
+    } catch (error) {
+      return rejectWithValue('An error occurred while marking the transaction');
+    }
+  }
+);

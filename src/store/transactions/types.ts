@@ -1,3 +1,4 @@
+import { IosShareSharp } from "@mui/icons-material";
 import ITransactions from "../../interfaces/ITransactions.ts";
 import { IResponse } from "../types.ts";
 
@@ -50,4 +51,13 @@ export interface IAddTransactionRequestDto extends ITransactions {
 }
 export interface IAddTransactionResponseDto extends IResponse {
   transaction: ITransactions;
+}
+
+export interface IMarkTransactionResponseDto extends IResponse {
+  success: boolean;
+}
+
+export interface IMarkTransactionRequestDto {
+  userId: number;
+  transactionId: number;
 }

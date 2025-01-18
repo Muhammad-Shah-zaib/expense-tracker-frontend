@@ -17,11 +17,10 @@ import {
   addTransaction,
   changeSelectedTransaction,
   deleteTransaction,
-  markTransaction,
   updateTransaction,
 } from "../../store/transactions/transactionSlice.ts";
 import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog";
-import { fetchTransactionById } from "../../store/transactions/transactionApi.ts";
+import { fetchTransactionById, markTransactionApi } from "../../store/transactions/transactionApi.ts";
 import CircularSpinner from "../../shared/components/CIrcularSpinner/CircularSpinner.tsx";
 import { useAppSelector } from "../../store/store.ts";
 
@@ -29,7 +28,7 @@ export interface ITransactionsProps {
   transactions: ITransactions[];
   loading: boolean;
   selectedTransaction: ITransactions | null;
-  markTransaction: typeof markTransaction;
+  markTransaction: typeof markTransactionApi;
   deleteTransaction: typeof deleteTransaction;
   addTransaction: typeof addTransaction;
   updateTransaction: typeof updateTransaction;
@@ -178,6 +177,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
                         onClick={() => {
                           markTransaction({
                             transactionId: selectedTransaction!.id,
+                            userId,
                           });
                           handleMenuClose();
                         }}
