@@ -11,6 +11,7 @@ import { RootState, AppDispatch } from "../store/store";
  */
 export const mapStateToProps = (state: RootState) => ({
   lastSevenDaysData: state.graphSlice.lastSevenDays, // Graph data for the last seven days
+  loading: state.graphSlice.loading, // Loading state for the graph data
   userId: state.userSlice.userId, // Current user's ID
 });
 
@@ -30,6 +31,7 @@ export const mapDispatchToProps = (dispatch: AppDispatch) =>
  */
 interface ICurrentWeekBarChartContainerProps {
   lastSevenDaysData: IChartData; // Chart data for the last seven days
+  loading: boolean; // Loading state
   userId: number; // Current user's ID
   fetchLastSevenDaysData: typeof fetchLastSevenDaysData; // Function to fetch last seven days' data
 }
@@ -40,6 +42,7 @@ interface ICurrentWeekBarChartContainerProps {
  */
 const CurrentWeekBarChartContainer = ({
   lastSevenDaysData,
+  loading,
   userId,
   fetchLastSevenDaysData,
 }: ICurrentWeekBarChartContainerProps) => {
@@ -56,8 +59,8 @@ const CurrentWeekBarChartContainer = ({
     debitData: lastSevenDaysData.debitData,
   };
 
-  // Render the chart component with the prepared data
-  return <CurrentWeekBarChart chartData={chartData} />;
+  // Render the chart component with the prepared data and loading state
+  return <CurrentWeekBarChart chartData={chartData} loading={loading} />;
 };
 
 // Connect the container component to the Redux store

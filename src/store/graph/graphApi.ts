@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IGetGraphDataRequestDto, IGetGraphDataResponseDto } from "./types";
 import { FETCH_LAST_SEVEN_DAYS_DATA_ENDPOINT } from "../../environment/development";
+import { delay } from "../../utils/delay";
 
 // Actions
 const FETCH_LAST_SEVEN_DAYS_DATA = "graph/fetchLastSevenDaysData";
@@ -20,6 +21,7 @@ export const fetchLastSevenDaysData = createAsyncThunk<
     }
 
     const data: IGetGraphDataResponseDto = await response.json();
+    await delay(300);
     return data;
   } catch (error: any) {
     return rejectWithValue(error.message || "Something went wrong");
