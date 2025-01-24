@@ -10,6 +10,7 @@ import {
 } from "./types.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addTransactionApi, fetchTransactionById, markTransactionApi } from "./transactionApi.ts";
+import { IResponse } from "../types.ts";
 
 const initialState: ITransactionState = {
   transactions: [],
@@ -143,11 +144,12 @@ const transactionSlice = createSlice({
       builder.addCase(addTransactionApi.pending, (state) => {
         state.addTransactionLoading = true;
       }),
-      builder.addCase(addTransactionApi.rejected, (state) => {
+      builder.addCase(addTransactionApi.rejected, (state, action) => {
         state.addTransactionLoading = false;
         state.snackbar.open = true;
-        state.snackbar.message =
-          "Something went wrong! Transaction failed to add!";
+        const payload = action.payload as IResponse;
+        state.snackbar.message = payload.message || 
+        "Something went wrong! Transaction failed to add!";
         state.snackbar.severity = "error";
       });
 

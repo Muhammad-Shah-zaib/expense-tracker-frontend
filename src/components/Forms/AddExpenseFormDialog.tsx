@@ -15,6 +15,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker"; // Correct import
 import { TAddExpenseFormDialogProps } from "../../containers/AddExpenseFormDialogContainer.tsx";
 import { IAddTransactionRequestDto } from "../../store/transactions/types.ts";
 import { Dayjs } from "dayjs";
+import { useAppSelector } from "../../store/store.ts";
 
 interface FormValues extends Omit<IAddTransactionRequestDto, "date"> {
   date: Dayjs | null; // Override the type for 'date'
@@ -26,6 +27,7 @@ const AddExpenseFormDialog: React.FC<TAddExpenseFormDialogProps> = ({
   loading,
   addTransactionApi,
 }) => {
+  const userId = useAppSelector((state) => state.userSlice.userId);
   const { handleSubmit, control } = useForm<FormValues>({
     defaultValues: {
       type: "credit",
@@ -33,14 +35,14 @@ const AddExpenseFormDialog: React.FC<TAddExpenseFormDialogProps> = ({
       date: null,
       cardNumber: "",
       purpose: "Bill Payment",
-      userId: 0,
+      userId: userId,
       amount: 0,
       marked: false,
     },
   });
 
   const handleFormSubmit = (data: FormValues) => {
-    addTransactionApi({ ...data, userId: 10 });
+    addTransactionApi({ ...data, userId });
     onClose();
   };
 

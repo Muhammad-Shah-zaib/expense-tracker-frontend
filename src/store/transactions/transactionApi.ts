@@ -6,19 +6,19 @@ import {
   ITransactionState,
   IAddTransactionResponseDto,
   IMarkTransactionRequestDto,
-  IMarkTransactionResponseDto
+  IMarkTransactionResponseDto,
 } from "./types";
 import {
   FETCH_TRANSACTION_URL,
   MARK_TRANSACTION_ENDPOINT,
   TRANSACTION_ENDPOINT,
 } from "../../environment/development";
+import { IResponse } from "../types";
 
 // Action string
 const FETCH_TRANSACTIONS_BY_ID = "transaction/fetchNotesById";
 const ADD_TRANSACTION = "transaction/add";
 const MARK_TRANSACTION = "transaction/mark";
-
 
 export const fetchTransactionById = createAsyncThunk<
   IFetchNotesResponseDto,
@@ -42,7 +42,7 @@ export const fetchTransactionById = createAsyncThunk<
     return data as IFetchNotesResponseDto;
   } catch (error) {
     return rejectWithValue(
-      error instanceof Error ? error.message : "Unknown error",
+      error instanceof Error ? error.message : "Unknown error"
     );
   }
 });
@@ -52,11 +52,13 @@ export const addTransactionApi = createAsyncThunk<
   IAddTransactionRequestDto,
   { state: ITransactionState }
 >(ADD_TRANSACTION, async (request, { rejectWithValue, dispatch }) => {
+  console.log(request);
   try {
     const response = await fetch(TRANSACTION_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer",
       },
       body: JSON.stringify(request),
     });
@@ -70,41 +72,36 @@ export const addTransactionApi = createAsyncThunk<
     const data: IAddTransactionResponseDto = await response.json();
     return data;
   } catch (error: unknown) {
-    // Handle network or other errors
-    return rejectWithValue(error as string);
+    return rejectWithValue(error as IResponse);
   }
 });
-
 
 // Thunk action for marking a transaction
 export const markTransactionApi = createAsyncThunk<
   IMarkTransactionResponseDto,
   IMarkTransactionRequestDto,
   { rejectValue: string }
->(
-  MARK_TRANSACTION,
-  async (request, { rejectWithValue }) => {
+>(MARK_TRANSACTION, async (request, { rejectWithValue }) => {
+  const url = `${MARK_TRANSACTION_ENDPOINT}${request.transactionId}/mark?userId=${request.userId}`;
 
-    const url = `${MARK_TRANSACTION_ENDPOINT}${request.transactionId}/mark?userId=${request.userId}`;
+  try {
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    try {
-      const response = await fetch(url, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      // handling rejected response
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        return rejectWithValue(errorResponse.message || 'Failed to mark transaction');
-      }
-
-      
-      return response.json();
-    } catch (error) {
-      return rejectWithValue('An error occurred while marking the transaction');
+    // handling rejected response
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return rejectWithValue(
+        errorResponse.message || "Failed to mark transaction"
+      );
     }
+
+    return response.json();
+  } catch (error) {
+    return rejectWithValue("An error occurred while marking the transaction");
   }
-);
+});
