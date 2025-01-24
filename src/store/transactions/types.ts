@@ -1,4 +1,3 @@
-import { IosShareSharp } from "@mui/icons-material";
 import ITransactions from "../../interfaces/ITransactions.ts";
 import { IResponse } from "../types.ts";
 
