@@ -27,7 +27,7 @@ export default function LoginForm({
     loginApiThunk(data);
   };
   return (
-    <div className="flex flex-col items-center justify-between gap-4 p-8 bg-zinc-900 w-[400px] h-[400px]">
+    <div className="flex flex-col items-center justify-between gap-4 p-8 bg-zinc-900 max-w-[400px] md:h-[400px]">
       {/* For proper spacing */}
       <div className={`flex justify-center`}>
         {errorMessage && (
