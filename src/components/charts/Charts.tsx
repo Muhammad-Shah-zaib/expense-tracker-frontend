@@ -1,7 +1,7 @@
 import * as React from "react";
 import LastMonthBarChart from "./last-month-bar-chart/LastMonthBarChart.tsx";
 import DownloadTransactions from "./download-transactions/DownloadTransactions.tsx";
-import TotalDebitsThisMonth from "./total-debits-this-month/TotalDebitsThisMonth.tsx";
+import TotalLastLastMonth from "./total-debits-this-month/TotalDebitsLastMonth.tsx";
 import SpendingTrend from "./spending-trend/SpendingTrend.tsx";
 import LastMonthPieChart from "./last-month-pie-chart/LastMonthPieChart.tsx";
 import ExpenseDataTable from "./expense-data-table/ExpenseDataTable.tsx";
@@ -10,8 +10,12 @@ import { IconButton } from "@mui/material";
 import { motion } from "framer-motion";
 import SlideDialogExpenseDataTable from "./expense-data-table/SlideDialogExpenseDataTable.tsx";
 import ConnectedCurrentWeekBarChartContainer from "../../containers/CurrentWeekBarChartContainer.tsx";
+import { useAppDispatch, useAppSelector } from "../../store/store.ts";
+import { fetchLastMonthCreditDebitData } from "../../store/graph/graphApi.ts";
 
 const Charts = () => {
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.userSlice.userId);
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleOpenDialog = () => {
@@ -21,6 +25,9 @@ const Charts = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+  React.useEffect(() => {
+    dispatch(fetchLastMonthCreditDebitData({ userId }));
+  }, [userId, fetchLastMonthCreditDebitData, dispatch]);
 
   return (
     <div className={`w-full max-h-[85vh] overflow-auto`}>
@@ -46,7 +53,7 @@ const Charts = () => {
                 <LastMonthBarChart />
               </div>
               <div className={`w-full`}>
-                <TotalDebitsThisMonth />
+                <TotalLastLastMonth />
               </div>
               <div className={`w-full`}>
                 <SpendingTrend />

@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { Button } from "@mui/material";
 import DialogDebitChart from "./DialogDebitChart.tsx";
 
-const TotalDebitsThisMonth = () => {
+const TotalLastLastMonth = () => {
   const [open, setOpen] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const DEBITS_THIS_MONTH = 8500;
@@ -49,4 +49,4 @@ const TotalDebitsThisMonth = () => {
   );
 };
 
-export default TotalDebitsThisMonth;
+export default TotalLastLastMonth;
