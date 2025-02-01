@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { axisClasses, BarChart } from "@mui/x-charts";
+import { useAppSelector } from "../../../store/store";
 
 interface IDialogDebitChartProps {
   open: boolean;
@@ -11,6 +12,10 @@ const DialogDebitChart: React.FC<IDialogDebitChartProps> = ({
   open,
   handleClose,
 }) => {
+  const { lastMonthWeeklyDebitData, xAxisLabels, yAxisLabel } = useAppSelector(
+    (state) => state.graphSlice.lastMonthReport
+  );
+
   return (
     <Dialog maxWidth={"sm"} fullWidth={true} open={open} onClose={handleClose}>
       <DialogTitle sx={{ m: 0, p: 2 }}>Received Last Month</DialogTitle>
@@ -35,10 +40,10 @@ const DialogDebitChart: React.FC<IDialogDebitChartProps> = ({
             xAxis={[
               {
                 scaleType: "band",
-                data: ["Week 1", "Week 2", "Week 3", "Week 4"],
+                data: xAxisLabels,
               },
             ]}
-            yAxis={[{ label: "Debits" }]}
+            yAxis={[{ label: yAxisLabel }]}
             sx={[
               {
                 [`.${axisClasses.left} .${axisClasses.label}`]: {
@@ -46,7 +51,7 @@ const DialogDebitChart: React.FC<IDialogDebitChartProps> = ({
                 },
               },
             ]}
-            series={[{ data: [500, 0, 700, 240], label: "Debits" }]} // Adjust data as needed
+            series={[{ data: lastMonthWeeklyDebitData, label: "Debits" }]} // Adjust data as needed
           />
         </div>
       </DialogContent>
