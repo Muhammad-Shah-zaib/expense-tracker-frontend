@@ -4,10 +4,13 @@ import {
   IFetchLastMonthCreditDebitDataResponseDto,
   IGetGraphDataRequestDto,
   IGetGraphDataResponseDto,
+  IGetLastMonthCategoryWiseSpendingRequestDto,
+  IGetLastMonthCategoryWiseSpendingResponseDto,
   IGetPreviousFiveMonthDataRequestDto,
   IGetPreviousFiveMonthDataResponseDto,
 } from "./types";
 import {
+  FETCH_LAST_MONTH_CATEGORY_SUMMARY_ENDPOINT,
   FETCH_LAST_MONTH_REPORT_ENDPOINT,
   FETCH_LAST_SEVEN_DAYS_DATA_ENDPOINT,
   FETCH_PREV_5_MONTHS_DATA_ENDPOINT,
@@ -103,3 +106,29 @@ export const fetchPreviousFiveMonthData = createAsyncThunk<
     return rejectWithValue(error.message || "Something went wrong");
   }
 });
+
+// Fetch data for the last month (thunk)
+export const fetchLastMonthCategoryWiseData = createAsyncThunk<
+  IGetLastMonthCategoryWiseSpendingResponseDto, // Return type
+  IGetLastMonthCategoryWiseSpendingRequestDto, // Argument type
+  { rejectValue: string } // Rejection type
+>(
+  "fetch/lastMonthCategoryWiseData",
+  async ({ userId }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${FETCH_LAST_MONTH_CATEGORY_SUMMARY_ENDPOINT}/${userId}`
+      );
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage || "Failed to fetch data");
+      }
+
+      return await response.json();
+
+    } catch (error: any) {
+      return rejectWithValue(error.message || "Something went wrong");
+    }
+  }
+);
