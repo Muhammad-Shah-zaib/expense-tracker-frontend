@@ -23,7 +23,7 @@ const MARK_TRANSACTION = "transaction/mark";
 export const fetchTransactionById = createAsyncThunk<
   IFetchNotesResponseDto,
   IFetchNotesRequestDto,
-  { state: ITransactionState }
+  { rejectValue: string }
 >(FETCH_TRANSACTIONS_BY_ID, async ({ id }, { rejectWithValue }) => {
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
