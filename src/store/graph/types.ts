@@ -12,17 +12,22 @@ export interface ILastMonthReport {
   xAxisLabels: string[];
   yAxisLabel: string;
 }
-
 export interface IPreviousFiveMonthsReport {
   xAxisLabels: string[];
   creditData: number[];
   debitData: number[];
 }
+export interface ILastMonthCategoryWiseData {
+  category: string;
+  totalAmount: number;
+}
+
 // Graph slice state
 export interface IGraphState {
   lastMonthReport: ILastMonthReport;
   lastSevenDays: IChartData; // Data for the last seven days
   previousFiveMonthsReport: IPreviousFiveMonthsReport,
+  lastMonthCategoryWiseData: ILastMonthCategoryWiseData[],
   loading: boolean; // To track data fetch state
   message: string | null;
   error: string | null; // To track errors during API calls
@@ -57,4 +62,14 @@ export interface IGetPreviousFiveMonthDataResponseDto extends IResponse {
   xAxisLabels: string[];
   creditData: number[];
   debitData: number[];
+}
+
+// Request DTO for last month category wise spending
+export interface IGetLastMonthCategoryWiseSpendingRequestDto {
+  userId: number;
+}
+
+// Response DTO for last month category wise spending
+export interface IGetLastMonthCategoryWiseSpendingResponseDto extends IResponse {
+  data: ILastMonthCategoryWiseData[]
 }

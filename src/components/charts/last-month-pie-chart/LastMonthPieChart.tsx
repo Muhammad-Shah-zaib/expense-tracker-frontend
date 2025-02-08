@@ -4,22 +4,31 @@ import { motion } from "framer-motion";
 import DialogPieChart from "./DialogPieChart";
 import Button from "@mui/material/Button";
 import { useMediaQuery } from "react-responsive";
+import { useAppSelector } from "../../../store/store";
 
 const LastMonthPieChart = () => {
-    // state for mobile
-    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  // state for mobile
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [open, setOpen] = useState(false);
+  const data = useAppSelector(
+    (state) => {
+      const filteredData = state.graphSlice.lastMonthCategoryWiseData.filter(item =>  item.totalAmount > 0);
+      return filteredData;
+    }
+  );
 
-  // Dummy data for expenses
-  const data = [
-    { id: 0, value: 400, label: "Food/Orders" },
-    { id: 1, value: 300, label: "Groceries" },
-    { id: 2, value: 200, label: "Bills and utilities" },
-    { id: 3, value: 250, label: "Fuel" },
-    { id: 4, value: 150, label: "Bike Maintainence" },
+  const COLOR_PALETTE = [
+    "#FF6384", // Soft Red
+    "#36A2EB", // Blue
+    "#FFCE56", // Yellow
+    "#4BC0C0", // Teal
+    "#9966FF", // Purple
+    "#FF9F40", // Orange
+    "#8D44AD", // Deep Violet
+    "#00C49F", // Green
+    "#FF5B5B", // Bright Red
+    "#2D87BB", // Dark Blue
   ];
-
-  const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -47,14 +56,18 @@ const LastMonthPieChart = () => {
               height={300}
               series={[
                 {
-                  data: [...data.map(({ id, value }) => ({ id, value }))],
+                  data: data.map(({ category, totalAmount }, index) => ({
+                    id: category,
+                    value: totalAmount,
+                    color: COLOR_PALETTE[index % COLOR_PALETTE.length], // Assign colors in a loop
+                  })),
                   outerRadius: 90,
                   cornerRadius: 3,
-                  cx: isMobile ? 95: 105,
+                  cx: isMobile ? 95 : 105,
                   cy: 100,
                 },
               ]}
-              colors={COLORS}
+              colors={COLOR_PALETTE}
             />
           </motion.div>
         </div>

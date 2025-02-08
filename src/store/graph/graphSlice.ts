@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IGraphState } from "./types";
-import { fetchLastSevenDaysData, fetchLastMonthCreditDebitData, fetchPreviousFiveMonthData } from "./graphApi";
+import {
+  fetchLastSevenDaysData,
+  fetchLastMonthCreditDebitData,
+  fetchPreviousFiveMonthData,
+  fetchLastMonthCategoryWiseData,
+} from "./graphApi";
 
 // Initial state for the graph slice
 const initialState: IGraphState = {
@@ -21,6 +26,7 @@ const initialState: IGraphState = {
     creditData: [],
     debitData: [],
   },
+  lastMonthCategoryWiseData: [],
   loading: false,
   message: null,
   error: null,
@@ -55,12 +61,17 @@ const graphSlice = createSlice({
       state.error = null;
     });
     // Handle fulfilled state for fetching last month credit and debit data
-    builder.addCase(fetchLastMonthCreditDebitData.fulfilled, (state, action) => {
-      state.loading = false;
-      state.lastMonthReport.lastMonthWeeklyCreditData = action.payload.weeklyCreditData;
-      state.lastMonthReport.lastMonthWeeklyDebitData = action.payload.weeklyDebitData;
-      state.message = "Last month data fetched successfully";
-    });
+    builder.addCase(
+      fetchLastMonthCreditDebitData.fulfilled,
+      (state, action) => {
+        state.loading = false;
+        state.lastMonthReport.lastMonthWeeklyCreditData =
+          action.payload.weeklyCreditData;
+        state.lastMonthReport.lastMonthWeeklyDebitData =
+          action.payload.weeklyDebitData;
+        state.message = "Last month data fetched successfully";
+      }
+    );
     // Handle rejected state for fetching last month credit and debit data
     builder.addCase(fetchLastMonthCreditDebitData.rejected, (state, action) => {
       state.loading = false;
@@ -84,6 +95,32 @@ const graphSlice = createSlice({
       state.loading = false;
       state.error = action.payload as string;
     });
+    // Handle pending state for fetching last month category-wise data
+    builder.addCase(fetchLastMonthCategoryWiseData.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    // Handle fulfilled state for fetching last month category-wise data
+    builder.addCase(
+      fetchLastMonthCategoryWiseData.fulfilled,
+      (state, action) => {
+        state.loading = false;
+        state.lastMonthCategoryWiseData = action.payload.data.map((item) => ({
+          category: item.category, // Ensure this matches the API response
+          totalAmount: item.totalAmount,
+        }));
+        state.message =
+          "Last month category-wise spending data fetched successfully";
+      }
+    );
+    // Handle rejected state for fetching last month category-wise data
+    builder.addCase(
+      fetchLastMonthCategoryWiseData.rejected,
+      (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      }
+    );
   },
 });
 

@@ -12,6 +12,7 @@ import SlideDialogExpenseDataTable from "./expense-data-table/SlideDialogExpense
 import ConnectedCurrentWeekBarChartContainer from "../../containers/CurrentWeekBarChartContainer.tsx";
 import { useAppDispatch, useAppSelector } from "../../store/store.ts";
 import {
+  fetchLastMonthCategoryWiseData,
   fetchLastMonthCreditDebitData,
   fetchPreviousFiveMonthData,
 } from "../../store/graph/graphApi.ts";
@@ -28,10 +29,11 @@ const Charts = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  
+
   React.useEffect(() => {
     dispatch(fetchLastMonthCreditDebitData({ userId }));
     dispatch(fetchPreviousFiveMonthData({ userId }));
+    dispatch(fetchLastMonthCategoryWiseData({ userId }));
   }, [
     userId,
     fetchLastMonthCreditDebitData,
