@@ -4,7 +4,6 @@ import DownloadTransactions from "./download-transactions/DownloadTransactions.t
 import TotalLastLastMonth from "./total-debits-this-month/TotalDebitsLastMonth.tsx";
 import SpendingTrend from "./spending-trend/SpendingTrend.tsx";
 import LastMonthPieChart from "./last-month-pie-chart/LastMonthPieChart.tsx";
-import ExpenseDataTable from "./expense-data-table/ExpenseDataTable.tsx";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { IconButton } from "@mui/material";
 import { motion } from "framer-motion";
@@ -16,6 +15,7 @@ import {
   fetchLastMonthCreditDebitData,
   fetchPreviousFiveMonthData,
 } from "../../store/graph/graphApi.ts";
+import ExpenseDataTable from "./expense-data-table/ExpenseDataTable.tsx";
 
 const Charts = () => {
   const dispatch = useAppDispatch();
