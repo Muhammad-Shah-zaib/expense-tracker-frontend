@@ -11,7 +11,10 @@ import { motion } from "framer-motion";
 import SlideDialogExpenseDataTable from "./expense-data-table/SlideDialogExpenseDataTable.tsx";
 import ConnectedCurrentWeekBarChartContainer from "../../containers/CurrentWeekBarChartContainer.tsx";
 import { useAppDispatch, useAppSelector } from "../../store/store.ts";
-import { fetchLastMonthCreditDebitData } from "../../store/graph/graphApi.ts";
+import {
+  fetchLastMonthCreditDebitData,
+  fetchPreviousFiveMonthData,
+} from "../../store/graph/graphApi.ts";
 
 const Charts = () => {
   const dispatch = useAppDispatch();
@@ -25,9 +28,16 @@ const Charts = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+  
   React.useEffect(() => {
     dispatch(fetchLastMonthCreditDebitData({ userId }));
-  }, [userId, fetchLastMonthCreditDebitData, dispatch]);
+    dispatch(fetchPreviousFiveMonthData({ userId }));
+  }, [
+    userId,
+    fetchLastMonthCreditDebitData,
+    fetchPreviousFiveMonthData,
+    dispatch,
+  ]);
 
   return (
     <div className={`w-full max-h-[85vh] overflow-auto`}>
