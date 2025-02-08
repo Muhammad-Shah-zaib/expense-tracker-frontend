@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IGraphState } from "./types";
-import { fetchLastSevenDaysData, fetchLastMonthCreditDebitData } from "./graphApi";
+import { fetchLastSevenDaysData, fetchLastMonthCreditDebitData, fetchPreviousFiveMonthData } from "./graphApi";
 
 // Initial state for the graph slice
 const initialState: IGraphState = {
@@ -16,6 +16,11 @@ const initialState: IGraphState = {
     creditData: [],
     debitData: [],
   },
+  previousFiveMonthsReport: {
+    xAxisLabels: [],
+    creditData: [],
+    debitData: [],
+  },
   loading: false,
   message: null,
   error: null,
@@ -27,35 +32,58 @@ const graphSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchLastSevenDaysData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchLastSevenDaysData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.lastSevenDays.creditData = action.payload.creditData;
-        state.lastSevenDays.debitData = action.payload.debitData;
-        state.message = "Data fetched successfully";
-      })
-      .addCase(fetchLastSevenDaysData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(fetchLastMonthCreditDebitData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchLastMonthCreditDebitData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.lastMonthReport.lastMonthWeeklyCreditData = action.payload.weeklyCreditData;
-        state.lastMonthReport.lastMonthWeeklyDebitData = action.payload.weeklyDebitData;
-        state.message = "Last month data fetched successfully";
-      })
-      .addCase(fetchLastMonthCreditDebitData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
+    // Handle pending state for fetching last seven days data
+    builder.addCase(fetchLastSevenDaysData.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    // Handle fulfilled state for fetching last seven days data
+    builder.addCase(fetchLastSevenDaysData.fulfilled, (state, action) => {
+      state.loading = false;
+      state.lastSevenDays.creditData = action.payload.creditData;
+      state.lastSevenDays.debitData = action.payload.debitData;
+      state.message = "Data fetched successfully";
+    });
+    // Handle rejected state for fetching last seven days data
+    builder.addCase(fetchLastSevenDaysData.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+    // Handle pending state for fetching last month credit and debit data
+    builder.addCase(fetchLastMonthCreditDebitData.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    // Handle fulfilled state for fetching last month credit and debit data
+    builder.addCase(fetchLastMonthCreditDebitData.fulfilled, (state, action) => {
+      state.loading = false;
+      state.lastMonthReport.lastMonthWeeklyCreditData = action.payload.weeklyCreditData;
+      state.lastMonthReport.lastMonthWeeklyDebitData = action.payload.weeklyDebitData;
+      state.message = "Last month data fetched successfully";
+    });
+    // Handle rejected state for fetching last month credit and debit data
+    builder.addCase(fetchLastMonthCreditDebitData.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+    // Handle pending state for fetching previous five months data
+    builder.addCase(fetchPreviousFiveMonthData.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    // Handle fulfilled state for fetching previous five months data
+    builder.addCase(fetchPreviousFiveMonthData.fulfilled, (state, action) => {
+      state.loading = false;
+      state.previousFiveMonthsReport.xAxisLabels = action.payload.xAxisLabels;
+      state.previousFiveMonthsReport.creditData = action.payload.creditData;
+      state.previousFiveMonthsReport.debitData = action.payload.debitData;
+      state.message = "Previous five months data fetched successfully";
+    });
+    // Handle rejected state for fetching previous five months data
+    builder.addCase(fetchPreviousFiveMonthData.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
   },
 });
 

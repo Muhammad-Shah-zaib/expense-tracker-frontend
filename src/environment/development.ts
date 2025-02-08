@@ -9,6 +9,7 @@ export const MARK_TRANSACTION_ENDPOINT = `${API_URL}/Transaction/` // {id}/mark
 // Graph
 export const FETCH_LAST_SEVEN_DAYS_DATA_ENDPOINT = `${API_URL}/graph/weekly-summary`
 export const FETCH_LAST_MONTH_REPORT_ENDPOINT = `${API_URL}/graph/last-month-credit-debit-summary`
+export const FETCH_PREV_5_MONTHS_DATA_ENDPOINT = `${API_URL}/graph/previous-5-month-summary`
 
 // Login API
 export const LOGIN_URL = `${API_URL}/Login`;

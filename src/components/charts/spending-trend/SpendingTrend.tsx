@@ -2,11 +2,24 @@ import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@mui/material";
 import DialogSpendingTrendChart from "./DialogSpendingTrendChart.tsx";
+import { useAppSelector } from "../../../store/store.ts";
 
 const SpendingTrend = () => {
+  const chartData = useAppSelector(
+    (state) => state.graphSlice.previousFiveMonthsReport
+  );
+  // Calculate percentage change compared to the previous month
+  const currentMonthSpending =
+    chartData.debitData[chartData.debitData.length - 1];
+  const previousMonthSpending =
+    chartData.debitData[chartData.debitData.length - 2];
+  const percentageChange =
+    ((currentMonthSpending - previousMonthSpending) / previousMonthSpending) *
+    100;
+
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement>(null);
-  const SPENDING_TREND = 2.5;
+  const SPENDING_TREND = percentageChange.toFixed(2);
 
   const ClickBtn = (ref: React.RefObject<HTMLButtonElement>) => {
     if (ref.current) ref.current.click();
@@ -25,8 +38,10 @@ const SpendingTrend = () => {
         <span className={`text-sm font-bold font-mulish text-primary-400`}>
           Spending Trend
         </span>
-        <span className={`font-playpen font-bold text-rose-500 text-sm`}>
-          +{SPENDING_TREND}%
+        <span className={`font-playpen font-bold ${percentageChange >= 0 ? "text-rose-500": "text-green-500"}  text-sm`}>
+          <span className={`${percentageChange >= 0 ? "inline" : "hidden"}`}>+</span>
+          
+          {SPENDING_TREND}%
         </span>
       </div>
       <div
@@ -44,7 +59,7 @@ const SpendingTrend = () => {
           </Button>
         </motion.div>
         <DialogSpendingTrendChart
-          {...{ open: dialogOpen, handleClose: handleDialogClose }}
+          {...{ open: dialogOpen, handleClose: handleDialogClose, SPENDING_TREND, chartData, PERCENTAGE_CHANGE: percentageChange }}
         />
       </div>
     </div>
