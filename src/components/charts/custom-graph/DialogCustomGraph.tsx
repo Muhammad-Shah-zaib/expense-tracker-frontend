@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Dayjs } from "dayjs";
+import CustomGraph from "./CustomGraph";
 
 type GraphType = "bar" | "line" | "pie";
 
@@ -22,6 +23,8 @@ const DialogCustomGraph: React.FC<DialogCustomGraphProps> = ({ open, onClose }) 
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [graphType, setGraphType] = useState<GraphType>("bar");
+  const [showGraph, setShowGraph] = useState(false);
+  const [graphData, setGraphData] = useState({ labels: ["A", "B", "C", "D", "E", "F"], values: [10, 20, 30, 23, 28, 11] });
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -53,6 +56,7 @@ const DialogCustomGraph: React.FC<DialogCustomGraphProps> = ({ open, onClose }) 
             <MenuItem value="line">Line Chart</MenuItem>
             <MenuItem value="pie">Pie Chart</MenuItem>
           </TextField>
+          {showGraph && <CustomGraph type={graphType} data={graphData} />}
         </div>
       </DialogContent>
       <DialogActions>
@@ -60,7 +64,7 @@ const DialogCustomGraph: React.FC<DialogCustomGraphProps> = ({ open, onClose }) 
           Cancel
         </Button>
         <Button
-          onClick={() => console.log({ startDate, endDate, graphType })}
+          onClick={() => setShowGraph(true)}
           color="primary"
         >
           Generate Graph
