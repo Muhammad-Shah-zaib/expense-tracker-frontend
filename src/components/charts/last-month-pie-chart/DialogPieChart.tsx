@@ -7,11 +7,11 @@ import CustomLegend from "./CustomLegend";
 
 interface IDialogPieChartProps {
   open: boolean;
-  handleClose: () => void;
+  onClose: () => void;
   data: ILastMonthCategoryWiseData[];
 }
 
-const DialogPieChart = ({ open, handleClose, data }: IDialogPieChartProps) => {
+const DialogPieChart = ({ open, onClose, data }: IDialogPieChartProps) => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const totalAmount = data.reduce((sum, item) => sum + item.totalAmount, 0);
@@ -33,7 +33,7 @@ const DialogPieChart = ({ open, handleClose, data }: IDialogPieChartProps) => {
   const legendData = data.map((item, index) => ({
     id: item.category,
     value: item.totalAmount,
-    percentage: ((item.totalAmount / totalAmount) * 100).toFixed(3),
+    percentage: parseFloat(((item.totalAmount / totalAmount) * 100).toFixed(3)),
     color: COLOR_PALETTE[index % COLOR_PALETTE.length],
   }));
 
@@ -43,12 +43,12 @@ const DialogPieChart = ({ open, handleClose, data }: IDialogPieChartProps) => {
   );
 
   return (
-    <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose}>
+    <Dialog maxWidth="sm" fullWidth open={open} onClose={onClose}>
       <DialogTitle sx={{ m: 0, p: 2 }}>
         Total Spending Last Month
         <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={onClose}
           sx={{
             position: "absolute",
             right: 8,
