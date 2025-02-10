@@ -5,11 +5,13 @@ import DialogPieChart from "./DialogPieChart";
 import Button from "@mui/material/Button";
 import { useMediaQuery } from "react-responsive";
 import { useAppSelector } from "../../../store/store";
+import DialogCustomGraph from "../custom-graph/DialogCustomGraph";
 
 const LastMonthPieChart = () => {
   // state for mobile
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-  const [open, setOpen] = useState(false);
+  const [pieChartOpen, setPieChartOpen] = useState(false);
+  const [customGraphOpen, setCustomGraphOpen] = useState(false);
   const data = useAppSelector(
     (state) => {
       const filteredData = state.graphSlice.lastMonthCategoryWiseData.filter(item =>  item.totalAmount > 0);
@@ -30,8 +32,11 @@ const LastMonthPieChart = () => {
     "#2D87BB", // Dark Blue
   ];
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handlepieChartOpen = () => setPieChartOpen(true);
+  const handlePieChartClose = () => setPieChartOpen(false);
+
+  const handleCustomGraphOpen = () => setCustomGraphOpen(true);
+  const handleCustomGraphClose = () => setCustomGraphOpen(false);
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -42,7 +47,7 @@ const LastMonthPieChart = () => {
           Total spending of last month
         </h2>
         <div
-          onClick={handleOpen}
+          onClick={handlepieChartOpen}
           className={`w-full h-full select-none overflow-none`}
         >
           <motion.div
@@ -73,16 +78,19 @@ const LastMonthPieChart = () => {
         </div>
 
         {/* Use DialogPieChart component */}
-        <DialogPieChart open={open} handleClose={handleClose} data={data} />
+        <DialogPieChart open={pieChartOpen} onClose={handlePieChartClose} data={data} />
       </div>
       <div
         className={`w-full h-[150px] bg-primary rounded-lg max-w-[300px] relative flex items-center justify-center`}
       >
         <div className={`absolute blur-xl bg-primary-900 w-full h-full`}></div>
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Button variant={`text`}>View Custom Graph</Button>
+          <Button onClick={handleCustomGraphOpen} variant={`text`}>View Custom Graph</Button>
         </motion.div>
       </div>
+
+      {/* Use DialogCustomGraph */}
+      <DialogCustomGraph open={customGraphOpen} onClose={handleCustomGraphClose} />
     </div>
   );
 };
