@@ -12,6 +12,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   addTransactionApi,
   fetchTransactionById,
+  fetchTransactionSummary,
   markTransactionApi,
 } from "./transactionApi.ts";
 import { IResponse } from "../types.ts";
@@ -22,6 +23,8 @@ const initialState: ITransactionState = {
   selectedTransaction: null,
   loading: false,
   addTransactionLoading: false,
+  transactionWithDateLoading: false,
+  transactionWIthDateDate: [],
   snackbar: { open: false, message: "", severity: "success" },
 };
 
@@ -112,19 +115,21 @@ const transactionSlice = createSlice({
       ) => {
         state.loading = false;
         if (statusCode == 200) {
-          transactions = transactions.map(t => ({
+          transactions = transactions.map((t) => ({
             ...t, // Spread the existing properties
-            date: t.date ? new Date(t.date as string).toLocaleString("en-GB", { 
-              day: "2-digit", 
-              month: "2-digit", 
-              year: "numeric", 
-              hour: "2-digit", 
-              minute: "2-digit", 
-              second: "2-digit", 
-              hour12: false 
-            }) : "Invalid Date"
+            date: t.date
+              ? new Date(t.date as string).toLocaleString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hour12: false,
+                })
+              : "Invalid Date",
           }));
-          
+
           state.transactions = transactions;
           state.markedTransactions = transactions.filter((t) => t.marked);
         } else if (statusCode == 404) state.transactions = [];
@@ -184,6 +189,24 @@ const transactionSlice = createSlice({
       state.loading = false;
       state.snackbar.open = true;
       state.snackbar.message = payload || "Failed to mark transaction!";
+      state.snackbar.severity = "error";
+    });
+    builder.addCase(fetchTransactionSummary.fulfilled, (state, { payload }) => {
+      state.transactionWithDateLoading = false;
+      state.transactionWIthDateDate = payload.dayWiseTransactions;
+      state.snackbar.open = true;
+      state.snackbar.message = "Transaction downloaded successfully!";
+      state.snackbar.severity = "success";
+      
+    });
+    builder.addCase(fetchTransactionSummary.pending, (state) => {
+      state.transactionWithDateLoading = true;
+    });
+    builder.addCase(fetchTransactionSummary.rejected, (state, { payload }) => {
+      state.transactionWithDateLoading = false;
+      state.snackbar.open = true;
+      state.snackbar.message =
+        payload || "Failed to fetch transaction with date!";
       state.snackbar.severity = "error";
     });
   },
