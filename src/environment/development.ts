@@ -11,6 +11,7 @@ export const FETCH_LAST_SEVEN_DAYS_DATA_ENDPOINT = `${API_URL}/graph/weekly-summ
 export const FETCH_LAST_MONTH_REPORT_ENDPOINT = `${API_URL}/graph/last-month-credit-debit-summary`
 export const FETCH_PREV_5_MONTHS_DATA_ENDPOINT = `${API_URL}/graph/previous-5-month-summary`
 export const FETCH_LAST_MONTH_CATEGORY_SUMMARY_ENDPOINT = `${API_URL}/graph/category-wise-summary`; // Adjust based on your actual API endpoint
+export const FETCH_CUSTOM_GRAPH_SUMMARY_ENDPOINT = `${API_URL}/graph/summary`;
 
 // Login API
 export const LOGIN_URL = `${API_URL}/Login`;

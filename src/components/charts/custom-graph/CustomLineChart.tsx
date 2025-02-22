@@ -1,10 +1,8 @@
 import { LineChart, axisClasses } from "@mui/x-charts";
+import { IGraphData } from "../../../interfaces/IGraphData";
 
 interface LineChartProps {
-  data: {
-    labels: string[];
-    values: number[];
-  };
+  data: IGraphData;
 }
 
 const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
@@ -13,7 +11,9 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
       <LineChart
         width={400} // Adjusted width
         height={280} // Adjusted height
-        xAxis={[{ scaleType: "point", data: data.labels, label: "Categories" }]} // Using "point" scale for line chart
+        xAxis={[
+          { scaleType: "point", data: data.labels, label: data.interval },
+        ]} // Using "point" scale for line chart
         yAxis={[{ label: "Value" }]}
         sx={{
           [`& .${axisClasses.left} .${axisClasses.label}`]: {
@@ -29,7 +29,7 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
             data: data.values,
             label: "Data",
             showMark: true,
-            color: "#3b82f6",
+            color: data.graphColor,
           },
         ]}
       />

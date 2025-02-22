@@ -5,6 +5,7 @@ import {
   fetchLastMonthCreditDebitData,
   fetchPreviousFiveMonthData,
   fetchLastMonthCategoryWiseData,
+  fetchCustomSummary,
 } from "./graphApi";
 
 // Initial state for the graph slice
@@ -27,6 +28,11 @@ const initialState: IGraphState = {
     debitData: [],
   },
   lastMonthCategoryWiseData: [],
+  customSummary: {
+    creditData: [],
+    debitData: [],
+    yAxisLabels: [],
+  },
   loading: false,
   message: null,
   error: null,
@@ -120,7 +126,22 @@ const graphSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       }
-    );
+    ),
+    builder.addCase(fetchCustomSummary.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchCustomSummary.fulfilled, (state, action) => {
+      state.loading = false;
+      state.customSummary.creditData = action.payload.creditData;
+      state.customSummary.debitData = action.payload.debitData;
+      state.customSummary.yAxisLabels = action.payload.yAxisLabels;
+      state.message = action.payload.message;
+    });
+    builder.addCase(fetchCustomSummary.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });;
   },
 });
 
