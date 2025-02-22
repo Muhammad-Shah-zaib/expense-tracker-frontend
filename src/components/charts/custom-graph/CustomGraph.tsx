@@ -2,10 +2,11 @@ import { Card, CardContent } from "@mui/material";
 import CustomBarChart from "./CustomBarChart";
 import CustomLineChart from "./CustomLineChart";
 import CustomPieChart from "./CustomPieChart";
+import { IGraphData } from "../../../interfaces/IGraphData";
 
 interface CustomGraphProps {
   type: "bar" | "pie" | "line";
-  data: any; // Replace with a proper type based on your graph library
+  data: IGraphData;
 }
 
 const CustomGraph: React.FC<CustomGraphProps> = ({ type, data }) => {

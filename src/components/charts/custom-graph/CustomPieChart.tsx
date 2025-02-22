@@ -1,10 +1,8 @@
 import { PieChart } from "@mui/x-charts";
+import { IGraphData } from "../../../interfaces/IGraphData";
 
 interface PieChartProps {
-  data: {
-    labels: string[];
-    values: number[];
-  };
+  data: IGraphData;
 }
 
 const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {

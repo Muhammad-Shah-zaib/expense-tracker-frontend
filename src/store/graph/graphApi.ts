@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  IFetchCustomSummaryRequestDto,
+  IFetchCustomSummaryResponseDto,
   IFetchLastMonthCreditDebitDataRequestDto,
   IFetchLastMonthCreditDebitDataResponseDto,
   IGetGraphDataRequestDto,
@@ -10,12 +12,14 @@ import {
   IGetPreviousFiveMonthDataResponseDto,
 } from "./types";
 import {
+  FETCH_CUSTOM_GRAPH_SUMMARY_ENDPOINT,
   FETCH_LAST_MONTH_CATEGORY_SUMMARY_ENDPOINT,
   FETCH_LAST_MONTH_REPORT_ENDPOINT,
   FETCH_LAST_SEVEN_DAYS_DATA_ENDPOINT,
   FETCH_PREV_5_MONTHS_DATA_ENDPOINT,
 } from "../../environment/development";
 import { delay } from "../../utils/delay";
+import { RootState } from "../store";
 
 // Actions
 const FETCH_LAST_SEVEN_DAYS_DATA = "graph/fetchLastSevenDaysData";
@@ -126,9 +130,37 @@ export const fetchLastMonthCategoryWiseData = createAsyncThunk<
       }
 
       return await response.json();
-
     } catch (error: any) {
       return rejectWithValue(error.message || "Something went wrong");
+    }
+  }
+);
+
+// Async thunk for fetching custom summary
+export const fetchCustomSummary = createAsyncThunk<
+  IFetchCustomSummaryResponseDto,
+  IFetchCustomSummaryRequestDto,
+  { state: RootState }
+>(
+  "graph/fetchCustomSummary",
+  async ({ startDate, endDate, userId, interval }, { rejectWithValue }) => {
+    try {
+      const url = `${FETCH_CUSTOM_GRAPH_SUMMARY_ENDPOINT}/${userId}?startDate=${startDate}&endDate=${endDate}&interval=${interval}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const data: IFetchCustomSummaryResponseDto = await response.json();
+      return data;
+    } catch (error: any) {
+      return rejectWithValue(error.message || "An error occurred");
     }
   }
 );

@@ -21,16 +21,22 @@ export interface ILastMonthCategoryWiseData {
   category: string;
   totalAmount: number;
 }
+export interface ICustomGraphData {
+  creditData: number[];
+  debitData: number[];
+  yAxisLabels: string[];
+};
 
-// Graph slice state
+// Updated Graph slice state
 export interface IGraphState {
   lastMonthReport: ILastMonthReport;
-  lastSevenDays: IChartData; // Data for the last seven days
-  previousFiveMonthsReport: IPreviousFiveMonthsReport,
-  lastMonthCategoryWiseData: ILastMonthCategoryWiseData[],
-  loading: boolean; // To track data fetch state
+  lastSevenDays: IChartData;
+  previousFiveMonthsReport: IPreviousFiveMonthsReport;
+  lastMonthCategoryWiseData: ILastMonthCategoryWiseData[];
+  customSummary: ICustomGraphData;
+  loading: boolean;
   message: string | null;
-  error: string | null; // To track errors during API calls
+  error: string | null;
 }
 
 export interface IFetchLastMonthCreditDebitDataResponseDto extends IResponse {
@@ -51,7 +57,6 @@ export interface IGetGraphDataResponseDto extends IResponse {
   debitData: number[];
 }
 
-
 // Request DTO for fetching previous-5-months data
 export interface IGetPreviousFiveMonthDataRequestDto {
   userId: number;
@@ -70,6 +75,22 @@ export interface IGetLastMonthCategoryWiseSpendingRequestDto {
 }
 
 // Response DTO for last month category wise spending
-export interface IGetLastMonthCategoryWiseSpendingResponseDto extends IResponse {
-  data: ILastMonthCategoryWiseData[]
+export interface IGetLastMonthCategoryWiseSpendingResponseDto
+  extends IResponse {
+  data: ILastMonthCategoryWiseData[];
+}
+
+// Define the request DTO
+export interface IFetchCustomSummaryRequestDto {
+  startDate: string; // Format: "DD-MM-YYYY"
+  endDate: string; // Format: "DD-MM-YYYY"
+  userId: number;
+  interval: "day" | "week" | "month";
+}
+
+// Define the response DTO
+export interface IFetchCustomSummaryResponseDto extends IResponse {
+  creditData: number[];
+  debitData: number[];
+  yAxisLabels: string[];
 }

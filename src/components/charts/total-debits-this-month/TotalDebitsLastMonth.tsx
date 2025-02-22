@@ -23,7 +23,7 @@ const TotalLastLastMonth = () => {
     <div className={`flex flex-col p-2 gap-4 w-full bg-primary rounded-lg`}>
       <div className={`flex flex-col gap-2 border-b border-primary-500 pb-2`}>
         <span className={`text-sm font-bold font-mulish text-primary-400`}>
-          Total Debits this month
+          Total Debits last month
         </span>
         <span className={`font-playpen font-bold text-tertiary text-sm`}>
           Rs. {DEBITS_THIS_MONTH}
