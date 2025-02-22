@@ -7,9 +7,12 @@ import {
   IAddTransactionResponseDto,
   IMarkTransactionRequestDto,
   IMarkTransactionResponseDto,
+  IFetchTRansactionWithDateRequestDto,
+  IFetchTRansactionWithDateResponseDto,
 } from "./types";
 import {
   FETCH_TRANSACTION_URL,
+  FETCH_TRANSACTION_WITH_DATE_ENDPOINT,
   MARK_TRANSACTION_ENDPOINT,
   TRANSACTION_ENDPOINT,
 } from "../../environment/development";
@@ -102,5 +105,34 @@ export const markTransactionApi = createAsyncThunk<
     return response.json();
   } catch (error) {
     return rejectWithValue("An error occurred while marking the transaction");
+  }
+});
+
+
+export const fetchTransactionSummary = createAsyncThunk<
+  IFetchTRansactionWithDateResponseDto,
+  IFetchTRansactionWithDateRequestDto,
+  { rejectValue: string }
+>("transactions/fetchSummary", async (request, { rejectWithValue }) => {
+  const { userId, startDate, endDate } = request;
+  const url = `${FETCH_TRANSACTION_WITH_DATE_ENDPOINT}/${userId}?startDate=${startDate}&endDate=${endDate}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Handling rejected response
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return rejectWithValue(errorResponse.message || "Failed to fetch transaction summary");
+    }
+
+    return response.json();
+  } catch (error) {
+    return rejectWithValue("An error occurred while fetching the transaction summary");
   }
 });

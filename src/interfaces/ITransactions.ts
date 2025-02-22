@@ -24,3 +24,14 @@ export default interface ITransactions {
   cardNumber: string;
   marked: boolean;
 }
+
+export const TRANSACTION_HEADERS_LIST = [
+  "ID",
+  "Type",
+  "Purpose",
+  "Amount",
+  "Date",
+  "Description",
+  "Card Number",
+  "Marked",
+];

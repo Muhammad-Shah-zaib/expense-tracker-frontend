@@ -82,8 +82,8 @@ export interface IGetLastMonthCategoryWiseSpendingResponseDto
 
 // Define the request DTO
 export interface IFetchCustomSummaryRequestDto {
-  startDate: string; // Format: "DD-MM-YYYY"
-  endDate: string; // Format: "DD-MM-YYYY"
+  startDate: string;
+  endDate: string;
   userId: number;
   interval: "day" | "week" | "month";
 }

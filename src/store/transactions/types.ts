@@ -9,6 +9,8 @@ export interface ITransactionState {
   selectedTransaction: ITransactions | null;
   loading: boolean;
   addTransactionLoading: boolean;
+  transactionWithDateLoading: boolean;
+  transactionWIthDateDate: ITransactions[];
   snackbar: {
     open: boolean;
     message: string;
@@ -59,4 +61,15 @@ export interface IMarkTransactionResponseDto extends IResponse {
 export interface IMarkTransactionRequestDto {
   userId: number;
   transactionId: number;
+}
+
+export interface IFetchTRansactionWithDateRequestDto {
+  userId: number;
+  startDate: string;
+  endDate: string;
+}
+
+
+export interface IFetchTRansactionWithDateResponseDto extends IResponse {
+  dayWiseTransactions: ITransactions[];
 }
