@@ -1,37 +1,39 @@
 import CurrentBalanceCard from "../../cards/CurrentBalanceCard.tsx";
-import AtmCard from "../../cards/AtmCard.tsx";
-import { motion } from "framer-motion";
 import LatestActivity from "./LatestActivity.tsx";
-import { useAppDispatch, useAppSelector } from "../../../store/store.ts";
 import { IconButton } from "@mui/material";
 import { KeyboardArrowDownSharp } from "@mui/icons-material";
-import { useRef, useState } from "react";
-import { changeQuickMenuCard } from "../../../store/cards/cardSlice.ts";
-import { useNavigate } from "react-router-dom";
-
+import { useEffect, useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../store/store.ts";
+import { fetchCreditsSummary } from "../../../store/transactions/transactionApi.ts";
 
 const QuickMenu = () => {
-  // router hooks
-  const navigate= useNavigate();
-
   const NAME = "Muhammad Shahzaib";
   const DESIGNATION = "CS student at NUST";
-
-  // get the dispatch
+  const userId = useAppSelector((state) => state.userSlice.userId);
+  const creditsAmount = useAppSelector(
+    (state) => state.transactionSlice.creditsAmount
+  );
+  const creditsSummaryLoading = useAppSelector(
+    (state) => state.transactionSlice.creditsSummaryLoading
+  );
   const dispatch = useAppDispatch();
 
   // states
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-
-  // Card details
-  const { cardDetails, cards } = useAppSelector((state) => ({
-    cardDetails: state.cardSlice.quickMenuCard,
-    cards: state.cardSlice.cards,
-  }));
+  const [selectedCreditsOption, setselectedCreditsOption] =
+    useState<string>("overall");
 
   // Ref for the dropdown menu
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    dispatch(
+      fetchCreditsSummary({
+        userId: userId,
+        creditReportType: selectedCreditsOption,
+      })
+    );
+  }, [fetchCreditsSummary, selectedCreditsOption, userId]);
   return (
     <div
       className={`text-gray-100 max-h-[800px] w-full h-full bg-primary px-4 py-4 flex flex-col gap-4 h-md:justify-start justify-between h-md:gap-7 overflow-hidden`}
@@ -49,27 +51,24 @@ const QuickMenu = () => {
         {/* Current balance card */}
         <CurrentBalanceCard />
 
-        {/* ATM CARD */}
+        {/* CREDITS SUMMARY */}
         <div className={`w-full`}>
           {/* HEADER */}
           <div className={`p-2 flex justify-between items-center`}>
-            <span className={`font-medium`}>ATM Cards</span>
+            <span className={`font-medium`}>
+              Credits - {selectedCreditsOption}
+            </span>
             <div className={`flex gap-2`}>
-              <motion.button
-                onClick={()=> navigate(`/atm-cards`)}
-                className={`px-2 py-0.5 hover:bg-primary-900 rounded-lg shadow shadow-primary-900 font-playpen`}
-                whileTap={{ scale: 0.9 }}
-                whileHover={{ scale: 1.1 }}
-              >
-                View All
-              </motion.button>
-
               {/* DROP-DOWN TO CHANGE CARD */}
               <div className={`flex flex-col gap-2 relative`}>
-                <div className={`hover:bg-zinc-600 ${dropdownOpen && "bg-zinc-700"} rounded-md`}>
+                <div
+                  className={`hover:bg-zinc-600 ${dropdownOpen && "bg-zinc-700"} rounded-md`}
+                >
                   <div
                     className={`transition-transform duration-300 ${dropdownOpen ? "rotate-180" : "rotate-0"}`}
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    onClick={() => {
+                      setDropdownOpen(!dropdownOpen);
+                    }}
                   >
                     <IconButton
                       className={`bg-transparent hover:bg-transparent`}
@@ -87,30 +86,59 @@ const QuickMenu = () => {
                   } overflow-auto`}
                 >
                   <div className={`py-2 flex flex-col`}>
-                    {cards.map((card) => (
-                      <div
-                        key={card.cardNumber}
-                        onClick={() => {
-                          dispatch(changeQuickMenuCard({ card }));
-                          setDropdownOpen(false);
-                        }}
-                        className={`hover:bg-primary-600 p-2 rounded-sm cursor-pointer`}
-                      >
-                        <span>{card.companyName}</span>
-                      </div>
-                    ))}
+                    <div
+                      className={`hover:bg-primary-600 p-2 rounded-sm cursor-pointer`}
+                      onClick={() => {
+                        setselectedCreditsOption("overall");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      <span>overall</span>
+                    </div>
+                    <div
+                      className={`hover:bg-primary-600 p-2 rounded-sm cursor-pointer`}
+                      onClick={() => {
+                        setselectedCreditsOption("this-month");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      <span>This Month</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <AtmCard
-            holderName={cardDetails.holderName}
-            companyName={cardDetails.companyName}
-            cardType={cardDetails.cardType}
-            balance={cardDetails.balance}
-            cardNumber={cardDetails.cardNumber}
-          />
+          <div
+            className={`cursor-pointer w-full max-w-[400px] rounded-lg shadow-lg shadow-primary-900 bg-gradient-to-br flex justify-center items-center p-2 from-rose-500 to-indigo-600 text-gray-100 transition-all duration-200`}
+          >
+            <div
+              className={`w-full flex flex-col rounded-lg justify-between max-w-[300px] h-[160px]`}
+            >
+              {/* Header */}
+              <header className={`w-full flex items-center justify-between`}>
+                <span className={`font-medium`}>Credits Report</span>
+                <span className={`font-medium font-mulish`}>
+                  {selectedCreditsOption.replace("-", " ")}
+                </span>
+              </header>
+              <main
+                className={`flex flex-col gap-1 bg-transparent items-center`}
+              >
+                <span className={`text-2xl font-bold font-playpen`}>
+                  Rs. {creditsSummaryLoading ? "..." : creditsAmount}
+                </span>
+                <span className={`text-lg font-bold font-mono`}>
+                  {/* Format card number */}
+                </span>
+              </main>
+              <footer className={`w-full flex items-center`}>
+                <span className={`text-xs font-bold font-mono`}>
+                  Muhammad Shahzaib
+                </span>
+              </footer>
+            </div>
+          </div>
         </div>
       </section>
       {/* Latest Activity */}

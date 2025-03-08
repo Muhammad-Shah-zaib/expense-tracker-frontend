@@ -16,11 +16,14 @@ import ITransactions from "../../interfaces/ITransactions";
 import {
   addTransaction,
   changeSelectedTransaction,
-  deleteTransaction,
   updateTransaction,
 } from "../../store/transactions/transactionSlice.ts";
+import { DeleteTransaction as deleteTransaction } from "../../store/transactions/transactionApi.ts";
 import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog";
-import { fetchTransactionById, markTransactionApi } from "../../store/transactions/transactionApi.ts";
+import {
+  fetchTransactionById,
+  markTransactionApi,
+} from "../../store/transactions/transactionApi.ts";
 import CircularSpinner from "../../shared/components/CIrcularSpinner/CircularSpinner.tsx";
 import { useAppSelector } from "../../store/store.ts";
 
@@ -48,8 +51,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
 }) => {
   const userId: number = useAppSelector((state) => state.userSlice.userId);
   useEffect(() => {
-    if (userId && userId != -1)
-      fetchTransactionById({ id: userId });
+    if (userId && userId != -1) fetchTransactionById({ id: userId });
   }, [userId]);
 
   const [lastSelectedTransaction, setLastSelectedTransaction] =
@@ -61,7 +63,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
 
   const handleMenuClick = (
     event: React.MouseEvent<HTMLElement>,
-    transaction: ITransactions,
+    transaction: ITransactions
   ) => {
     setAnchorEl(event.currentTarget);
     changeSelectedTransaction({ transaction });
@@ -78,7 +80,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -99,7 +101,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
 
   let currentTransactions = transactions.slice(
     page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage,
+    page * rowsPerPage + rowsPerPage
   );
 
   if (loading) {
@@ -166,6 +168,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
                       <MenuItem
                         onClick={() => {
                           deleteTransaction({
+                            userId,
                             transactionId: selectedTransaction!.id,
                           });
                           handleMenuClose();

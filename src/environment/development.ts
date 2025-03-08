@@ -6,6 +6,8 @@ export const FETCH_TRANSACTION_URL = `${API_URL}/Transaction`;
 export const TRANSACTION_ENDPOINT = `${API_URL}/Transaction`;
 export const MARK_TRANSACTION_ENDPOINT = `${API_URL}/Transaction/` // {id}/mark
 export const FETCH_TRANSACTION_WITH_DATE_ENDPOINT = `${API_URL}/Transaction/summary`; 
+export const FETCH_CREDITS_SUMMARY_ENDPOINT = `${API_URL}/Transaction/summary-credits`; // {id}
+export const DELETE_TRANSACTION_URL = `${API_URL}/Transaction`; // {id}
 
 // Graph
 export const FETCH_LAST_SEVEN_DAYS_DATA_ENDPOINT = `${API_URL}/graph/weekly-summary`

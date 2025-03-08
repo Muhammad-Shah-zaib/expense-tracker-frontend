@@ -53,7 +53,7 @@ const SideBar = () => {
         ))}
       </div>
 
-      <div className="cursor-pointer h-[50px] w-[50px] bg-gray-100 overflow-hidden rounded-full flex items-center justify-center bg-secondary hover:bg-secondary-700 transition-all duration-200">
+      <div className="cursor-pointer h-[50px] w-[50px] overflow-hidden rounded-full flex items-center justify-center bg-secondary hover:bg-secondary-700 transition-all duration-200">
         <motion.div
           whileHover={{ scale: 1.2, x: -5 }}
           onClick={() => {

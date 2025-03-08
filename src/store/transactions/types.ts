@@ -11,6 +11,10 @@ export interface ITransactionState {
   addTransactionLoading: boolean;
   transactionWithDateLoading: boolean;
   transactionWIthDateDate: ITransactions[];
+  creditsCount: number | null;
+  creditsAmount: number | null;
+  creditsSummaryLoading: boolean;
+  deleteTransactionLoading: boolean;
   snackbar: {
     open: boolean;
     message: string;
@@ -69,7 +73,23 @@ export interface IFetchTRansactionWithDateRequestDto {
   endDate: string;
 }
 
-
 export interface IFetchTRansactionWithDateResponseDto extends IResponse {
   dayWiseTransactions: ITransactions[];
 }
+
+export interface IFetchCreditsSummaryRequestDto {
+  userId: number;
+  creditReportType: string; // "overall" or "this-month"
+}
+
+export interface IFetchCreditsSummaryResponseDto extends IResponse {
+  creditsAmount: number;
+  creditsCount: number;
+}
+
+export interface IDeleteTransactionRequestDto {
+  userId: number;
+  transactionId: number;
+}
+
+export interface IDeleteTransactionResponseDto extends IResponse {}
