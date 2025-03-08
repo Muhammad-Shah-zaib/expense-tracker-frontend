@@ -10,7 +10,7 @@ export const MAIN_MENU = "main-menu",
   MARKED = "marked",
   RECEIPTS = "receipts",
   CHARTS = "charts",
-  CARDS = "cards",
+  // CARDS = "cards",
   SETTINGS = "settings";
 
 // defining types for icons object
@@ -42,7 +42,7 @@ export const icons: IIcons = [
     route: "/transactions",
   },
   { id: CHARTS, src: chartsLogo, scale: 1.2, rotate: 0, route: "/charts" },
-  { id: CARDS, src: cardsLogo, scale: 1.2, rotate: 0, route: "/atm-cards" },
+  // { id: CARDS, src: cardsLogo, scale: 1.2, rotate: 0, route: "/atm-cards" },
   {
     id: SETTINGS,
     src: settingsLogo,

@@ -3,9 +3,9 @@ import { ITransactionState } from "../store/transactions/types.ts";
 import {
   addTransaction,
   changeSelectedTransaction,
-  deleteTransaction,
   updateTransaction,
 } from "../store/transactions/transactionSlice.ts";
+import { DeleteTransaction as deleteTransaction } from "../store/transactions/transactionApi.ts";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import Transactions from "../components/transactions/Transactions.tsx";
 import { connect } from "react-redux";

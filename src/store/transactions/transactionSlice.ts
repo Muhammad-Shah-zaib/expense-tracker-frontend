@@ -11,6 +11,8 @@ import {
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   addTransactionApi,
+  DeleteTransaction,
+  fetchCreditsSummary,
   fetchTransactionById,
   fetchTransactionSummary,
   markTransactionApi,
@@ -18,6 +20,10 @@ import {
 import { IResponse } from "../types.ts";
 
 const initialState: ITransactionState = {
+  deleteTransactionLoading: false,
+  creditsAmount: null,
+  creditsCount: null,
+  creditsSummaryLoading: false,
   transactions: [],
   markedTransactions: [],
   selectedTransaction: null,
@@ -197,7 +203,6 @@ const transactionSlice = createSlice({
       state.snackbar.open = true;
       state.snackbar.message = "Transaction downloaded successfully!";
       state.snackbar.severity = "success";
-      
     });
     builder.addCase(fetchTransactionSummary.pending, (state) => {
       state.transactionWithDateLoading = true;
@@ -209,6 +214,53 @@ const transactionSlice = createSlice({
         payload || "Failed to fetch transaction with date!";
       state.snackbar.severity = "error";
     });
+    // FETCH CREDITS SUMMARY
+    builder.addCase(fetchCreditsSummary.fulfilled, (state, { payload }) => {
+      state.creditsSummaryLoading = false;
+      state.creditsAmount = payload.creditsAmount;
+      state.creditsCount = payload.creditsCount;
+      state.snackbar.open = true;
+      state.snackbar.message = "Credits summary fetched successfully!";
+      state.snackbar.severity = "success";
+    });
+    builder.addCase(fetchCreditsSummary.pending, (state) => {
+      state.creditsSummaryLoading = true;
+    });
+    builder.addCase(fetchCreditsSummary.rejected, (state, { payload }) => {
+      state.creditsSummaryLoading = false;
+      state.snackbar.open = true;
+      state.snackbar.message = payload || "Failed to fetch credits summary!";
+      state.snackbar.severity = "error";
+    });
+    builder
+  .addCase(DeleteTransaction.pending, (state) => {
+    state.deleteTransactionLoading = true;
+    state.snackbar = {
+      open: true,
+      message: "Deleting transaction...",
+      severity: "info",
+    };
+  })
+  .addCase(DeleteTransaction.fulfilled, (state, action) => {
+    state.deleteTransactionLoading = false;
+    state.transactions = state.transactions.filter(
+      (transaction) => transaction.id !== action.meta.arg.transactionId
+    );
+    state.snackbar = {
+      open: true,
+      message: "Transaction deleted successfully",
+      severity: "success",
+    };
+  })
+  .addCase(DeleteTransaction.rejected, (state, action) => {
+    state.deleteTransactionLoading = false;
+    state.snackbar = {
+      open: true,
+      message: action.payload || "Failed to delete transaction",
+      severity: "error",
+    };
+  });
+
   },
 });
 

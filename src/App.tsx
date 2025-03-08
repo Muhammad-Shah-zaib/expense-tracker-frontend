@@ -42,7 +42,7 @@ function App() {
                 {/* Authenticated Routes */}
                 <Route path="/" element={<AuthGuard />}>
                   <Route path="/" element={<MasterLayout />}>
-                    <Route path="atm-cards" element={<AtmCards />} />
+                    {/* <Route path="atm-cards" element={<AtmCards />} /> */}
                     <Route path="charts" element={<Charts />} />
                     <Route
                       path="transactions"
