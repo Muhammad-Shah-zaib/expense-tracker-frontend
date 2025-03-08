@@ -124,7 +124,6 @@ const Transactions: React.FC<ITransactionsProps> = ({
               <TableCell>Amount</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Description</TableCell>
-              <TableCell>Card Number</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -146,11 +145,6 @@ const Transactions: React.FC<ITransactionsProps> = ({
                 </TableCell>
                 <TableCell>{transaction.date as string}</TableCell>
                 <TableCell>{transaction.description}</TableCell>
-                <TableCell style={{ width: 150 }}>
-                  <div style={{ overflowX: "auto", whiteSpace: "nowrap" }}>
-                    {transaction.cardNumber}
-                  </div>
-                </TableCell>
                 <TableCell>
                   <div className="action-button">
                     <IconButton
