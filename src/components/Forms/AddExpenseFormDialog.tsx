@@ -33,7 +33,7 @@ const AddExpenseFormDialog: React.FC<TAddExpenseFormDialogProps> = ({
       type: "credit",
       description: "",
       date: null,
-      cardNumber: "",
+      cardNumber: "0000000000000000",
       purpose: "Bill Payment",
       userId: userId,
       amount: 0,
@@ -44,14 +44,6 @@ const AddExpenseFormDialog: React.FC<TAddExpenseFormDialogProps> = ({
   const handleFormSubmit = (data: FormValues) => {
     addTransactionApi({ ...data, userId });
     onClose();
-  };
-
-  // Format the card number with dashes
-  const formatCardNumber = (value: string) => {
-    // Remove all non-numeric characters
-    const cleaned = value.replace(/\D/g, "");
-    // Add a dash every 4 characters
-    return cleaned.replace(/(.{4})(?=.)/g, "$1-");
   };
 
   return (
@@ -87,23 +79,6 @@ const AddExpenseFormDialog: React.FC<TAddExpenseFormDialogProps> = ({
                 label="Date"
                 onChange={(date) => field.onChange(date)}
                 value={field.value}
-              />
-            )}
-          />
-
-          {/* Card Number Input with formatting */}
-          <Controller
-            name="cardNumber"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Card Number"
-                fullWidth
-                margin="normal"
-                value={formatCardNumber(field.value)}
-                onChange={(e) => field.onChange(e.target.value)}
-                onBlur={() => field.onBlur()}
               />
             )}
           />
