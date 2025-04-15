@@ -18,14 +18,17 @@ import {
   changeSelectedTransaction,
   updateTransaction,
 } from "../../store/transactions/transactionSlice.ts";
-import { DeleteTransaction as deleteTransaction } from "../../store/transactions/transactionApi.ts";
+import {
+  DeleteTransaction as deleteTransaction,
+  updateTransactionApi,
+} from "../../store/transactions/transactionApi.ts";
 import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog";
 import {
   fetchTransactionById,
   markTransactionApi,
 } from "../../store/transactions/transactionApi.ts";
 import CircularSpinner from "../../shared/components/CIrcularSpinner/CircularSpinner.tsx";
-import { useAppSelector } from "../../store/store.ts";
+import { useAppDispatch, useAppSelector } from "../../store/store.ts";
 
 export interface ITransactionsProps {
   transactions: ITransactions[];
@@ -49,6 +52,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
   fetchTransactionById,
   loading,
 }) => {
+  const dispatch = useAppDispatch();
   const userId: number = useAppSelector((state) => state.userSlice.userId);
   useEffect(() => {
     if (userId && userId != -1) fetchTransactionById({ id: userId });
@@ -87,7 +91,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
   };
 
   const handleUpdate = (newTransaction: ITransactions) => {
-    updateTransaction({ newTransaction });
+    dispatch(updateTransactionApi({ transaction: newTransaction, userId }));
     closeDialog();
   };
 
@@ -99,7 +103,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
     setDialogOpen(false);
   };
 
-  let currentTransactions = transactions.slice(
+  const currentTransactions = transactions.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
@@ -144,7 +148,11 @@ const Transactions: React.FC<ITransactionsProps> = ({
                     : `-${transaction.amount}`}
                 </TableCell>
                 <TableCell>{transaction.date as string}</TableCell>
-                <TableCell>{transaction.description}</TableCell>
+                <TableCell>
+                  {transaction.description.length > 20
+                    ? transaction.description.slice(0, 17) + "..."
+                    : transaction.description}
+                </TableCell>
                 <TableCell>
                   <div className="action-button">
                     <IconButton

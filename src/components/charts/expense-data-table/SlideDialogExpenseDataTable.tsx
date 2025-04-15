@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import ExpenseDataTable from "./ExpenseDataTable.tsx";
-import FilterListIcon from "@mui/icons-material/FilterList";
+// import FilterListIcon from "@mui/icons-material/FilterList";
 
 // Define the props type
 interface SlideDialogExpenseDataTableProps {
@@ -47,7 +47,7 @@ const SlideDialogExpenseDataTable: React.FC<
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             Expense Details
           </Typography>
-          <IconButton
+          {/* <IconButton
             sx={{ borderRadius: "3px" }}
             autoFocus
             color="inherit"
@@ -56,7 +56,7 @@ const SlideDialogExpenseDataTable: React.FC<
           >
             Filter
             <FilterListIcon />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
       {/* Add the table here */}

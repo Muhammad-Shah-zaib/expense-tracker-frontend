@@ -35,7 +35,6 @@ export const generateExcel = async (
     { header: "Amount", key: "amount", width: 12 },
     { header: "Date", key: "date", width: 15 },
     { header: "Description", key: "description", width: 30 },
-    { header: "Card Number", key: "cardNumber", width: 18 },
     { header: "Marked", key: "marked", width: 10 },
   ];
 
@@ -60,7 +59,6 @@ export const generateExcel = async (
       amount: transaction.amount,
       date: transaction.date,
       description: transaction.description,
-      cardNumber: transaction.cardNumber,
       marked: transaction.marked ? "Yes" : "No",
     });
 

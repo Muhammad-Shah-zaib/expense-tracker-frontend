@@ -9,7 +9,7 @@ import { RootState, AppDispatch } from "../store/store";
 /**
  * Maps the required state from the Redux store to component props.
  */
-export const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState) => ({
   lastSevenDaysData: state.graphSlice.lastSevenDays, // Graph data for the last seven days
   loading: state.graphSlice.loading, // Loading state for the graph data
   userId: state.userSlice.userId, // Current user's ID
@@ -18,7 +18,7 @@ export const mapStateToProps = (state: RootState) => ({
 /**
  * Maps the required dispatch actions to component props.
  */
-export const mapDispatchToProps = (dispatch: AppDispatch) =>
+const mapDispatchToProps = (dispatch: AppDispatch) =>
   bindActionCreators(
     {
       fetchLastSevenDaysData, // Thunk action for fetching graph data

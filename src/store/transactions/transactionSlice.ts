@@ -16,6 +16,7 @@ import {
   fetchTransactionById,
   fetchTransactionSummary,
   markTransactionApi,
+  updateTransactionApi,
 } from "./transactionApi.ts";
 import { IResponse } from "../types.ts";
 
@@ -128,10 +129,6 @@ const transactionSlice = createSlice({
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                  hour12: false,
                 })
               : "Invalid Date",
           }));
@@ -140,49 +137,49 @@ const transactionSlice = createSlice({
           state.markedTransactions = transactions.filter((t) => t.marked);
         } else if (statusCode == 404) state.transactions = [];
       }
-    ),
-      builder.addCase(fetchTransactionById.pending, (state) => {
-        state.loading = true;
-        state.transactions = [];
-        state.markedTransactions = [];
-      }),
-      builder.addCase(fetchTransactionById.rejected, (state) => {
-        state.loading = false;
-        state.transactions = [];
-        state.markedTransactions = [];
-      }),
-      //   ADD TRANSACTION
-      builder.addCase(addTransactionApi.fulfilled, (state, { payload }) => {
-        state.addTransactionLoading = false;
-        if (payload.statusCode === 200) {
-          state.transactions = [...state.transactions, payload.transaction];
-          // Show success snackbar after adding the transaction
-          state.snackbar.open = true;
-          state.snackbar.message = "Transaction added successfully!";
-          state.snackbar.severity = "success";
-        } else {
-          state.snackbar.open = true;
-          state.snackbar.message = "Transaction failed to add!";
-          state.snackbar.severity = "error";
-        }
-      }),
-      builder.addCase(addTransactionApi.pending, (state) => {
-        state.addTransactionLoading = true;
-      }),
-      builder.addCase(addTransactionApi.rejected, (state, action) => {
-        state.addTransactionLoading = false;
+    );
+    builder.addCase(fetchTransactionById.pending, (state) => {
+      state.loading = true;
+      state.transactions = [];
+      state.markedTransactions = [];
+    });
+    builder.addCase(fetchTransactionById.rejected, (state) => {
+      state.loading = false;
+      state.transactions = [];
+      state.markedTransactions = [];
+    });
+    //   ADD TRANSACTION
+    builder.addCase(addTransactionApi.fulfilled, (state, { payload }) => {
+      state.addTransactionLoading = false;
+      if (payload.statusCode === 200) {
+        state.transactions = [...state.transactions, payload.transaction];
+        // Show success snackbar after adding the transaction
         state.snackbar.open = true;
-        const payload = action.payload as IResponse;
-        // generating response
-        let response = "Something went wrong! Transaction failed to add!";
-        if (payload.statusCode === 400) response = payload.message;
-        // opening snackbar
-        state.snackbar.message = response;
+        state.snackbar.message = "Transaction added successfully!";
+        state.snackbar.severity = "success";
+      } else {
+        state.snackbar.open = true;
+        state.snackbar.message = "Transaction failed to add!";
         state.snackbar.severity = "error";
-      });
+      }
+    });
+    builder.addCase(addTransactionApi.pending, (state) => {
+      state.addTransactionLoading = true;
+    });
+    builder.addCase(addTransactionApi.rejected, (state, action) => {
+      state.addTransactionLoading = false;
+      state.snackbar.open = true;
+      const payload = action.payload as IResponse;
+      // generating response
+      let response = "Something went wrong! Transaction failed to add!";
+      if (payload.statusCode === 400) response = payload.message;
+      // opening snackbar
+      state.snackbar.message = response;
+      state.snackbar.severity = "error";
+    });
 
     // MARK TRANSACTION
-    builder.addCase(markTransactionApi.fulfilled, (state, _) => {
+    builder.addCase(markTransactionApi.fulfilled, (state) => {
       state.loading = false;
       state.snackbar.open = true;
       state.snackbar.message = "Transaction Marked successfully!";
@@ -201,6 +198,11 @@ const transactionSlice = createSlice({
       state.transactionWithDateLoading = false;
       state.transactionWIthDateDate = payload.dayWiseTransactions;
       state.snackbar.open = true;
+      if (state.transactionWIthDateDate.length === 0) {
+        state.snackbar.message = "No transactions found for the selected date!";
+        state.snackbar.severity = "info";
+        return;
+      }
       state.snackbar.message = "Transaction downloaded successfully!";
       state.snackbar.severity = "success";
     });
@@ -219,9 +221,9 @@ const transactionSlice = createSlice({
       state.creditsSummaryLoading = false;
       state.creditsAmount = payload.creditsAmount;
       state.creditsCount = payload.creditsCount;
-      state.snackbar.open = true;
-      state.snackbar.message = "Credits summary fetched successfully!";
-      state.snackbar.severity = "success";
+      // state.snackbar.open = true;
+      // state.snackbar.message = "Credits summary fetched successfully!";
+      // state.snackbar.severity = "success";
     });
     builder.addCase(fetchCreditsSummary.pending, (state) => {
       state.creditsSummaryLoading = true;
@@ -232,35 +234,55 @@ const transactionSlice = createSlice({
       state.snackbar.message = payload || "Failed to fetch credits summary!";
       state.snackbar.severity = "error";
     });
+    builder.addCase(updateTransactionApi.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.transactions = state.transactions.map((t) => {
+        if (t.id === payload.transaction.id) {
+          return payload.transaction;
+        }
+        return t;
+      });
+      state.markedTransactions = state.markedTransactions.map((t) => {
+        if (t.id === payload.transaction.id) {
+          return payload.transaction;
+        }
+        return t;
+      });
+      state.snackbar.open = true;
+      state.snackbar.message = "Transaction updated successfully!";
+      state.snackbar.severity = "success";
+    });
     builder
-  .addCase(DeleteTransaction.pending, (state) => {
-    state.deleteTransactionLoading = true;
-    state.snackbar = {
-      open: true,
-      message: "Deleting transaction...",
-      severity: "info",
-    };
-  })
-  .addCase(DeleteTransaction.fulfilled, (state, action) => {
-    state.deleteTransactionLoading = false;
-    state.transactions = state.transactions.filter(
-      (transaction) => transaction.id !== action.meta.arg.transactionId
-    );
-    state.snackbar = {
-      open: true,
-      message: "Transaction deleted successfully",
-      severity: "success",
-    };
-  })
-  .addCase(DeleteTransaction.rejected, (state, action) => {
-    state.deleteTransactionLoading = false;
-    state.snackbar = {
-      open: true,
-      message: action.payload || "Failed to delete transaction",
-      severity: "error",
-    };
-  });
-
+      .addCase(DeleteTransaction.pending, (state) => {
+        state.deleteTransactionLoading = true;
+        state.snackbar = {
+          open: true,
+          message: "Deleting transaction...",
+          severity: "info",
+        };
+      })
+      .addCase(DeleteTransaction.fulfilled, (state, action) => {
+        state.deleteTransactionLoading = false;
+        state.transactions = state.transactions.filter(
+          (transaction) => transaction.id !== action.meta.arg.transactionId
+        );
+        state.markedTransactions = state.markedTransactions.filter(
+          (transaction) => transaction.id !== action.meta.arg.transactionId
+        );
+        state.snackbar = {
+          open: true,
+          message: "Transaction deleted successfully",
+          severity: "success",
+        };
+      })
+      .addCase(DeleteTransaction.rejected, (state, action) => {
+        state.deleteTransactionLoading = false;
+        state.snackbar = {
+          open: true,
+          message: action.payload || "Failed to delete transaction",
+          severity: "error",
+        };
+      });
   },
 });
 

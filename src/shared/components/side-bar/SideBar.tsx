@@ -1,16 +1,25 @@
 import mainLogo from "../../../assets/logo.svg";
 import logoutLogo from "../../../assets/logout.svg";
 import { motion } from "framer-motion";
-import { icons, MAIN_MENU } from "./iconsAnimations.ts";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { icons } from "./iconsAnimations.ts";
+import { Link, useLocation } from "react-router-dom";
 import { logout } from "../../../store/user/userSlice.ts";
-import { useAppDispatch } from "../../../store/store.ts";
+import { useAppDispatch, useAppSelector } from "../../../store/store.ts";
+import { setActiveNav } from "../../../store/side-bar/sideBarSlice.ts";
+import { useEffect } from "react";
+import { NavBarOptions } from "../../../store/side-bar/types.ts";
 
 const SideBar = () => {
-  // state to store current active tab
-  const [currentActiveTab, setCurrentActiveTab] = useState<string>(MAIN_MENU);
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const activeNav = useAppSelector((state) => state.sideBarSlice.activeNav);
+
+  // Sync active tab with URL path
+  useEffect(() => {
+    let path = location.pathname.split("/")[1] || "dashboard";
+    if (path === "charts") path = "dashboard";
+    dispatch(setActiveNav(path as NavBarOptions));
+  }, [location, dispatch]);
 
   return (
     <div className="h-full max-h-[1024px] w-full bg-primary py-4 flex flex-col justify-between items-center overflow-hidden">
@@ -23,13 +32,12 @@ const SideBar = () => {
           <Link
             key={icon.id}
             to={icon.route}
-            className={`${currentActiveTab == icon.id && "border-r-2 border-secondary px-2 "}`}
+            className={`${activeNav === icon.id && "border-r-2 border-secondary px-2"}`}
           >
             <motion.div
-              onClick={() => setCurrentActiveTab(icon.id)}
+              onClick={() => dispatch(setActiveNav(icon.id))}
               id={icon.id}
-              key={icon.id}
-              className={`${currentActiveTab == icon.id && "bg-secondary"} overflow-none h-[50px] w-[50px] bg-gray-100 rounded-full flex items-center justify-center`}
+              className={`${activeNav === icon.id && "bg-secondary"} overflow-none h-[50px] w-[50px] bg-gray-100 rounded-full flex items-center justify-center`}
               whileHover={{
                 scale: icon.scale,
                 rotate: icon.rotate,
@@ -56,9 +64,7 @@ const SideBar = () => {
       <div className="cursor-pointer h-[50px] w-[50px] overflow-hidden rounded-full flex items-center justify-center bg-secondary hover:bg-secondary-700 transition-all duration-200">
         <motion.div
           whileHover={{ scale: 1.2, x: -5 }}
-          onClick={() => {
-            dispatch(logout());
-          }}
+          onClick={() => dispatch(logout())}
           className="flex items-center justify-center w-full h-full"
         >
           <img src={logoutLogo} className="w-[24px] h-[24px]" alt="Logout" />
