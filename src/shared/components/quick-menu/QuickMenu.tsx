@@ -36,7 +36,7 @@ const QuickMenu = () => {
   }, [fetchCreditsSummary, selectedCreditsOption, userId]);
   return (
     <div
-      className={`text-gray-100 max-h-[800px] w-full h-full bg-primary px-4 py-4 flex flex-col gap-4 h-md:justify-start justify-between h-md:gap-7 overflow-hidden`}
+      className={`text-gray-100 max-h-[100vh] w-full h-full bg-primary px-4 py-4 flex flex-col gap-4 h-md:justify-start justify-between h-md:gap-7 overflow-hidden`}
     >
       {/* NAME & designation OF THE USER */}
       <header className={`w-full text-gray-100 flex flex-col gap-1`}>
@@ -47,9 +47,9 @@ const QuickMenu = () => {
       </header>
 
       {/* Current Balance card */}
-      <section className={`flex flex-col gap-3 items-center`}>
+      <section className={`flex flex-col gap-3 h-full items-center justify-center`}>
         {/* Current balance card */}
-        <CurrentBalanceCard />
+        {/* <CurrentBalanceCard /> */}
 
         {/* CREDITS SUMMARY */}
         <div className={`w-full`}>
@@ -142,14 +142,14 @@ const QuickMenu = () => {
         </div>
       </section>
       {/* Latest Activity */}
-      <section>
-        <div className={`py-2 h-md:block hidden`}>
+      {/* <section>
+        <div className={`py-2 `}>
           <div className={`border-b-2 border-secondary`}>
             <span>Latest Activity</span>
           </div>
           <LatestActivity />
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

@@ -58,7 +58,7 @@ const Header = () => {
     <div className="w-full flex justify-end px-4 py-2">
       <div className="flex gap-4 items-center">
         {/* Search */}
-        <form
+        {/* <form
           onClick={handleSearchFocus}
           className="hidden sm:flex cursor-pointer bg-primary w-[350px] px-4 py-2 rounded-lg gap-2"
         >
@@ -77,7 +77,7 @@ const Header = () => {
           >
             <img src={searchIcon} />
           </button>
-        </form>
+        </form> */}
 
         {/* Add expense button */}
         <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }}>
