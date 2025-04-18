@@ -91,5 +91,12 @@ export interface IDeleteTransactionRequestDto {
   userId: number;
   transactionId: number;
 }
+export interface IUpdateTransactionRequestDto {
+  userId: number;
+  transaction: ITransactions;
+}
+export interface IUpdateTransactionResponseDto extends IResponse {
+  transaction: ITransactions;
+}
 
 export interface IDeleteTransactionResponseDto extends IResponse {}

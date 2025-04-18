@@ -38,14 +38,12 @@ export default function ExpenseDataTable({ height }: IExpenseDataTableProps) {
 
   // Ensure transactions exist and map properly
   const rows =
-    transactions
-      ?.slice(0, 7)
-      .map((t) => ({
-        id: t.id,
-        date: t.date,
-        category: t.purpose,
-        amount: t.amount,
-      })) || [];
+    transactions?.slice(0, 7).map((t) => ({
+      id: t.id,
+      date: t.date,
+      category: t.purpose,
+      amount: t.amount,
+    })) || [];
 
   // Pagination model
   const paginationModel = { page: 0, pageSize: 7 };
@@ -63,7 +61,6 @@ export default function ExpenseDataTable({ height }: IExpenseDataTableProps) {
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[7]}
-        checkboxSelection
         sx={{ border: 0 }}
       />
       <NavLink to="/transactions" style={{ textDecoration: "none" }}>

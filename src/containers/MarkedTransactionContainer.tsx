@@ -1,15 +1,17 @@
 import { AppDispatch, RootState } from "../store/store.ts";
 import {
-  addTransaction,
   changeSelectedTransaction,
-  deleteTransaction,
   updateTransaction,
 } from "../store/transactions/transactionSlice.ts";
+import { DeleteTransaction, addTransactionApi } from "../store/transactions/transactionApi.ts";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import Transactions from "../components/transactions/Transactions.tsx";
 import { connect } from "react-redux";
 import ITransactions from "../interfaces/ITransactions.ts";
-import { fetchTransactionById, markTransactionApi } from "../store/transactions/transactionApi.ts";
+import {
+  fetchTransactionById,
+  markTransactionApi,
+} from "../store/transactions/transactionApi.ts";
 
 export type TMapStateToProps = (state: RootState) => {
   transactions: ITransactions[];
@@ -18,14 +20,14 @@ export type TMapStateToProps = (state: RootState) => {
 };
 export type TMapDispatchToProps = (dispatch: AppDispatch) => {
   markTransaction: typeof markTransactionApi;
-  addTransaction: typeof addTransaction;
-  deleteTransaction: typeof deleteTransaction;
+  addTransaction: typeof addTransactionApi;
+  deleteTransaction: typeof DeleteTransaction;
   changeSelectedTransaction: typeof changeSelectedTransaction;
   updateTransaction: typeof updateTransaction;
   fetchTransactionById: typeof fetchTransactionById;
 };
 
-export const mapStateToProps: TMapStateToProps = ({
+const mapStateToProps: TMapStateToProps = ({
   transactionSlice,
 }: RootState) => ({
   transactions: transactionSlice.markedTransactions,
@@ -33,25 +35,23 @@ export const mapStateToProps: TMapStateToProps = ({
   loading: transactionSlice.loading,
 });
 
-export const mapDispatchToProps: TMapDispatchToProps = (
-  dispatch: AppDispatch,
-) => {
+const mapDispatchToProps: TMapDispatchToProps = (dispatch: AppDispatch) => {
   return bindActionCreators(
     {
       markTransaction: markTransactionApi,
-      addTransaction,
-      deleteTransaction,
+      addTransaction: addTransactionApi,
+      deleteTransaction: DeleteTransaction,
       changeSelectedTransaction,
       updateTransaction,
       fetchTransactionById,
     },
-    dispatch,
+    dispatch
   );
 };
 
 const MarkedTransactionsContainer = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Transactions);
 
 export default MarkedTransactionsContainer;

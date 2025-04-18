@@ -13,6 +13,8 @@ import {
   IFetchCreditsSummaryResponseDto,
   IDeleteTransactionResponseDto,
   IDeleteTransactionRequestDto,
+  IUpdateTransactionResponseDto,
+  IUpdateTransactionRequestDto,
 } from "./types";
 import {
   DELETE_TRANSACTION_URL,
@@ -30,6 +32,7 @@ const ADD_TRANSACTION = "transaction/add";
 const MARK_TRANSACTION = "transaction/mark";
 const FETCH_CREDITS_SUMAMRY = "transaction/credits-summary";
 const DELETE_TRANSACTION = "transaction/delete";
+const UPDATE_TRANSACTION = "transaction/update";
 
 export const fetchTransactionById = createAsyncThunk<
   IFetchNotesResponseDto,
@@ -143,7 +146,7 @@ export const fetchTransactionSummary = createAsyncThunk<
     return response.json();
   } catch (error) {
     return rejectWithValue(
-      "An error occurred while fetching the transaction summary"
+      "An error occurred while fetching the transaction summary", error
     );
   }
 });
@@ -211,3 +214,35 @@ export const DeleteTransaction = createAsyncThunk<
     return rejectWithValue("An error occurred while deleting the transaction");
   }
 });
+
+export const updateTransactionApi = createAsyncThunk<
+  IUpdateTransactionResponseDto,
+  IUpdateTransactionRequestDto,
+  { rejectValue: string }
+>(UPDATE_TRANSACTION, async (request, { rejectWithValue }) => {
+  const { transaction } = request;
+  const url = `${TRANSACTION_ENDPOINT}/${request.transaction.id}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(transaction),
+    });
+
+    // Handling rejected response
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return rejectWithValue(
+        errorResponse.message || "Failed to update transaction"
+      );
+    }
+
+    return response.json();
+  } catch (error) {
+    return rejectWithValue("An error occurred while updating the transaction");
+  }
+}
+);

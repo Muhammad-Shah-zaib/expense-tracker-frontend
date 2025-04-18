@@ -15,8 +15,7 @@ const Settings = ({
   firstname,
   lastname,
   username,
-  image,
-  email,
+  // email,
 }: ISettingsProps) => {
   return (
     <div className={`w-full h-full overflow-auto`}>
@@ -46,28 +45,11 @@ const Settings = ({
               <span>Username</span>
               <span className={`col-span-2`}>{username}</span>
             </div>
-            {/* Email */}
+            {/* Email
             <div className={`grid grid-cols-3 items-center`}>
               <span>Email</span>
               <span className={`col-span-2`}>{email}</span>
-            </div>
-            {/* IMAGE */}
-            <div className={`grid grid-cols-3 items-center`}>
-              <span>Image</span>
-              <div className={`col-span-2 relative`}>
-                <span className={`relative inline-block`}>
-                  <img
-                    src={image}
-                    className={`w-[100px] h-[100px] rounded-lg grayscale`}
-                  />
-                  <span className={`absolute top-0 right-0`}>
-                    <IconButton className={`w-[24px] h-[24px]`}>
-                      <EditIcon className={`w-[18px] h-[18px]`} />
-                    </IconButton>
-                  </span>
-                </span>
-              </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

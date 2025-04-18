@@ -17,7 +17,7 @@ const initialState: IGraphState = {
     yAxisLabel: "Budget Last Seven Days",
   },
   lastSevenDays: {
-    xAxisLabels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
+    xAxisLabels: ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"],
     yAxisLabel: "Budget Last Seven Days",
     creditData: [],
     debitData: [],
@@ -126,7 +126,7 @@ const graphSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       }
-    ),
+    );
     builder.addCase(fetchCustomSummary.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -141,7 +141,7 @@ const graphSlice = createSlice({
     builder.addCase(fetchCustomSummary.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
-    });;
+    });
   },
 });
 
