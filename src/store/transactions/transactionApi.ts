@@ -23,7 +23,7 @@ import {
   FETCH_TRANSACTION_WITH_DATE_ENDPOINT,
   MARK_TRANSACTION_ENDPOINT,
   TRANSACTION_ENDPOINT,
-} from "../../environment/development";
+} from "../../environment/production";
 import { IResponse } from "../types";
 
 // Action string

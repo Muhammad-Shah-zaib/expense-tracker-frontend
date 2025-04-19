@@ -17,7 +17,7 @@ import {
   FETCH_LAST_MONTH_REPORT_ENDPOINT,
   FETCH_LAST_SEVEN_DAYS_DATA_ENDPOINT,
   FETCH_PREV_5_MONTHS_DATA_ENDPOINT,
-} from "../../environment/development";
+} from "../../environment/production";
 import { delay } from "../../utils/delay";
 import { RootState } from "../store";
 

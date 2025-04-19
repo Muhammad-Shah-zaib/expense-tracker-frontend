@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ILoginRequestDto, ILoginResponseDto, IUserSliceState } from "./types";
-import { LOGIN_URL } from "../../environment/development";
+import { LOGIN_URL } from "../../environment/production";
 import { delay } from "../../utils/delay.ts";
 
 // actions
