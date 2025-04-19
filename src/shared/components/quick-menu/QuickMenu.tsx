@@ -1,5 +1,3 @@
-import CurrentBalanceCard from "../../cards/CurrentBalanceCard.tsx";
-import LatestActivity from "./LatestActivity.tsx";
 import { IconButton } from "@mui/material";
 import { KeyboardArrowDownSharp } from "@mui/icons-material";
 import { useEffect, useRef, useState } from "react";

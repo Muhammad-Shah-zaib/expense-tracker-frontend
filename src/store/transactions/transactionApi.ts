@@ -114,6 +114,7 @@ export const markTransactionApi = createAsyncThunk<
     }
 
     return response.json();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return rejectWithValue("An error occurred while marking the transaction");
   }
@@ -146,7 +147,7 @@ export const fetchTransactionSummary = createAsyncThunk<
     return response.json();
   } catch (error) {
     return rejectWithValue(
-      "An error occurred while fetching the transaction summary", error
+      "An error occurred while fetching the transaction summary" + error
     );
   }
 });
@@ -178,6 +179,7 @@ export const fetchCreditsSummary = createAsyncThunk<
     // Parsing the response
     const data: IFetchCreditsSummaryResponseDto = await response.json();
     return data;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return rejectWithValue(
       "An error occurred while fetching the credits summary"
@@ -210,6 +212,7 @@ export const DeleteTransaction = createAsyncThunk<
     }
 
     return response.json();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return rejectWithValue("An error occurred while deleting the transaction");
   }
@@ -241,6 +244,7 @@ export const updateTransactionApi = createAsyncThunk<
     }
 
     return response.json();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return rejectWithValue("An error occurred while updating the transaction");
   }

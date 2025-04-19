@@ -45,6 +45,7 @@ export const fetchLastSevenDaysData = createAsyncThunk<
     const data: IGetGraphDataResponseDto = await response.json();
     await delay(300);
     return data;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return rejectWithValue(error.message || "Something went wrong");
   }

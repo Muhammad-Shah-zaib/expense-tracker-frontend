@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import searchIcon from "../../assets/search.svg";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import maleAnimatedImage from "../../../public/male-animated-dp.jpg";
 import femaleAnimatedImage from "../../../public/female-animated-dp.jpg";
@@ -11,7 +10,6 @@ import MenuItem from "@mui/material/MenuItem";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const Header = () => {
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [dpChoice, setDpChoice] = useState<"male" | "female">("male");
@@ -25,9 +23,6 @@ const Header = () => {
     if (savedChoice) setDpChoice(savedChoice);
   }, []);
 
-  const handleSearchFocus = () => {
-    if (searchInputRef.current) searchInputRef.current.focus();
-  };
 
   const handleOpenDialog = () => {
     setDialogOpen(true);

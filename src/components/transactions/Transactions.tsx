@@ -14,11 +14,11 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ITransactions from "../../interfaces/ITransactions";
 import {
-  addTransaction,
   changeSelectedTransaction,
   updateTransaction,
 } from "../../store/transactions/transactionSlice.ts";
 import {
+  addTransactionApi,
   DeleteTransaction as deleteTransaction,
   updateTransactionApi,
 } from "../../store/transactions/transactionApi.ts";
@@ -36,7 +36,7 @@ export interface ITransactionsProps {
   selectedTransaction: ITransactions | null;
   markTransaction: typeof markTransactionApi;
   deleteTransaction: typeof deleteTransaction;
-  addTransaction: typeof addTransaction;
+  addTransaction: typeof addTransactionApi;
   updateTransaction: typeof updateTransaction;
   changeSelectedTransaction: typeof changeSelectedTransaction;
   fetchTransactionById: typeof fetchTransactionById;
@@ -48,7 +48,6 @@ const Transactions: React.FC<ITransactionsProps> = ({
   selectedTransaction,
   deleteTransaction,
   markTransaction,
-  updateTransaction,
   fetchTransactionById,
   loading,
 }) => {
@@ -56,6 +55,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
   const userId: number = useAppSelector((state) => state.userSlice.userId);
   useEffect(() => {
     if (userId && userId != -1) fetchTransactionById({ id: userId });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const [lastSelectedTransaction, setLastSelectedTransaction] =

@@ -3,7 +3,6 @@ import MasterLayout from "./shared/layouts/MasterLayout.tsx";
 import Charts from "./components/charts/Charts.tsx";
 import { createTheme } from "@mui/material/styles";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import AtmCards from "./components/atm-cards/AtmCards.tsx";
 import { Provider } from "react-redux";
 import store from "./store/store.ts";
 import TransactionContainer from "./containers/TransactionContainer.tsx";
