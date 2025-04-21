@@ -15,7 +15,7 @@ const SpendingTrend = () => {
     chartData.debitData[chartData.debitData.length - 2];
   const percentageChange =
     ((currentMonthSpending - previousMonthSpending) / previousMonthSpending) *
-    100;
+    100 || 0;
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement>(null);

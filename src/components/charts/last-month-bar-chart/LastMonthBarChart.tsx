@@ -2,8 +2,12 @@ import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import DialogBarChart from "./DialogBarChart.tsx";
 import { Button } from "@mui/material";
+import { useAppSelector } from "../../../store/store.ts";
 
 const LastMonthBarChart = () => {
+  const { lastMonthWeeklyCreditData } = useAppSelector(
+    (state) => state.graphSlice.lastMonthReport
+  );
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const handleDialogOpen = () => {
@@ -21,7 +25,12 @@ const LastMonthBarChart = () => {
     else console.log("Btn element not found");
   };
 
-  const TOTAL_SPENDING_LAST_MONTH: number = 16000;
+  const TOTAL_SPENDING_LAST_MONTH: number = lastMonthWeeklyCreditData.reduce(
+    (acc: number, curr: number) => {
+      return acc + curr;
+    },
+    0
+  );
   return (
     <div className={`flex flex-col p-2 gap-4 w-full bg-primary rounded-lg`}>
       <div className={`flex flex-col gap-2 border-b border-primary-500 pb-2`}>

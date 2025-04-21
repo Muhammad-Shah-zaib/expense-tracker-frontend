@@ -4,7 +4,7 @@ import {
   ISignUpResponseDto,
   IUserSliceState,
 } from "./types.ts";
-import { SIGN_UP_URL } from "../../environment/development.ts";
+import { SIGN_UP_URL } from "../../environment/production.ts";
 import { delay } from "../../utils/delay.ts";
 
 const SIGN_UP_API = "SIGN_UP_API";

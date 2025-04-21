@@ -2,11 +2,18 @@ import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { Button } from "@mui/material";
 import DialogDebitChart from "./DialogDebitChart.tsx";
+import { useAppSelector } from "../../../store/store.ts";
 
 const TotalLastLastMonth = () => {
+  const { lastMonthWeeklyDebitData } = useAppSelector(
+    (state) => state.graphSlice.lastMonthReport
+  );
   const [open, setOpen] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement>(null);
-  const DEBITS_THIS_MONTH = 8500;
+  const DEBITS_THIS_MONTH = lastMonthWeeklyDebitData.reduce(
+    (acc, curr) => acc + curr,
+    0
+  );
 
   const ClickBtn = (ref: React.RefObject<HTMLButtonElement>) => {
     if (ref.current) ref.current.click();
