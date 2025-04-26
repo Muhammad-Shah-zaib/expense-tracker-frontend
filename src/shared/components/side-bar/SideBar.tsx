@@ -9,7 +9,12 @@ import { setActiveNav } from "../../../store/side-bar/sideBarSlice.ts";
 import { useEffect } from "react";
 import { NavBarOptions } from "../../../store/side-bar/types.ts";
 
-const SideBar = () => {
+// props interface
+interface ISideBarProps {
+  setIsBarOpen: (newState: boolean) => void;
+}
+
+const SideBar = ({ setIsBarOpen }: ISideBarProps) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const activeNav = useAppSelector((state) => state.sideBarSlice.activeNav);
@@ -33,6 +38,7 @@ const SideBar = () => {
             key={icon.id}
             to={icon.route}
             className={`${activeNav === icon.id && "border-r-2 border-secondary px-2"}`}
+            onClick={() => setIsBarOpen(false)}
           >
             <motion.div
               onClick={() => dispatch(setActiveNav(icon.id))}

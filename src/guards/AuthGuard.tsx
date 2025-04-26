@@ -33,11 +33,9 @@ const AuthGuard = () => {
       token: jwtTokenFromStorage!,
     };
     dispatch(setUser(obj));
-    console.log(
-      decodedToken.FirstName + "   from auth guard after dispatching",
-    );
+    
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.error("Error decoding token:", error);
     return <Navigate to="/login" replace />;
   }
 

@@ -22,7 +22,6 @@ const LastMonthBarChart = () => {
   const ClickBtn = (btnRef: React.RefObject<HTMLButtonElement>) => {
     const btnElement = btnRef.current;
     if (btnElement) btnElement.click();
-    else console.log("Btn element not found");
   };
 
   const TOTAL_SPENDING_LAST_MONTH: number = lastMonthWeeklyCreditData.reduce(

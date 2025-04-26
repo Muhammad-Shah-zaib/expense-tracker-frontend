@@ -33,7 +33,7 @@ const MasterLayout: React.FC = () => {
             absolute xl:static z-10
           `}
         >
-          <SideBar />
+          <SideBar setIsBarOpen={setIsSideBarOpen} />
           {/* QuickMenu only on xl and up */}
           <div className="hidden xl:block col-span-5">
             <QuickMenu />

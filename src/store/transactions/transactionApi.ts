@@ -66,7 +66,6 @@ export const addTransactionApi = createAsyncThunk<
   IAddTransactionRequestDto,
   { state: ITransactionState }
 >(ADD_TRANSACTION, async (request, { rejectWithValue, dispatch }) => {
-  console.log(request);
   try {
     const response = await fetch(TRANSACTION_ENDPOINT, {
       method: "POST",
