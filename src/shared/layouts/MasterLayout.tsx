@@ -22,7 +22,7 @@ const MasterLayout: React.FC = () => {
     <div className="flex justify-center bg-primary-950 overflow-hidden">
       <div
         id="master-layout-ctn"
-        className="max-w-[1400px] grid grid-cols-10 w-screen h-screen"
+        className="max-w-[2440px] grid grid-cols-10 w-screen h-screen"
       >
         {/* Sidebar and QuickMenu container */}
         <div

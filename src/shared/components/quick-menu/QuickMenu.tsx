@@ -5,8 +5,10 @@ import { useAppDispatch, useAppSelector } from "../../../store/store.ts";
 import { fetchCreditsSummary } from "../../../store/transactions/transactionApi.ts";
 
 const QuickMenu = () => {
-  const NAME = "Muhammad Shahzaib";
-  const DESIGNATION = "CS student at NUST";
+  const NAME = useAppSelector(
+    (state) => `${state.userSlice.firstname} ${state.userSlice.lastname}`
+  );
+  const DESIGNATION = "";
   const userId = useAppSelector((state) => state.userSlice.userId);
   const creditsAmount = useAppSelector(
     (state) => state.transactionSlice.creditsAmount
@@ -45,7 +47,9 @@ const QuickMenu = () => {
       </header>
 
       {/* Current Balance card */}
-      <section className={`flex flex-col gap-3 h-full items-center justify-center`}>
+      <section
+        className={`flex flex-col gap-3 h-full items-center justify-center`}
+      >
         {/* Current balance card */}
         {/* <CurrentBalanceCard /> */}
 
