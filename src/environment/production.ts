@@ -1,5 +1,5 @@
 // root api route
-const API_URL = "https://expensetracker-api-g4c2hva5gacce5hh.centralus-01.azurewebsites.net/api";
+ const API_URL = "https://expensetracker-api-g4c2hva5gacce5hh.centralus-01.azurewebsites.net/api";
 
 // transaction
 export const FETCH_TRANSACTION_URL = `${API_URL}/Transaction`;
