@@ -15,6 +15,8 @@ import {
   IDeleteTransactionRequestDto,
   IUpdateTransactionResponseDto,
   IUpdateTransactionRequestDto,
+  IUnmarkTransactionRequestDto,
+  IUnmarkTransactionResponseDto,
 } from "./types";
 import {
   DELETE_TRANSACTION_URL,
@@ -23,6 +25,7 @@ import {
   FETCH_TRANSACTION_WITH_DATE_ENDPOINT,
   MARK_TRANSACTION_ENDPOINT,
   TRANSACTION_ENDPOINT,
+  UN_MARK_TRANSACTION_ENDPOINT
 } from "../../environment/production";
 import { IResponse } from "../types";
 
@@ -30,6 +33,7 @@ import { IResponse } from "../types";
 const FETCH_TRANSACTIONS_BY_ID = "transaction/fetchNotesById";
 const ADD_TRANSACTION = "transaction/add";
 const MARK_TRANSACTION = "transaction/mark";
+const UN_MARK_TRANSACTION = "transaction/un-mark";
 const FETCH_CREDITS_SUMAMRY = "transaction/credits-summary";
 const DELETE_TRANSACTION = "transaction/delete";
 const UPDATE_TRANSACTION = "transaction/update";
@@ -119,6 +123,35 @@ export const markTransactionApi = createAsyncThunk<
   }
 });
 
+export const unMarkTransactionApi = createAsyncThunk<
+IUnmarkTransactionResponseDto,
+IUnmarkTransactionRequestDto,
+{rejectValue: string}
+>(UN_MARK_TRANSACTION, async (request, { rejectWithValue }) => {
+  const url = `${UN_MARK_TRANSACTION_ENDPOINT}${request.transactionId}/unmark?userId=${request.userId}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // handling rejected response
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return rejectWithValue(
+        errorResponse.message || "Failed to un-mark transaction"
+      );
+    }
+
+    return response.json();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return rejectWithValue("An error occurred while un-marking the transaction");
+  }
+});
 export const fetchTransactionSummary = createAsyncThunk<
   IFetchTRansactionWithDateResponseDto,
   IFetchTRansactionWithDateRequestDto,
