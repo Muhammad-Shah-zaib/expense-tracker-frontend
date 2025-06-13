@@ -61,8 +61,16 @@ export interface IAddTransactionResponseDto extends IResponse {
 export interface IMarkTransactionResponseDto extends IResponse {
   success: boolean;
 }
+export interface IUnmarkTransactionResponseDto extends IResponse {
+  success: boolean;
+}
 
 export interface IMarkTransactionRequestDto {
+  userId: number;
+  transactionId: number;
+}
+
+export interface IUnmarkTransactionRequestDto {
   userId: number;
   transactionId: number;
 }

@@ -16,6 +16,7 @@ import {
   fetchTransactionById,
   fetchTransactionSummary,
   markTransactionApi,
+  unMarkTransactionApi,
   updateTransactionApi,
 } from "./transactionApi.ts";
 import { IResponse } from "../types.ts";
@@ -216,6 +217,27 @@ const transactionSlice = createSlice({
         payload || "Failed to fetch transaction with date!";
       state.snackbar.severity = "error";
     });
+
+    // UNMARK TRANSACTION
+builder.addCase(unMarkTransactionApi.fulfilled, (state) => {
+  state.loading = false;
+  state.snackbar.open = true;
+  state.snackbar.message = "Transaction Unmarked successfully!";
+  state.snackbar.severity = "success";
+});
+
+builder.addCase(unMarkTransactionApi.pending, (state) => {
+  state.loading = true;
+});
+
+builder.addCase(unMarkTransactionApi.rejected, (state, { payload }) => {
+  state.loading = false;
+  state.snackbar.open = true;
+  state.snackbar.message = payload || "Failed to unmark transaction!";
+  state.snackbar.severity = "error";
+});
+
+
     // FETCH CREDITS SUMMARY
     builder.addCase(fetchCreditsSummary.fulfilled, (state, { payload }) => {
       state.creditsSummaryLoading = false;

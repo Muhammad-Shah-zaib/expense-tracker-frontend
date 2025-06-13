@@ -20,6 +20,7 @@ import {
 import {
   addTransactionApi,
   DeleteTransaction as deleteTransaction,
+  unMarkTransactionApi,
   updateTransactionApi,
 } from "../../store/transactions/transactionApi.ts";
 import EditTransactionFormDialog from "../Forms/EditTransactionFormDialog";
@@ -40,6 +41,7 @@ export interface ITransactionsProps {
   updateTransaction: typeof updateTransaction;
   changeSelectedTransaction: typeof changeSelectedTransaction;
   fetchTransactionById: typeof fetchTransactionById;
+  unMarkTransactionApi: typeof unMarkTransactionApi;
 }
 
 const Transactions: React.FC<ITransactionsProps> = ({
@@ -50,6 +52,7 @@ const Transactions: React.FC<ITransactionsProps> = ({
   markTransaction,
   fetchTransactionById,
   loading,
+  unMarkTransactionApi,
 }) => {
   const dispatch = useAppDispatch();
   const userId: number = useAppSelector((state) => state.userSlice.userId);
@@ -180,14 +183,23 @@ const Transactions: React.FC<ITransactionsProps> = ({
                       </MenuItem>
                       <MenuItem
                         onClick={() => {
-                          markTransaction({
-                            transactionId: selectedTransaction!.id,
-                            userId,
-                          });
+                          if (transaction.marked) {
+                            unMarkTransactionApi({
+                              transactionId: selectedTransaction!.id,
+                              userId,
+                            });
+                          } else {
+                            markTransaction({
+                              transactionId: selectedTransaction!.id,
+                              userId,
+                            });
+                          }
+
+                          fetchTransactionById({ id: userId });
                           handleMenuClose();
                         }}
                       >
-                        Mark
+                        {transaction.marked ? "Un-Mark" : "Mark"}
                       </MenuItem>
                       <MenuItem
                         onClick={() => {
