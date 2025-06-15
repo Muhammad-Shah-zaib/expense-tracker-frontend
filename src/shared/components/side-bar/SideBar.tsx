@@ -27,7 +27,7 @@ const SideBar = ({ setIsBarOpen }: ISideBarProps) => {
   }, [location, dispatch]);
 
   return (
-    <div className="h-full max-h-[1024px] w-full bg-primary py-4 flex flex-col justify-between items-center overflow-hidden">
+    <div className="h-full max-h-[100vh] w-full bg-primary py-4 flex flex-col justify-between items-center overflow-hidden">
       <div className="flex justify-center">
         <img src={mainLogo} className="w-[50px] h-[50px]" alt="Main Logo" />
       </div>
