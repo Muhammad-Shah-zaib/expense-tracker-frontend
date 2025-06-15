@@ -15,7 +15,7 @@ import {
   fetchLastMonthCreditDebitData,
   fetchPreviousFiveMonthData,
 } from "../../store/graph/graphApi.ts";
-import ExpenseDataTable from "./expense-data-table/ExpenseDataTable.tsx";
+// import ExpenseDataTable from "./expense-data-table/ExpenseDataTable.tsx";
 
 const Charts = () => {
   const dispatch = useAppDispatch();
@@ -44,13 +44,13 @@ const Charts = () => {
   return (
     <div className={`w-full max-h-[85vh] overflow-auto`}>
       <div
-        className={`flex flex-col items-center justify-center gap-4 px-8 w-full mb-8 sm:max-h-[115vh] h-md:h-[130vh]`}
+        className={`flex flex-col items-center justify-center gap-4 px-8 w-full mb-8 sm:max-h-[100vh] h-md:h-[85vh]`}
       >
         <div className={`w-full flex sm:flex-row flex-col gap-4`}>
-          <div className={`sm:w-[70%] h-full flex flex-col gap-4`}>
+          <div className={`sm:w-[70%] h-full flex flex-col gap-8`}>
             {/* Current week chart */}
             <div
-              className={`sm:w-full h-[350px] sm:h-[280px] grid sm:grid-cols-3`}
+              className={`sm:w-full gap-6 h-[350px] sm:h-[280px] grid sm:grid-cols-3 `}
             >
               <div className={`sm:col-span-2 h-full`}>
                 <ConnectedCurrentWeekBarChartContainer />
@@ -83,7 +83,7 @@ const Charts = () => {
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
-            className={`bg-primary w-full h-full outline-none rounded-lg h-md:hidden flex justify-center items-center`}
+            className={`bg-primary w-full h-full outline-none rounded-lg  flex justify-center items-center`}
             onClick={handleOpenDialog}
           >
             <IconButton>
@@ -93,11 +93,11 @@ const Charts = () => {
         </div>
 
         {/* EXPENSE DATA TABLE */}
-        <div
+        {/* <div
           className={`w-full relative mb-10 h-md:block hidden h-[300px] py-2 items-center justify-center gap-8 overflow-hidden bg-primary`}
         >
           <ExpenseDataTable />
-        </div>
+        </div> */}
       </div>
 
       {/* Dialog for displaying the table */}
